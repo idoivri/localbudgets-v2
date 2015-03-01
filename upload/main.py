@@ -7,6 +7,8 @@ from settings import BASE_DIR as root_dir
 # TODO: maybe move this const to a module configuration file?
 DATA_DIR = 'data'
 
+# TODO: add options
+
 class UpdateCommand(BaseCommand):
 
     def handle_sheet(self, ):
@@ -19,7 +21,7 @@ class UpdateCommand(BaseCommand):
         '''
         handle each muni in the root/data directory
         '''
-        print "handling %s" %(muni, )
+        self.stdout.write("handling %s\n" %(muni, ))
         muni_path = join(root_dir, DATA_DIR, muni)
 
     def handle(self, *args, **options):
