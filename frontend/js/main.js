@@ -1,6 +1,7 @@
 var jsonData = '['+
               '{"code": "1", "name": "bla", "amnt": "500"},'+
-              '{"code":"3", "name":"bla2","amnt":"54"}'+
+              '{"code":"32", "name":"bla2","amnt":"54"},'+
+              '{"code":"3", "name":"בלה בלה","amnt":"54"}'+
             ']';
 
 var parseTableRes = (function(data,status){
