@@ -3,7 +3,7 @@ var jsonData = '['+
               '{"code":"3", "name":"bla2","amnt":"54"}'+
             ']';
 
-var parseTableRes = (function(data){
+var parseTableRes = (function(data,status){
     var data = JSON.parse(jsonData);
     var innerHtml = '<tbody>';
     var rowVal;
@@ -39,15 +39,16 @@ $(document).ready(function() {
   // parseTableRes();
   $("#search_btn").click(function(){
     // alert("wwor");
+    // var search_term = $("#search_general").text();
     parseTableRes();
-    // $.ajax({
-    //   url: '/echo/json/',
-    //   type: 'POST',
+    // $.get({
+    //   url: '',
+    //   type: 'GET',
     //   data: {
-    //       json: jsonData
+    //       city: ???
     //   },
     //   success: parseTableRes,
-    //   error: function(a,status,err){ alert(err);}
+    //   dataType: 'json'
     // });
   });
 });
