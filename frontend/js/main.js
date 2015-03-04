@@ -37,7 +37,7 @@ $(document).ready(function() {
         // .sidebar('setting', 'transition', 'overlay');
   });
   // parseTableRes();
-  $("#blablabla").click(function(){
+  $("#search_btn").click(function(){
     // alert("wwor");
     parseTableRes();
     // $.ajax({
