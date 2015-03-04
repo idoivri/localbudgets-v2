@@ -5,7 +5,7 @@ var jsonData = '['+
 
 var parseTableRes = (function(data,status){
     var data = JSON.parse(jsonData);
-    var innerHtml = '<tbody>';
+    var innerHtml ='';
     var rowVal;
     $.each(data, function(i,item){
       rowVal = '<tr>'+
@@ -15,8 +15,7 @@ var parseTableRes = (function(data,status){
                 '</tr>';
       innerHtml += rowVal;
     });
-    innerHtml += '</tbody>';
-    $("#res_table_bla").append(innerHtml);
+    $("#table_body").append(innerHtml);
 });
 
 
