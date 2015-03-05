@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+        <meta charset="utf-8">
+
+        <script language="javascript" type="text/javascript" src='js/jquery.js' ></script>
+        <script language="javascript" type="text/javascript" src='js/semantic.js'></script>
+
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+        <script language="javascript" type="text/javascript" src="js/pie_chart.js"></script>
+        <script language="javascript" type="text/javascript" src="js/main.js"></script>
+
+        <link href="css/semantic.css" type="text/css" rel="stylesheet"></link>
+    </head>
+
+    <body>
+
+      <div class="page context">
+        <div id="top_menu" class="ui top attached demo menu">
+          <a id="sidebar_opener" class="item">
+            <i class="sidebar icon"></i>
+            Menu
+          </a>
+          <div class="right menu">
+            <div class="item">
+              <div class="ui icon input">
+                <input placeholder="Search..." type="text">
+                <i id="search_btn" class="search link icon"></i>
+              </div>
+            </div>
+            <div class="ui dropdown item">
+              Language <i class="dropdown icon"></i>
+              <div class="menu">
+                <a class="item">Hebrew</a>
+                <a class="item">Arabic</a>
+                <a class="item">English</a>
+                <a class="item">Russian</a>
+              </div>
+            </div>
+            <div class="item">
+                <div class="ui primary button">Contact Us!</div>
+            </div>
+          </div>
+        </div>
+      <div class="ui bottom attached segment full">
+          <div class="ui inverted labeled icon left inline vertical sidebar menu">
+            <a class="item">
+              <i class="home icon"></i>
+              Home
+            </a>
+            <a class="item">
+              <i class="block layout icon"></i>
+              Topics
+            </a>
+            <a class="item">
+              <i class="smile icon"></i>
+              Friends
+            </a>
+            <a class="item">
+              <i class="calendar icon"></i>
+              History
+            </a>
+          </div>
+          <div class="pusher">
+            <div class="ui basic segment">
+              <div class="left">
+                <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+              </div>
+              <div class="right">
+                <table id="res_table_bla" class="ui table">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!--
+      <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+    -->
+
+    </body>
+
+</html>
