@@ -34,6 +34,7 @@ class BudgetLine(models.Model):
     amount              = models.PositiveIntegerField( db_index=True ) # TODO: Not int?    
     year                = models.PositiveIntegerField( db_index=True )
     
+    muni                = models.CharField( max_length=256, db_index=True )
     
     # TODO: More fields?
     
