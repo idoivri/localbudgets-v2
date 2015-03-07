@@ -1,6 +1,7 @@
 # TODO : create a db interface...
 
 from server.models import BudgetLine
+from pymongo import MongoClient
 import csv
 
 fields = ['code', 'name', 'amount']
@@ -8,18 +9,16 @@ fields = ['code', 'name', 'amount']
 MUNI = 'hura'
 
 def handle_sheet(year,filename):
-    # TODO: remove this. this is for debug perpesuse only.
-    BudgetLine.objects.all().delete()
+    client = MongoClient()
+    db = client.database
+    muni = db[MUNI]
     reader = csv.DictReader(file(filename, 'rb'), fields)
 
     for line in reader:
         print "%s : %s" %(line['code'], line['amount'])
         if (line['name'] != '' and 
             line['amount'].isdigit()):
-           BudgetLine(name = line['name'],
-                      budget_id = line['code'],
-                      amount = line['amount'],
-                      year = year,
-                      muni = MUNI).save()
+            new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
+            muni.insert(new_line);
         
     
