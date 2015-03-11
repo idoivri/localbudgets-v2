@@ -1,6 +1,4 @@
-from django.core.management.base import BaseCommand
+from upload.main import UpdateCommand
 
 
-class Command(BaseCommand):
-    def handle(self, *args, **kws):
-        print "bla for the win"
+class Command(UpdateCommand): pass
