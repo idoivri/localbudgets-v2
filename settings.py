@@ -37,7 +37,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'server',
+    'rest_framework',
     'upload',
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,6 +59,9 @@ ROOT_URLCONF = 'server.urls'
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
+TEMPLATE_DIRS = (
+    'dynamic'
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -77,8 +86,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'static'),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
 STATIC_URL = '/static/'

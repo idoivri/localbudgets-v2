@@ -5,15 +5,15 @@
 
         <meta charset="utf-8">
 
-        <script language="javascript" type="text/javascript" src='js/jquery.js' ></script>
-        <script language="javascript" type="text/javascript" src='js/semantic.js'></script>
+        <script language="javascript" type="text/javascript" src='{{ STATIC_URL }}js/jquery.js' ></script>
+        <script language="javascript" type="text/javascript" src='{{ STATIC_URL }}js/semantic.js'></script>
 
         <script src="http://code.highcharts.com/highcharts.js"></script>
         <script src="http://code.highcharts.com/modules/exporting.js"></script>
-        <script language="javascript" type="text/javascript" src="js/pie_chart.js"></script>
-        <script language="javascript" type="text/javascript" src="js/main.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/pie_chart.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
 
-        <link href="css/semantic.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/semantic.css" type="text/css" rel="stylesheet"></link>
     </head>
 
     <body>
@@ -86,10 +86,9 @@
           </div>
         </div>
       </div>
-<!--
-      <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-    -->
-
+      <div class="ui inverted black footer vertical segment">
+              bla bla disclaimer bla bla
+      </div>
     </body>
 
 </html>
