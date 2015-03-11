@@ -26,17 +26,3 @@ INFLATION = {1992: 2.338071159424868,
  2014: 1.0,
 }
 
-class BudgetLine(models.Model):
-    
-    name                = models.CharField( max_length=256, db_index=True )
-    budget_id           = models.CharField( max_length=64,db_index=True )
-    parent              = models.ForeignKey( 'self', related_name='sublines', null=True, db_index=True )
-    amount              = models.PositiveIntegerField( db_index=True ) # TODO: Not int?    
-    year                = models.PositiveIntegerField( db_index=True )
-    
-    muni                = models.CharField( max_length=256, db_index=True )
-    
-    # TODO: More fields?
-    
-    @property
-    def inflation_factor(self): return INFLATION.get(self.year, 1)

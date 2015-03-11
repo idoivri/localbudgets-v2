@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <th>Barcode</th>
+        <th>Amount</th>
+        <th>Description</th>
+    </tr>
+    {% for item in query_results %}
+    <tr> 
+        <td>{{ item.code }}</td>
+        <td>{{ item.amount }}</td>
+        <td>{{ item.name }}</td>
+    </tr>
+    {% endfor %}
+</table>
