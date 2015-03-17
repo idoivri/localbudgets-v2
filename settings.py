@@ -60,7 +60,7 @@ ROOT_URLCONF = 'server.urls'
 WSGI_APPLICATION = 'server.wsgi.application'
 
 TEMPLATE_DIRS = (
-    'dynamic'
+    'dynamic',
 )
 
 # Database
