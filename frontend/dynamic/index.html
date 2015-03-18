@@ -12,6 +12,7 @@
         <script src="http://code.highcharts.com/modules/exporting.js"></script>
         <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/pie_chart.js"></script>
         <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/tablesort.js"></script>
 
         <link href="{{ STATIC_URL }}css/semantic.css" type="text/css" rel="stylesheet"></link>
     </head>
@@ -75,7 +76,7 @@
                     <tr>
                       <th>Code</th>
                       <th>Name</th>
-                      <th>Amount</th>
+                      <th class="number">Amount</th>
                     </tr>
                   </thead>
                   <tbody id="table_body">

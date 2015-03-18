@@ -1,5 +1,13 @@
 var empty_table = (function(){ $("#table_body").empty(); });
 
+var set_table = (function(innerHtml){
+  $("#table_body").append(innerHtml);
+  $('#res_table_bla').tablesort();
+  $('#res_table_bla thead th.number').data('sortBy', function(th, td, sorter) {
+			return parseInt(td.text(), 10);
+		});
+
+});
 var parseTableRes = (function(data_res,status){
     var data = $.parseJSON(data_res).res;
     var innerHtml ='';
@@ -13,8 +21,7 @@ var parseTableRes = (function(data_res,status){
                 '</tr>';
       innerHtml += rowVal;
     });
-    $("#table_body").append(innerHtml);
-    $('#res_table_bla').tablesort();
+    set_table(innerHtml);
 });
 
 
