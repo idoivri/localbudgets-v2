@@ -15,6 +15,8 @@ var parseTableRes = (function(data_res,status){
     empty_table();
     $.each(data, function(i,item){
       rowVal = '<tr>'+
+                  '<td>' + item.muni + '</td>' +
+                  '<td>' + item.year + '</td>' +
                   '<td>' + item.code + '</td>' +
                   '<td>' + item.name + '</td>' +
                   '<td>' + item.amount + '</td>' +
