@@ -15,10 +15,47 @@ def find_term(term, line):
 def get_heb_name(muni):
     return _heb_convert[muni]
 
-@api_view(['GET'])
-def lines(request):
-    """The entry endpoint of our v1 API"""
-    database = client().database
+def get_results_advanced(database, request):
+    res = []
+
+    year = request.GET['year']
+    city = request.GET['city']
+    query = request.GET['query']
+    dbs = [name for name in database.collection_names() if "system" not in name]
+
+    for name in dbs:
+        if '.' not in name:
+            continue
+
+        muni_str, year_str = name.split('.')
+
+        if year and str(year) != year_str:
+            continue
+        elif city and city!=muni_str:
+            continue
+
+        muni = database[muni_str]
+        year_dataset = muni[year_str]
+
+        for line in year_dataset.find():
+            add_line = True
+
+            if query:
+                add_line = find_term(query, line)
+
+            if add_line:
+                res.append({
+                    'muni' : get_heb_name(muni_str),
+                    'year' : int(year_str),
+                    'code' : line['code'],
+                    'amount' : line['amount'],
+                    'name' : line['name']
+
+                })
+
+    return res
+
+def get_results_term(database, request):
     res = []
 
     dbs = [name for name in database.collection_names() if "system" not in name]
@@ -27,7 +64,7 @@ def lines(request):
         if '.' not in name:
             continue
         muni_str, year_str = name.split('.')
-        # get_heb_name(muni_str)
+
         muni = database[muni_str]
         year_dataset = muni[year_str]
 
@@ -42,7 +79,7 @@ def lines(request):
                  if line['name'] != request.GET['name']:
                     add_line = False
 
-            if 'term' in request.GET:
+            if add_line and 'term' in request.GET:
                 add_line = find_term(request.GET['term'], line)
 
             if add_line:
@@ -54,6 +91,20 @@ def lines(request):
                     'name' : line['name']
 
                 })
+
+    return res
+
+@api_view(['GET'])
+def lines(request):
+    """The entry endpoint of our v1 API"""
+    database = client().database
+    # import pdb
+    # pdb.set_trace()
+    if 'term' in request.GET:
+        res = get_results_term(database,request)
+
+    else:
+        res = get_results_advanced(database,request)
 
     return Response(JSONRenderer().render({
         'res' : res,
