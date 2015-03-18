@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from pymongo import MongoClient as client
-
+from rest_framework.renderers import JSONRenderer
 
 @api_view(['GET'])
 def lines(request):
@@ -28,6 +28,6 @@ def lines(request):
 
             })
 
-    return Response({
+    return Response(JSONRenderer().render({
         'res' : res,
-    })
+    }))
