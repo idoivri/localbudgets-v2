@@ -1,7 +1,7 @@
 
 function create_chart (data) {
 
-  $('#container').highcharts({
+  $('#pie_chart').highcharts({
       chart: {
           plotBackgroundColor: null,
           plotBorderWidth: null,

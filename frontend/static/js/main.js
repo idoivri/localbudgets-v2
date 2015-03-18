@@ -8,6 +8,7 @@ var set_table = (function(innerHtml){
 		});
 
 });
+
 var parseTableRes = (function(data_res,status){
     var data = $.parseJSON(data_res).res;
     var innerHtml ='';
@@ -27,6 +28,49 @@ var parseTableRes = (function(data_res,status){
 });
 
 
+var set_basic_search = (function(){
+  $("#search_btn").click(function(){
+
+    var search_term = $("#search_general").val();
+    if(search_term.trim() == ""){
+      empty_table();
+      return;
+    }
+    $.get('/api/v1/lines',
+          {
+          term: search_term
+          },
+          parseTableRes,
+          'json'
+    );
+  });
+});
+
+var set_advanced_search = (function(){
+  $("#advanced_search_btn").click(function(){
+    var formValues = $('#advanced_form').form('get values');
+    var year = formValues.year;
+    var city = formValues.city;
+    var query = formValues.query;
+
+    if(year=='' && city=='' && query==''){
+      $("#form_warning").removeClass('hidden').addClass('visible');
+      return;
+    } else{
+      $("#form_warning").removeClass('visible').addClass('hidden');
+      $.get('/api/v1/lines',
+              {
+              city: city,
+              year: year,
+              query: query
+              },
+              parseTableRes,
+              'json'
+        );
+    }
+  });
+});
+
 $(document).ready(function() {
 
   $('.ui.dropdown')
@@ -43,19 +87,14 @@ $(document).ready(function() {
         //.sidebar('attach events', '.page.context .menu .item');
         // .sidebar('setting', 'transition', 'overlay');
   });
-  $("#search_btn").click(function(){
 
-    var search_term = $("#search_general").val();
-    if(search_term.trim() == ""){
-      empty_table();
-      return;
-    }
-    $.get('/api/v1/lines',
-          {
-          term: search_term
-          },
-          parseTableRes,
-          'json'
-    );
+  $("#advanced_search").click(function(){
+    $("#advanced_search_form").attr('class', 'visible');
+    $("#pie_chart").attr('class', 'hidden');
+    $('.left.sidebar')
+        .sidebar('toggle');
   });
+
+  set_basic_search();
+  set_advanced_search();
 });
