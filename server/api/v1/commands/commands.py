@@ -79,7 +79,7 @@ def get_results_term(database, request):
                  if line['name'] != request.GET['name']:
                     add_line = False
 
-            if 'term' in request.GET:
+            if add_line and 'term' in request.GET:
                 add_line = find_term(request.GET['term'], line)
 
             if add_line:
