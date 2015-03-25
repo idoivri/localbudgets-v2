@@ -83,6 +83,7 @@ def get_results_term(database, request):
                 add_line = find_term(request.GET['term'], line)
 
             if add_line:
+                print line
                 res.append({
                     'muni' : get_heb_name(muni_str),
                     'year' : int(year_str),
@@ -100,9 +101,9 @@ def lines(request):
     database = client().database
     # import pdb
     # pdb.set_trace()
-    if 'term' in request.GET:
+    advanced = "advanced" in request.GET and request.GET['advanced'] == 'true'
+    if not advanced:
         res = get_results_term(database,request)
-
     else:
         res = get_results_advanced(database,request)
 
