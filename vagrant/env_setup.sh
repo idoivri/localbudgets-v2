@@ -37,6 +37,7 @@ service mongodb start
 # Updating the DB 
 cd /localbudgets
 python manage.py upload_budget
+python manage.py migrate
 
 # Runing the django server
 echo Running django server at 127.0.0.1:8000
