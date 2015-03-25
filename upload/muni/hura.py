@@ -13,6 +13,6 @@ def handle_sheet(year, filename):
     for line in reader:
         print "%s : %s" %(line['code'], line['amount'])
         if (line['name'] != '' and line['amount'].isdigit()):
-            new_line  = {'n    ame':line['name'], 'amount':line['amount'], 'code':line['code'] }
+            new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
             dataset.insert(new_line);
     dataset.close()
