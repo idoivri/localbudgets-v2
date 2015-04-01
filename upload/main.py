@@ -32,6 +32,16 @@ def parse_filename(filename):
     
     
 class UpdateCommand(BaseCommand):
+
+    from optparse import make_option
+    option_list = BaseCommand.option_list + (
+        make_option('--print',
+            action='store_true',
+            dest='print data',
+            default=False,
+            help='Print muni data to screen'),
+        )
+
     def handle_sheet(self, muni_module, filepath):
         '''
         handle each csv file in the muni directory
@@ -54,7 +64,6 @@ class UpdateCommand(BaseCommand):
 
     def handle(self, *args, **options):
         print "bla for the win"
-
         muni_list = os.listdir(join(root_dir, DATA_DIR))
         if len(args) > 0:
             muni_list = filter(lambda x: x in muni_list,args)
