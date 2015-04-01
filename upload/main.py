@@ -13,6 +13,7 @@ DATA_DIR = 'data'
 
 MUNI_MODULES_PREFIX = "upload.muni."
 
+
 class NoMuniParser(Exception): pass 
 
 # try to import the right handler for the current muni
@@ -53,5 +54,11 @@ class UpdateCommand(BaseCommand):
 
     def handle(self, *args, **options):
         print "bla for the win"
-        for muni in os.listdir(join(root_dir, DATA_DIR)):
-            self.handle_muni(muni)
+
+        muni_list = os.listdir(join(root_dir, DATA_DIR))
+        if len(args) > 0:
+            muni_list = filter(lambda x: x in muni_list,args)
+
+        if len(muni_list) > 0:
+            for muni in muni_list:
+                self.handle_muni(muni)
