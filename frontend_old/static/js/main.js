@@ -9,11 +9,6 @@ var set_table = (function(innerHtml){
 
 });
 
-var clusterData = (function(data_res,status){
-  var data = $.parseJSON(data_res).res;
-  
-});
-
 var parseTableRes = (function(data_res,status){
     var data = $.parseJSON(data_res).res;
     var innerHtml ='';
@@ -80,6 +75,20 @@ var set_advanced_search = (function(){
 
 $(document).ready(function() {
 
+  $('.ui.dropdown')
+      .dropdown({
+        on: 'hover'
+  });
+
+  $("#sidebar_opener").click(function(){
+    $('.left.sidebar')
+        .sidebar('toggle')
+        .sidebar({
+          context: $('.page.context .bottom.segment')
+        });
+        //.sidebar('attach events', '.page.context .menu .item');
+        // .sidebar('setting', 'transition', 'overlay');
+  });
 
   $("#advanced_search").click(function(){
     $("#advanced_search_form").attr('class', 'visible');
