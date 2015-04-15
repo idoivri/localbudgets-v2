@@ -28,7 +28,7 @@ def import_muni_module(muni):
 def parse_filename(filename):
     year_str, ext = os.path.basename(filename).split(extsep)
     return int(year_str)
-    
+
     
 class UpdateCommand(BaseCommand):
     def handle_sheet(self, muni_module, filepath):
