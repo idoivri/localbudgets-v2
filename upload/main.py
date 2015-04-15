@@ -13,6 +13,7 @@ DATA_DIR = 'data'
 
 MUNI_MODULES_PREFIX = "upload.muni."
 
+
 class NoMuniParser(Exception): pass 
 
 # try to import the right handler for the current muni
@@ -31,27 +32,44 @@ def parse_filename(filename):
 
     
 class UpdateCommand(BaseCommand):
-    def handle_sheet(self, muni_module, filepath):
+
+    from optparse import make_option
+    option_list = BaseCommand.option_list + (
+        make_option('--print',
+            action='store_true',
+            dest='print_data',
+            default=False,
+            help='Print muni data to screen'),
+        )
+
+    def handle_sheet(self, muni_object, filepath):
         '''
         handle each csv file in the muni directory
         '''
         year = parse_filename(filepath)
-        muni_module.handle_sheet(year, filepath)
+        muni_object.handle_sheet(year, filepath)
         
          
-    def handle_muni(self, muni):
+    def handle_muni(self, muni, options):
         '''
         handle each muni in the root/data directory
         '''
         self.stdout.write("handling %s\n" %(muni, ))
         muni_path = join(root_dir, DATA_DIR, muni)
         muni_module = import_muni_module(muni)
+        muni_class = getattr(muni_module, 'Muni')
+        muni_object = muni_class(options['print_data'])
         
         for filename in os.listdir(muni_path):
-            self.handle_sheet(muni_module, join(muni_path, filename))
+            self.handle_sheet(muni_object, join(muni_path, filename))
         
 
     def handle(self, *args, **options):
         print "bla for the win"
-        for muni in os.listdir(join(root_dir, DATA_DIR)):
-            self.handle_muni(muni)
+        muni_list = os.listdir(join(root_dir, DATA_DIR))
+        if len(args) > 0:
+            muni_list = filter(lambda x: x in muni_list,args)
+
+        if len(muni_list) > 0:
+            for muni in muni_list:
+                self.handle_muni(muni, options)

@@ -38,7 +38,8 @@ var set_basic_search = (function(){
     }
     $.get('/api/v1/lines',
           {
-          term: search_term
+            advanced : false,
+            term: search_term
           },
           parseTableRes,
           'json'
@@ -62,7 +63,8 @@ var set_advanced_search = (function(){
               {
               city: city,
               year: year,
-              query: query
+              query: query,
+              advanced : true
               },
               parseTableRes,
               'json'
