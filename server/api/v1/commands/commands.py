@@ -5,6 +5,7 @@ from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from pymongo import MongoClient as client
 from rest_framework.renderers import JSONRenderer
+from collections import defaultdict
 
 _heb_convert = { u'hura':u"הופה היי" }
 
@@ -95,9 +96,7 @@ def get_results_term(database, request):
 
     return res
 
-@api_view(['GET'])
-def lines(request):
-    """The entry endpoint of our v1 API"""
+def get_res(request):
     database = client().database
     # import pdb
     # pdb.set_trace()
@@ -106,6 +105,78 @@ def lines(request):
         res = get_results_term(database,request)
     else:
         res = get_results_advanced(database,request)
+    return res
+
+def get_res clustered(request):
+    return None
+    # database = client().database
+    #
+    # munis = defaultdict(lambda: defaultdict(defaultdict(lambda: defaultdict(list))))
+    # dbs = [name for name in database.collection_names() if "system" not in name]
+    #
+    # for name in dbs:
+    #     if '.' not in name:
+    #         continue
+    #     muni_str, year_str = name.split('.')
+    #
+    #     muni = database[muni_str]
+    #     year_dataset = muni[year_str]
+    #
+    #     for line in year_dataset.find(): # amnt,code,name
+    #         add_line = True
+    #
+    #         if 'code' in request.GET:
+    #             if line['code'] != request.GET['code']:
+    #                 add_line = False
+    #
+    #         if add_line and 'name' in request.GET:
+    #              if line['name'] != request.GET['name']:
+    #                 add_line = False
+    #
+    #         if add_line and 'term' in request.GET:
+    #             add_line = find_term(request.GET['term'], line)
+    #
+    #         if add_line:
+    #             munis[get_heb_name(muni_str)][year_str][line['code']].append(line['amount'])
+    #             # print line
+    #             # res.append({
+    #             #     'muni' : get_heb_name(muni_str),
+    #             #     'year' : int(year_str),
+    #             #     'code' : line['code'],
+    #             #     'amount' : line['amount'],
+    #             #     'name' : line['name']
+    #             #
+    #             # })
+    #
+    # muni -> year -> values
+    # children = []
+    #
+    # for muni in munis:
+    #     muni_child = {}
+    #     muni_child['name'] = muni
+    #     muni_child_year = []
+    #     for year in munis[muni]:
+    #         year_child =
+    #
+    # res = {"name":"flare",
+    #         "children" : children}
+    #
+    # return res
+
+
+@api_view(['GET'])
+def lines(request):
+    """The entry endpoint of our v1 API"""
+    res = get_res(request)
+
+    return Response(JSONRenderer().render({
+        'res' : res,
+    }))
+
+@api_view(['GET'])
+def clustered(request):
+
+    res = get_res_clustered(request)
 
     return Response(JSONRenderer().render({
         'res' : res,
