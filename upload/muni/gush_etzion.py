@@ -1,4 +1,6 @@
+from abstract_muni import AbstractMuni
 
-def handle_sheet(*args):
-    # TODO
-    pass
+class Muni(AbstractMuni):
+    def handle_sheet(self, *args):
+        # TODO
+        pass
