@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'server',
     'rest_framework',
     'upload',
+    'visualization',
 )
 
 STATICFILES_FINDERS = (
