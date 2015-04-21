@@ -58,7 +58,7 @@ class UpdateCommand(BaseCommand):
         muni_path = join(root_dir, DATA_DIR, muni)
         muni_module = import_muni_module(muni)
         muni_class = getattr(muni_module, 'Muni')
-        muni_object = muni_class(options['print_data'])
+        muni_object = muni_class(print_data=options['print_data'])
         
         for filename in os.listdir(muni_path):
             self.handle_sheet(muni_object, join(muni_path, filename))
