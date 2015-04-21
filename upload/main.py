@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 import os
-import os.path
+import os.path	
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
