@@ -6,3 +6,7 @@ class AbstractMuni(object):
 	
     def handle_sheet( self ):
         raise NotImplementedError( "Should have implemented handle_sheet in specific municipality" )
+
+    def print_str(self, str):
+	    if self.print_data:
+		    print str
