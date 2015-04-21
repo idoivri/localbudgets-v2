@@ -12,8 +12,7 @@ class Muni(AbstractMuni):
          reader = csv.DictReader(file(filename, 'rb'), self.fields)
 
          for line in reader:
-            if self.print_data:
-                print "%s : %s" %(line['code'], line['amount'])
+            self.print_str("%s : %s" %(line['code'], line['amount']))
             if (line['name'] != '' and line['amount'].isdigit()):
                 new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
                 dataset.insert(new_line)

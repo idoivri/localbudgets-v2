@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 import os
-import os.path
+import os.path	
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
@@ -58,7 +58,7 @@ class UpdateCommand(BaseCommand):
         muni_path = join(root_dir, DATA_DIR, muni)
         muni_module = import_muni_module(muni)
         muni_class = getattr(muni_module, 'Muni')
-        muni_object = muni_class(options['print_data'])
+        muni_object = muni_class(print_data=options['print_data'])
         
         for filename in os.listdir(muni_path):
             self.handle_sheet(muni_object, join(muni_path, filename))
