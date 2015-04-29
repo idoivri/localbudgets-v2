@@ -13,8 +13,7 @@ class Muni(AbstractMuni):
 
         for line in reader:
             self.print_str("%s : %s" %(line['code'], line['amount']))
-            if (line['name'] != '' and line['amount'].isdigit()):
-                new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
-                self.print_str(new_line)
-                dataset.insert(new_line)
+            new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
+            self.print_str(new_line)
+            dataset.insert(new_line)
         dataset.close()
