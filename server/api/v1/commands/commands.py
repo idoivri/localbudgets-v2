@@ -10,8 +10,7 @@ from collections import defaultdict
 _heb_convert = { u'hura':u"הופה היי" }
 
 def find_term(term, line):
-    return line['code'] == term or \
-            term in line['name']
+    return line['code'] == term or term in line['name']
 
 def get_heb_name(muni):
     return _heb_convert[muni]
@@ -107,10 +106,9 @@ def get_res(request):
         res = get_results_advanced(database,request)
     return res
 
-def get_res clustered(request):
-    return None
-    # database = client().database
-    #
+# def get_res clustered(request):
+#     database = client().database
+#     res = {}
     # munis = defaultdict(lambda: defaultdict(defaultdict(lambda: defaultdict(list))))
     # dbs = [name for name in database.collection_names() if "system" not in name]
     #
@@ -139,15 +137,15 @@ def get_res clustered(request):
     #         if add_line:
     #             munis[get_heb_name(muni_str)][year_str][line['code']].append(line['amount'])
     #             # print line
-    #             # res.append({
-    #             #     'muni' : get_heb_name(muni_str),
-    #             #     'year' : int(year_str),
-    #             #     'code' : line['code'],
-    #             #     'amount' : line['amount'],
-    #             #     'name' : line['name']
-    #             #
-    #             # })
+    #             res.append({
+    #                 'muni' : get_heb_name(muni_str),
+    #                 'year' : int(year_str),
+    #                 'code' : line['code'],
+    #                 'amount' : line['amount'],
+    #                 'name' : line['name']
     #
+    #             })
+
     # muni -> year -> values
     # children = []
     #
@@ -160,7 +158,7 @@ def get_res clustered(request):
     #
     # res = {"name":"flare",
     #         "children" : children}
-    #
+
     # return res
 
 

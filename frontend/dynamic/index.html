@@ -23,6 +23,10 @@
 
       <div class="container-fluid center-block ">
           <div class="row">
+
+          </div>
+
+          <div class="row spacer">
               <!-- Empty column -->
               <div class="col-md-4"></div>
 
@@ -43,11 +47,23 @@
 
             <!-- Main display -->
             <div class="col-md-4" style="text-align:center">
-              <div id="compare">
+              <div class="input-group">
+                <input type="text" class="form-control" id="search_general" placeholder="מה תרצה לחפש?">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" id="search_btn">חפש!</button>
+                </span>
+              </div>
+              <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default ">
+                    <input type="radio" id="ta-city-button" value="ta" />
+                    תל אביב
+                </label>
+                <label class="btn btn-default active">
+                    <input type="radio" id="hura-city-button" value="hura" /> חורה
+                </lable>
               </div>
 
-              <div id="stats">
-              </div>
+
             </div>
             <!-- Empty column -->
             <div class="col-md-4" style="text-align: center;"></div>
