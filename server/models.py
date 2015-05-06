@@ -1,6 +1,9 @@
 ### encoding: utf8 ###
 from django.db import models
+from pymongo import MongoClient
+from settings import MONGO_SERVER
 
+# TODO: put it somewhere else.
 INFLATION = {1992: 2.338071159424868,
  1993: 2.1016785142253185,
  1994: 1.8362890269054741,
@@ -26,3 +29,26 @@ INFLATION = {1992: 2.338071159424868,
  2014: 1.0,
 }
 
+def _mongo_client():
+    return MongoClient(MONGO_SERVER)
+
+class Dataset():
+    def __init__(self, collection, muni, year, clean=True):
+        self.client = _mongo_client()
+        db = self.client.database
+        db = db[collection]
+        munidb = db[muni]
+        self.dataset = munidb[year]
+    
+    def __getattr__(self, attr):
+        return self.dataset.__getattribute__(attr)
+    
+    def close(self):
+        self.client.close()
+
+def del_collection(self, collection):
+    client = _mongo_client()
+    collection = client.database[collection_name]
+    collection.drop()
+    client.close()
+    

@@ -1,4 +1,4 @@
-from upload.utils import Dataset
+from server.models import Dataset
 from abstract_muni import AbstractMuni
 import csv
 
@@ -8,7 +8,7 @@ class Muni(AbstractMuni):
     MUNI = 'ashdod'
 
     def handle_sheet(self, year, filename):
-        dataset = Dataset(self.MUNI, year)
+        dataset = Dataset('raw', self.MUNI, year)
         reader = csv.DictReader(file(filename, 'rb'), self.fields)
 
         for line in reader:
