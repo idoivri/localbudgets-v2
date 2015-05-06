@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 import os
-import os.path
+import os.path	
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
@@ -29,7 +29,7 @@ def import_muni_module(muni):
 def parse_filename(filename):
     year_str, ext = os.path.basename(filename).split(extsep)
     return int(year_str)
-    
+
     
 class UpdateCommand(BaseCommand):
 
@@ -37,29 +37,31 @@ class UpdateCommand(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--print',
             action='store_true',
-            dest='print data',
+            dest='print_data',
             default=False,
             help='Print muni data to screen'),
         )
 
-    def handle_sheet(self, muni_module, filepath):
+    def handle_sheet(self, muni_object, filepath):
         '''
         handle each csv file in the muni directory
         '''
         year = parse_filename(filepath)
-        muni_module.handle_sheet(year, filepath)
+        muni_object.handle_sheet(year, filepath)
         
          
-    def handle_muni(self, muni):
+    def handle_muni(self, muni, options):
         '''
         handle each muni in the root/data directory
         '''
         self.stdout.write("handling %s\n" %(muni, ))
         muni_path = join(root_dir, DATA_DIR, muni)
         muni_module = import_muni_module(muni)
+        muni_class = getattr(muni_module, 'Muni')
+        muni_object = muni_class(print_data=options['print_data'])
         
         for filename in os.listdir(muni_path):
-            self.handle_sheet(muni_module, join(muni_path, filename))
+            self.handle_sheet(muni_object, join(muni_path, filename))
         
 
     def handle(self, *args, **options):
@@ -70,4 +72,4 @@ class UpdateCommand(BaseCommand):
 
         if len(muni_list) > 0:
             for muni in muni_list:
-                self.handle_muni(muni)
+                self.handle_muni(muni, options)

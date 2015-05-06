@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'server',
     'rest_framework',
     'upload',
+    'visualization',
 )
 
 STATICFILES_FINDERS = (
@@ -93,3 +94,5 @@ STATICFILES_DIRS = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 STATIC_URL = '/static/'
+
+MONGO_SERVER = "localhost:27017"
