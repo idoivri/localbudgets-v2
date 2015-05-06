@@ -41,7 +41,7 @@ class UpdateCommand(BaseCommand):
             dest='print_data',
             default=False,
             help='Print muni data to screen'),
-        make_option('--clean',
+        make_option('--clean_all',
             action='store_true',
             dest='clean',
             default=False,
@@ -72,7 +72,6 @@ class UpdateCommand(BaseCommand):
 
     def handle(self, *args, **options):
         print "bla for the win"
-
         if options['clean']:
             del_collection('raw')
 

@@ -1,1 +1,3 @@
-__author__ = 'Vaio-190X'
+from visualization.main import Muni2TreeCommand
+
+class Command(Muni2TreeCommand): pass
