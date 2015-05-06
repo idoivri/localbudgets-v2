@@ -21,7 +21,7 @@ if [ ! -f /var/lock/provision/mongodb ]; then
     fi
 fi
 
-# Instaling the nessery python packages (via pip)
+# Instaling the necessary python packages (via pip)
 
 if [ ! -f /var/lock/provision/python_env ]; then
     pip install -r /localbudgets/requirements.txt
