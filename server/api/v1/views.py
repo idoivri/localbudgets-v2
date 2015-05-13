@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 # from rest_framework.reverse import reverse
 from rest_framework.response import Response
 
-from server.api.v1.utils.utils import get_res
+from server.utils.utils import get_res
 
 @api_view(['GET'])
 def api_v1(request):
