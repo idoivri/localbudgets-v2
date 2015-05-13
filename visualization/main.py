@@ -7,7 +7,10 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 
 import csv
-from visualization.utils import Tree, Dataset
+from visualization.utils import Dataset as tree_Dataset
+from visualization.tree import Tree
+from upload.utils import Dataset as raw_Dataset
+
 
 SCHEME_FILENAME = 'data/schema/1994.csv'
 
@@ -29,7 +32,7 @@ class TreeCommand(BaseCommand):
         reader = self._parse_csv(SCHEME_FILENAME)
 
         # Create all the nodes in a linear way. 
-        # We Create dictenery in the following format
+        # We Create dictionary in the following format
         # { node_code : [node_object, node_parent_code] }
         nodes = {line['CODE']: [Tree(name=line['NAME'],
                                      code=line['CODE']), 
@@ -37,7 +40,7 @@ class TreeCommand(BaseCommand):
                  for line in reader}
         root = Tree()
 
-        # We go through the dict to create the hiercy.
+        # We go through the dict to create the hierarchy.
         for [node,parent] in nodes.values():
             if not parent:
                 root.add_child(node)
@@ -45,27 +48,24 @@ class TreeCommand(BaseCommand):
                 nodes[parent][0].add_child(node)
 
         # Upload the Tree to the DB.
-        dataset = Dataset('scheme', 0, clean=False)
+        dataset = tree_Dataset('scheme', 0, clean=True)
         dataset.insert(root.to_dict())
         dataset.close()
 
         print Tree.from_dict(root.to_dict())
 
-# class DB2TreeCommand(BaseCommand):
-#     def handle(self, *args, **options):
-#         print "bla for the win"
-#         dataset = Dataset('hura',2010)
-#         for line in dataset.find:
-#
-#
-#         reader = csv.DictReader(file(SCHEME_FILENAME, 'rb'), fields)
-#         reader.next() #remove the header line
-#         nodes = {line['CODE']: [Tree(name=line['NAME'],code=line['CODE']), line['PARENT']] for line in reader}
-#         root = Tree()
-#         for [node,parent] in nodes.values():
-#             if not parent:
-#                 root.add_child(node)
-#             else:
-#                 nodes[parent][0].add_child(node)
-#
-#         print root
+class Muni2TreeCommand(BaseCommand):
+    def handle(self, *args, **options):
+        MUNI = 'ashdod'
+        YEAR = 2010
+        print "bla for the win"
+        schema_datasset = tree_Dataset('scheme', 0)
+        tree = Tree.from_dict(schema_datasset.find_one())
+        raw_dataset = raw_Dataset(MUNI,YEAR)
+        for line in raw_dataset.find({}):
+            node = Tree(**line)
+            tree.insert_node(node)
+        tree.update_amount()
+        dataset = tree_Dataset(MUNI,YEAR, clean=True)
+        dataset.insert(tree.to_dict())
+

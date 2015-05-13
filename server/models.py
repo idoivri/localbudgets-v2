@@ -46,11 +46,11 @@ class Dataset():
     def close(self):
         self.client.close()
 
-def del_collection(collection):
+def del_collection(collection_name):
     client = _mongo_client()
     db = client.database
 
-    if collection in db.collection_names():
+    if collection_name in db.collection_names():
         collection = client.database[collection_name]
         collection.drop()
 
