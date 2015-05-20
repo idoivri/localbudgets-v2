@@ -5,6 +5,7 @@ import os.path
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
+from server.models import del_collection
 
 # TODO: maybe move this const to a module configuration file?
 DATA_DIR = 'data'
@@ -40,6 +41,11 @@ class UpdateCommand(BaseCommand):
             dest='print_data',
             default=False,
             help='Print muni data to screen'),
+        make_option('--clean_all',
+            action='store_true',
+            dest='clean',
+            default=False,
+            help='Clean the DB before the Command'),
         )
 
     def handle_sheet(self, muni_object, filepath):
@@ -66,6 +72,9 @@ class UpdateCommand(BaseCommand):
 
     def handle(self, *args, **options):
         print "bla for the win"
+        if options['clean']:
+            del_collection('raw')
+
         muni_list = os.listdir(join(root_dir, DATA_DIR))
         if len(args) > 0:
             muni_list = filter(lambda x: x in muni_list,args)

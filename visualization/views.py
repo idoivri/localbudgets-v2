@@ -4,19 +4,6 @@ from django.shortcuts import render
 import pygal
 
 
-def show_table(request, muni_name,year):
-    client = MongoClient()
-    db = client.database
-    muni = db[muni_name]
-    year_dataset = muni[year]
-    lines = []
-    for line in year_dataset.find():
-        lines.append(line)
-        lines.sort(cmp=lambda x,y: cmp(int(x['amount']), int(y['amount'])), reverse=True)
-
-    
-
-    return render(request, 'simple_table.html', {'query_results':lines} )
 
 def show_graph(request, muni_name):
 

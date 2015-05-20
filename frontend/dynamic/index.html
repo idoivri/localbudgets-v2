@@ -6,141 +6,88 @@
         <meta charset="utf-8">
 
         <script language="javascript" type="text/javascript" src='{{ STATIC_URL }}js/jquery.js' ></script>
-        <script language="javascript" type="text/javascript" src='{{ STATIC_URL }}js/semantic.js'></script>
-
-        <script src="http://code.highcharts.com/highcharts.js"></script>
-        <script src="http://code.highcharts.com/modules/exporting.js"></script>
-        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/pie_chart.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/d3.min.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
         <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
-        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/tablesort.js"></script>
 
-        <link href="{{ STATIC_URL }}css/semantic.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/bootstrap.min.css" type="text/css" rel="stylesheet"></link>
         <link href="{{ STATIC_URL }}css/main.css" type="text/css" rel="stylesheet"></link>
+<!--         // <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/tablesort.js"></script>
+//
+// <link href="{{ STATIC_URL }}css/semantic.css" type="text/css" rel="stylesheet"></link>
+// <link href="{{ STATIC_URL }}css/main.css" type="text/css" rel="stylesheet"></link> -->
     </head>
 
     <body>
 
-      <div class="page context">
-        <div id="top_menu" class="ui top attached demo menu">
-          <a id="sidebar_opener" class="item">
-            <i class="sidebar icon"></i>
-            Menu
-          </a>
-          <div class="right menu">
-            <div class="item">
-              <div class="ui icon input">
-                <input id="search_general" placeholder="Search..." type="text">
-                <i id="search_btn" class="search link icon"></i>
-              </div>
-            </div>
-            <div class="ui dropdown item">
-              Language <i class="dropdown icon"></i>
-              <div class="menu">
-                <a class="item">Hebrew</a>
-                <a class="item">Arabic</a>
-                <a class="item">English</a>
-                <a class="item">Russian</a>
-              </div>
-            </div>
-            <div class="item">
-                <div class="ui primary button">Contact Us!</div>
-            </div>
+      <div class="container-fluid center-block ">
+          <div class="row">
+
           </div>
+
+          <div class="row spacer">
+              <!-- Empty column -->
+              <div class="col-md-4"></div>
+
+              <!-- Main display -->
+              <div class="col-md-4" style="text-align:center">
+                <p>תמיד חלמת לדעת על מה העירייה שלך מוציאה את תקציבה השנתי?</p>
+                <p>תמיד רצית להשוות את השקעת העיריות השונות בחינוך ולא ידעת איך?</p>
+              </div>
+
+              <!-- Empty column -->
+              <div class="col-md-4" style="text-align: center;"></div>
+            </div>
         </div>
-      <div class="ui bottom attached segment full">
-          <div class="ui inverted labeled icon left inline vertical sidebar menu">
-            <a class="item">
-              <i class="home icon"></i>
-              Home
-            </a>
-            <a class="item">
-              <i class="block layout icon"></i>
-              Browse
-            </a>
-            <a id="advanced_search" class="item">
-              <i class="smile icon"></i>
-              Advanced Search
-            </a>
-            <a class="item">
-              <i class="calendar icon"></i>
-              History
-            </a>
-          </div>
-          <div class="pusher">
-            <div class="ui basic segment">
-              <div class="left">
-                <div id="pie_chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-                <div id="advanced_search_form" class="hidden" style="height:400px">
-                  <form id="advanced_form" class="ui form">
 
-                    <div class="three fields">
+        <div class="row">
+            <!-- Empty column -->
+            <div class="col-md-4"></div>
 
-                      <div class="field">
-                        <label>Query</label>
+            <!-- Main display -->
+            <div class="col-md-4" style="text-align:center">
 
-                          <div class="field">
-                            <input type="text" name="query" placeholder="Query">
-                          </div>
 
-                      </div>
-
-                      <div class="field">
-                        <lable>City</lable>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="city">
-                            <div class="default text">City</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                              <div class="item" data-value="all">All</div>
-                              <div class="item" data-value="hura">Hura</div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="field">
-                          <lable>Year</lable>
-                          <div class="ui selection dropdown">
-                              <input type="hidden" name="year">
-                              <div class="default text">Year</div>
-                              <i class="dropdown icon"></i>
-                              <div class="menu">
-                                <div class="item" data-value="all">All</div>
-                                <div class="item" data-value="2010">2010</div>
-                                <div class="item" data-value="2011">2011</div>
-                                <div class="item" data-value="2012">2012</div>
-                                <div class="item" data-value="2013">2013</div>
-
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div id='advanced_search_btn' class="ui button right">Search!</div>
-                        <div id="form_warning" class="ui ignored info message hidden">Please fill at least one term</div>
-                    </form>
-                </div>
+              <div class="input-group">
+                <input type="text" class="form-control" id="search_general" placeholder="מה תרצה לחפש?">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" id="search_btn">חפש!</button>
+                </span>
               </div>
-              <div class="right">
-                <table id="res_table_bla" class="ui sortable celled table">
-                  <thead>
-                    <tr>
-                      <th>Muni</th>
-                      <th>Year</th>
-                      <th>Code</th>
-                      <th>Name</th>
-                      <th class="number">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody id="table_body">
-                  </tbody>
-                </table>
+
+              <div class="btn-group" data-toggle="buttons">
+                {% for item in munis_result%}
+                  <label class="btn btn-default {{item.active}}">
+                      <input type="radio" id="{{item.id}}" value="{{item.value}}" /> {{item.heb_name}}
+                  </label>
+                {% endfor %}
               </div>
+
+            <!--   <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default ">
+                  <input type="radio" id="ta-city-button" value="ta" />
+                  תל אביב
+              </label>
+              <label class="btn btn-default active">
+                  <input type="radio" id="hura-city-button" value="hura" /> חורה
+              </lable>
             </div>
+             -->
+
+            </div>
+            <!-- Empty column -->
+            <div class="col-md-4" style="text-align: center;"></div>
           </div>
+      </div>
+
+      </div>
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted">bla bla disclaimer bla bla</p>
         </div>
-      </div>
-      <div class="ui inverted black footer vertical segment">
-              bla bla disclaimer bla bla
-      </div>
+      </footer>
+
     </body>
 
 </html>
