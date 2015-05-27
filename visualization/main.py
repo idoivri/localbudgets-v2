@@ -49,10 +49,12 @@ class TreeCommand(BaseCommand):
 
         # Upload the Tree to the DB.
         dataset = tree_Dataset('scheme', 0, clean=True)
-        dataset.insert(root.to_dict())
+        bla = root.to_db(dataset)
+        # import pdb; pdb.set_trace()
+        dict = Tree.from_db(dataset,dataset.find_one({'_id':bla}))
         dataset.close()
 
-        print Tree.from_dict(root.to_dict())
+        print dict
 
 class Muni2TreeCommand(BaseCommand):
     def handle(self, *args, **options):
