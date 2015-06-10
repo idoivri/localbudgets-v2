@@ -10,6 +10,8 @@ class Tree(object):
     def __init__(self, name='root',
                        code=None,
                        amount=None,
+                       muni = None,
+                       year = None,
                        children=None,
                        *args,
                        **kws):
@@ -20,6 +22,8 @@ class Tree(object):
             self.amount = UndefinedAmount()
 
         self.code = code
+        self.muni = muni
+        self.year = year
         self.children = []
         if children is not None:
             for child in children:
@@ -37,6 +41,10 @@ class Tree(object):
         assert isinstance(node, Tree)
         self.children.append(node)
 
+    def update_field(self,field_name,field_value):
+        setattr(self, field_name, field_value)
+        for child in self.children:
+            child.update_field(field_name,field_value)
 
     @classmethod
     def from_dict(cls,dictionary):
@@ -58,6 +66,8 @@ class Tree(object):
         return {'code': self.code,
                 'amount': amount,
                 'name': self.name,
+                'muni': self.muni,
+                'year': self.year,
                 'children': [i.to_dict() for i in self.children]}
 
 
@@ -67,9 +77,11 @@ class Tree(object):
         else:
             amount = str(self.amount)
         return dataset.insert({'code': self.code,
-                                'amount': amount,
-                                'name': self.name,
-                                'children': children})
+                               'amount': amount,
+                               'name': self.name,
+                               'muni': self.muni,
+                               'year': self.year,
+                               'children': children})
 
 
     def to_db(self,dataset):
@@ -86,7 +98,6 @@ class Tree(object):
 
     @classmethod
     def from_db(cls, dataset, root_dict):
-        # import pdb; pdb.set_trace()
         children = []
         for _id in root_dict['children']:
             child = dataset.find_one({'_id': _id})
@@ -103,14 +114,11 @@ class Tree(object):
         went_down = True
         for c in node.code[1:]:
             subcode += c
-            if not went_down:
-                    break
             for child in location.children:
-                went_down = False
                 if child.code == subcode:
-                    went_down = True
                     location = child
                     break
+
         location.add_child(node)
 
     def update_amount(self):

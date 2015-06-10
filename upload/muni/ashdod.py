@@ -15,10 +15,10 @@ class Muni(AbstractMuni):
         for line in reader:
             #TODO: this is ugly, will be removed. Dash Yaniv.
             amount = line['amount'].replace(',','')
-            amount = amount.replace('.', '')
+            amount = amount[:amount.find('.')]
             if (amount.isdigit()):
                 self.print_str("%s : %s" %(line['code'], line['amount']))
-                new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
+                new_line  = {'name':line['name'], 'amount':amount, 'code':line['code'] }
                 self.print_str(new_line)
                 dataset.insert(new_line)
         dataset.close()
