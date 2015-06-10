@@ -10,11 +10,13 @@ class Muni(AbstractMuni):
     def handle_sheet(self, year, filename):
         dataset = Dataset('raw', self.MUNI, year)
         reader = csv.DictReader(file(filename, 'rb'), self.fields)
-        reader.next();
+        reader.next()
 
         for line in reader:
-            if (line['amount'].isdigit()):
-                print "%s : %s" %(line['code'], line['amount'])
+            #TODO: this is ugly, will be removed. Dash Yaniv.
+            amount = line['amount'].replace(',','')
+            amount = amount.replace('.', '')
+            if (amount.isdigit()):
                 self.print_str("%s : %s" %(line['code'], line['amount']))
                 new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
                 self.print_str(new_line)
