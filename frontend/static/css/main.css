@@ -8,7 +8,6 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
   font-family: 'Alef';
-  direction: rtl;
 }
 .footer {
   position: absolute;
@@ -17,6 +16,14 @@ body {
   /* Set the fixed height of the footer here */
   height: 60px;
   background-color: #f5f5f5;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+.rtl {
+  direction: rtl;
 }
 
 .spacer {
