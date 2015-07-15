@@ -8,27 +8,28 @@ from django.http import HttpResponse
 from pymongo import MongoClient as client
 
 from server.utils.utils import get_res
+from visualization.api import search_code
 
 import itertools, random, json
 
-results_keys = set()
-results_dict = {}
+#results_keys = set()
+#results_dict = {}
 
-def set_data():
-    if results_keys:
-        return
-
-    random.seed(5042)
-
-    for comb in itertools.permutations([10, 30,20,33]):
-        key = '.'.join(str(_) for _ in comb)
-        results_keys.add(key)
-        results_dict[key] = {
-            'muni' : 'hura',
-            'year' : random.randint(2010,2015),
-            'code' : key,
-            'amount' : random.randint(1000,50000)
-        }
+#def set_data():
+#    if results_keys:
+#        return
+#
+#    random.seed(5042)
+#
+#    for comb in itertools.permutations([10, 30,20,33]):
+#        key = '.'.join(str(_) for _ in comb)
+#        results_keys.add(key)
+#        results_dict[key] = {
+#            'muni' : 'hura',
+#            'year' : random.randint(2010,2015),
+#            'code' : key,
+#            'amount' : random.randint(1000,50000)
+#        }
 
 
 
@@ -53,12 +54,15 @@ def get_query_result(request):
 @api_view(['GET'])
 def get_autocomplete(request):
     q = request.GET.get('term', '')
+    results = search_code(q)
+    results_dict = {tree['code']: tree for tree in results}
+    results_keys = results_dict.keys()
 
-    set_data()
     res = []
     for key_id,key in enumerate(results_keys):
-        if key.startswith(q):
-            res.append({'id':key_id,'label':'','value':json.dumps(results_dict[key])})
+        print results_dict[key]
+        res.append({'id':key_id,'label':'','value':json.dumps(results_dict[key])})
 
 
+    print res
     return HttpResponse(json.dumps(res), 'application/json')
