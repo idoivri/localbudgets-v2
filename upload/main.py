@@ -6,26 +6,16 @@ from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
 from server.models import del_collection
+from upload.muni import munis_loaders
 
 # TODO: maybe move this const to a module configuration file?
 DATA_DIR = 'data'
 
 # TODO: add options
 
-MUNI_MODULES_PREFIX = "upload.muni."
-
 
 class NoMuniParser(Exception): pass 
 
-# try to import the right handler for the current muni
-def import_muni_module(muni):
-    try:
-        muni_module = import_module(MUNI_MODULES_PREFIX + muni)
-    except Exception,e:
-        raise NoMuniParser("No Plugin for %s or error: %s" % (muni, str(e)))
-
-    return muni_module
-    
 
 def parse_filename(filename):
     year_str, ext = os.path.basename(filename).split(extsep)
@@ -62,8 +52,11 @@ class UpdateCommand(BaseCommand):
         '''
         self.stdout.write("handling %s\n" %(muni, ))
         muni_path = join(root_dir, DATA_DIR, muni)
-        muni_module = import_muni_module(muni)
-        muni_class = getattr(muni_module, 'Muni')
+        if (muni in munis_loaders):
+            muni_class = munis_loaders[muni]
+        else:
+            raise NoMuniParser("no Muni parser for: %s" %(muni, ))
+
         muni_object = muni_class(print_data=options['print_data'])
         
         for filename in os.listdir(muni_path):

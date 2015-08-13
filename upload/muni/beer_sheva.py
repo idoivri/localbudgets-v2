@@ -2,10 +2,10 @@ from server.models import Dataset
 from abstract_muni import AbstractMuni
 import csv
 
-class Muni(AbstractMuni):
+class BeerMuni(AbstractMuni):
     fields = ['code', 'name','temp', 'amount']
 
-    MUNI = 'beer-sheva'
+    MUNI = 'beer_sheva'
 
     def handle_sheet(self, year, filename):
         dataset = Dataset('raw', self.MUNI, year)
