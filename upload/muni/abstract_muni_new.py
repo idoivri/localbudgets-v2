@@ -34,7 +34,8 @@ class AbstractMuni(object):
                 self.print_str(new_line)
                 dataset.insert(new_line)
             else:
-                invalid_fields = [' : '.join([field.name, field.value, field.error]) for field in line_fields if field.is_valid()]
+                invalid_fields = [' : '.join([field.name, field.value, field.error]) 
+                                  for field in line_fields if field.is_valid()]
                 self.logger.info('invalid fields: %s', ' '.join(invalid_fields))
         dataset.close()
 

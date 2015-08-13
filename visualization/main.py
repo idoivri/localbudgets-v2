@@ -8,6 +8,7 @@ from importlib import import_module
 
 import csv
 from visualization.utils import Dataset as tree_Dataset
+from visualization.utils import FlatenDataset as flaten_Dataset
 from visualization.tree import Tree
 from upload.utils import Dataset as raw_Dataset
 
@@ -72,6 +73,7 @@ class Muni2TreeCommand(BaseCommand):
             tree.insert_node(node)
         tree.update_amount()
         dataset = tree_Dataset(muni,year, clean=True)
+        dataset = flaten_Dataset('flaten')
         # dataset.insert(tree.to_dict())
         tree.to_db(dataset)
 
