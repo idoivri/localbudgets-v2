@@ -5,6 +5,7 @@ Open Municipal Budgets - ver 2.0
 Getting started:
 ----------------
 
+0. Clone this project
 1. Install Vagrant:
     https://www.vagrantup.com/downloads.html
 
