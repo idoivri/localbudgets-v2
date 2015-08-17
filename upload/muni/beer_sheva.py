@@ -1,20 +1,10 @@
-from server.models import Dataset
-from abstract_muni import AbstractMuni
-import csv
+from muni import AbstractMuni
+from fields import AmountField, CodeField, DescriptionField
 
 class BeerMuni(AbstractMuni):
-    fields = ['code', 'name','temp', 'amount']
+    fields = {0: CodeField,
+              1: DescriptionField,
+              3: AmountField}
 
     MUNI = 'beer_sheva'
 
-    def handle_sheet(self, year, filename):
-        dataset = Dataset('raw', self.MUNI, year)
-        reader = csv.DictReader(file(filename, 'rb'), self.fields)
-
-        for line in reader:
-           self.print_str("%s : %s" %(line['code'], line['amount']))
-           if (line['name'] != '' and line['amount'].isdigit()):
-                new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
-                self.print_str(new_line)	
-                dataset.insert(new_line)
-        dataset.close()
