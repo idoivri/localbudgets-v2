@@ -1,6 +1,9 @@
-from abstract_muni import AbstractMuni
+from muni import AbstractMuni
+from fields import AmountField, CodeField, DescriptionField
 
 class RehovotMuni(AbstractMuni):
-    MUNI = 'rehovot'
-    def handle_sheet(self, year, filename):
-	    pass
+     fields = {0: CodeField,
+              1: DescriptionField,
+              3: AmountField}
+
+     MUNI = 'rehovot'
