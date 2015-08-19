@@ -3,7 +3,7 @@ from server.models import Dataset
 from abstract_muni import AbstractMuni
 import csv
 
-class Muni(AbstractMuni):
+class QiryatBialikMuni(AbstractMuni):
     fields = ['code', 'name', 'amount']
     MUNI = 'qiryat_bialik'
 

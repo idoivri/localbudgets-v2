@@ -1,6 +1,8 @@
 from abstract_muni import AbstractMuni
 
-class Muni(AbstractMuni):
+class KfarShmaryahuMuni(AbstractMuni):
+    MUNI = 'kfar_shmaryahu'
+
     def handle_sheet(*args):
         # TODO
         pass

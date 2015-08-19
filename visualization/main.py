@@ -8,6 +8,7 @@ from importlib import import_module
 
 import csv
 from visualization.utils import Dataset as tree_Dataset
+from visualization.utils import FlatenDataset as flaten_Dataset
 from visualization.tree import Tree
 from upload.utils import Dataset as raw_Dataset
 
@@ -49,25 +50,30 @@ class TreeCommand(BaseCommand):
 
         # Upload the Tree to the DB.
         dataset = tree_Dataset('scheme', 0, clean=True)
-        bla = root.to_db(dataset)
-        # import pdb; pdb.set_trace()
-        dict = Tree.from_db(dataset,dataset.find_one({'_id':bla}))
+        dataset.insert(root.to_dict())
+        # bla = root.to_db(dataset)
+        # dict = Tree.from_db(dataset,dataset.find_one({'_id':bla}))
         dataset.close()
 
         print dict
 
 class Muni2TreeCommand(BaseCommand):
     def handle(self, *args, **options):
-        MUNI = 'ashdod'
-        YEAR = 2010
+        muni = args[0]
+        year = args[1]
         print "bla for the win"
         schema_datasset = tree_Dataset('scheme', 0)
         tree = Tree.from_dict(schema_datasset.find_one())
-        raw_dataset = raw_Dataset(MUNI,YEAR)
+        tree.update_field('muni',muni)
+        tree.update_field('year',year)
+        raw_dataset = raw_Dataset(muni,year)
         for line in raw_dataset.find({}):
-            node = Tree(**line)
+            node = Tree(muni=muni,year=year,**line)
+            # import pdb; pdb.set_trace()
             tree.insert_node(node)
         tree.update_amount()
-        dataset = tree_Dataset(MUNI,YEAR, clean=True)
-        dataset.insert(tree.to_dict())
+        dataset = tree_Dataset(muni,year, clean=True)
+        dataset = flaten_Dataset('flaten')
+        # dataset.insert(tree.to_dict())
+        tree.to_db(dataset)
 
