@@ -1,6 +1,6 @@
-from abstract_muni import Muni
+from abstract_muni import AbstractMuni
 
-class GushMuni(Muni):
+class GushMuni(AbstractMuni):
     MUNI = 'gush_etzion'
     def handle_sheet(self, *args):
         # TODO

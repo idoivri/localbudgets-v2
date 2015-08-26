@@ -2,7 +2,7 @@ from server.models import Dataset
 import csv
 import logging
 
-class Muni(object):
+class AbstractMuni(object):
     """municipality class"""
 
     fields = []

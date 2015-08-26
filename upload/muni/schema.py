@@ -1,6 +1,6 @@
-from abstract_muni import Muni
+from abstract_muni import AbstractMuni
 
-class SchemaMuni(Muni):
+class SchemaMuni(AbstractMuni):
     MUNI = 'schema'
     def handle_sheet(*args):
         pass

@@ -1,6 +1,6 @@
-from abstract_muni import Muni
+from abstract_muni import AbstractMuni
 
-class KfarShmaryahuMuni(Muni):
+class KfarShmaryahuMuni(AbstractMuni):
     MUNI = 'kfar_shmaryahu'
 
     def handle_sheet(*args):

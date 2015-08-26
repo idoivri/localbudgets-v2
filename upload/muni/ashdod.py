@@ -1,9 +1,9 @@
-from muni import Muni
+from muni import AbstractMuni
 from fields import AmountField, CodeField, DescriptionField
 
 
 
-class AshdodMuni(Muni):
+class AshdodMuni(AbstractMuni):
     fields = ['code', 'name', 'amount']
     fields = {0: CodeField,
               1: DescriptionField,
