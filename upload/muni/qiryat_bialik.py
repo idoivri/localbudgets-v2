@@ -1,19 +1,9 @@
-#TODO : create a db interface...
-from server.models import Dataset
-from abstract_muni import AbstractMuni
-import csv
+from muni import AbstractMuni
+from fields import AmountField, CodeField, DescriptionField
 
 class QiryatBialikMuni(AbstractMuni):
-    fields = ['code', 'name', 'amount']
+    fields = {0: CodeField,
+              1: DescriptionField,
+              2: AmountField}  # TODO: make sure this is the right column number.
+
     MUNI = 'qiryat_bialik'
-
-    def handle_sheet(self, year, filename):
-        dataset = Dataset('raw', self.MUNI, year)
-        reader = csv.DictReader(file(filename, 'rb'), self.fields)
-
-        for line in reader:
-            self.print_str("%s : %s" %(line['code'], line['amount']))
-            if (line['name'] != '' and line['amount'].isdigit()):
-                new_line  = {'name':line['name'], 'amount':line['amount'], 'code':line['code'] }
-                dataset.insert(new_line);
-        dataset.close()
