@@ -10,7 +10,7 @@ import csv
 from visualization.utils import Dataset as tree_Dataset
 from visualization.utils import FlatenDataset as flaten_Dataset
 from visualization.tree import Tree
-from upload.utils import Dataset as raw_Dataset
+from server.models import Dataset as raw_Dataset
 
 
 SCHEME_FILENAME = 'data/schema/1994.csv'
@@ -66,7 +66,7 @@ class Muni2TreeCommand(BaseCommand):
         tree = Tree.from_dict(schema_datasset.find_one())
         tree.update_field('muni',muni)
         tree.update_field('year',year)
-        raw_dataset = raw_Dataset(muni,year)
+        raw_dataset = raw_Dataset('raw',muni,year)
         for line in raw_dataset.find({}):
             node = Tree(muni=muni,year=year,**line)
             # import pdb; pdb.set_trace()
