@@ -1,9 +1,9 @@
 #TODO : create a db interface...
 from server.models import Dataset
-from abstract_muni import AbstractMuni
+from abstract_muni import Muni
 import csv
 
-class QiryatBialikMuni(AbstractMuni):
+class QiryatBialikMuni(Muni):
     fields = ['code', 'name', 'amount']
     MUNI = 'qiryat_bialik'
 

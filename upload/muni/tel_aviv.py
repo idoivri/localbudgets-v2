@@ -1,6 +1,6 @@
-from muni import AbstractMuni
+from muni import Muni
 
-class TelAvivMuni(AbstractMuni):
+class TelAvivMuni(Muni):
     MUNI = 'tel_aviv'
     def handle_sheet(*args):
         pass

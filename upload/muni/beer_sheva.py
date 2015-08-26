@@ -1,7 +1,6 @@
 from muni import Muni
 from fields import AmountField, CodeField, DescriptionField
 
-
 class BeerMuni(Muni):
 
     fields_old = {10: CodeField,
