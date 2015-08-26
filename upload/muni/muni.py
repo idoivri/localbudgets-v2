@@ -3,7 +3,7 @@ import csv
 import logging
 
 class AbstractMuni(object):
-    """abstract municipality class"""
+    """municipality class"""
 
     fields = []
     years = []
