@@ -2,8 +2,8 @@ from server.models import Dataset
 import csv
 import logging
 
-class AbstractMuni(object):
-    """abstract municipality class"""
+class Muni(object):
+    """municipality class"""
 
     fields = []
     years = []
