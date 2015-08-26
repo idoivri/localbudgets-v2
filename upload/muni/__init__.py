@@ -6,6 +6,7 @@ from kfar_shmaryahu import KfarShmaryahuMuni
 from qiryat_bialik import QiryatBialikMuni
 from rehovot import RehovotMuni
 from rishon_letzion import RishonLetzionMuni
+from tel_aviv import TelAvivMuni
 from schema import SchemaMuni
 
 # Might need a FIXME: if we override one of the keys...
@@ -17,6 +18,7 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  QiryatBialikMuni.MUNI : QiryatBialikMuni,
                  RehovotMuni.MUNI : RehovotMuni,
                  RishonLetzionMuni.MUNI : RishonLetzionMuni,
+                 TelAvivMuni.MUNI : TelAvivMuni,
                  SchemaMuni.MUNI : SchemaMuni
 
 

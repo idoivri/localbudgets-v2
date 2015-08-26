@@ -1,6 +1,7 @@
-from abstract_muni import AbstractMuni
+from muni import AbstractMuni
 
 class RishonLetzionMuni(AbstractMuni):
     MUNI = 'rishon_letzion'
-    def handle_sheet(self, year, filename):
+    def handle_sheet(*args):
 	    pass
+
