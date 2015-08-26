@@ -44,6 +44,20 @@ var set_autocomplete = (function (is_disabled){
 
     $.each(items, function(index, item){
       var res_data = $.parseJSON(item.value);
+      console.log(res_data);
+
+      //Populate items in a list
+      var item_wrapped = $('<li/>')
+       .attr("title", res_data.muni)
+        .append(
+        $("<span/>").addClass("value").attr("data-number", res_data.muni)
+        .add(
+            $("<span/>").text(res_data.muni).addClass("number")
+          )
+        );
+      $('#auto_data').append(item_wrapped);
+
+
       var item_wrapped = $('<li/>')
        .attr("title", res_data.muni)
        .append(
@@ -53,6 +67,38 @@ var set_autocomplete = (function (is_disabled){
                 )
               );
       $('#auto_data').append(item_wrapped);
+
+      var item_wrapped = $('<li/>')
+       .attr("title", res_data.muni)
+        .append(
+        $("<span/>").addClass("value").attr("data-numnber", res_data.code)
+        .add(
+            $("<span/>").text(res_data.code).addClass("number")
+          )
+        );
+      $('#auto_data').append(item_wrapped);
+
+      var item_wrapped = $('<li/>')
+       .attr("title", res_data.muni)
+        .append(
+        $("<span/>").addClass("value").attr("data-number", res_data.name)
+        .add(
+            $("<span/>").text(res_data.name).addClass("number")
+          )
+        );
+      $('#auto_data').append(item_wrapped);
+
+      var item_wrapped = $('<li/>')
+       .attr("title", res_data.muni)
+        .append(
+        $("<span/>").addClass("value").attr("data-number", res_data.year)
+        .add(
+            $("<span/>").text(res_data.year).addClass("number")
+          )
+        );
+      $('#auto_data').append(item_wrapped).append('<br/>');
+
+
     });
     $('.chart').horizBarChart();
   });
