@@ -13,7 +13,6 @@ class AbstractMuni(object):
         self.print_data = print_data
 
     def handle_sheet( self, year, filename ):
-        print "year: ",year
         # TODO: do this more generic than this!
         dataset = Dataset('raw', self.MUNI, year)
         reader = csv.reader(file(filename, 'rb'))
@@ -22,9 +21,6 @@ class AbstractMuni(object):
             fields = self.years[year]
         else:
             fields = self.fields
-
-        print "Fields:", fields
-
 
         for line in reader:
             new_line = {}
