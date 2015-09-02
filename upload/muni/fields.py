@@ -37,9 +37,6 @@ class CodeField(AbstractField):
     name = 'code'
     # TODO
     def process(self):
-
-        print "ido:"+self.value
-
         return self.value
     
 class DescriptionField(AbstractField):
