@@ -1,4 +1,4 @@
-from abstract_muni import AbstractMuni
+from muni import AbstractMuni
 
 class SchemaMuni(AbstractMuni):
     MUNI = 'schema'
