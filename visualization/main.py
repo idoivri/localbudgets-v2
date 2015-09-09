@@ -7,7 +7,7 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 
 import csv
-from visualization.utils import Dataset as tree_Dataset
+from visualization.utils import TreeDataset as tree_Dataset
 from visualization.utils import FlatenDataset as flaten_Dataset
 from visualization.tree import Tree
 from server.models import Dataset as raw_Dataset
@@ -59,6 +59,7 @@ class TreeCommand(BaseCommand):
 
 class Muni2TreeCommand(BaseCommand):
     def handle(self, *args, **options):
+
         muni = args[0]
         year = args[1]
         print "bla for the win"
@@ -73,7 +74,7 @@ class Muni2TreeCommand(BaseCommand):
             tree.insert_node(node)
         tree.update_amount()
         dataset = tree_Dataset(muni,year, clean=True)
-        dataset = flaten_Dataset('flaten')
+        dataset = flaten_Dataset('flatten')
         # dataset.insert(tree.to_dict())
         tree.to_db(dataset)
 

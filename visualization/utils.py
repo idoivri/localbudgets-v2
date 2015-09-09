@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-class Dataset():
+class TreeDataset():
     # TODO: use a abstract way to add this implemnetation and the upload implementation.
     def __init__(self, muni, year, clean=False):
         self.client = MongoClient()

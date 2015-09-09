@@ -8,5 +8,7 @@ class RishonLetzionMuni(AbstractMuni):
               4: AmountField}
 
     MUNI = 'rishon_letzion'
+    info = {}
+
 
 

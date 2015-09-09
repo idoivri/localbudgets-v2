@@ -5,7 +5,7 @@ import os.path
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
-from server.models import del_collection
+from server.models import del_collection, Dataset
 from upload.muni import munis_loaders
 
 # TODO: maybe move this const to a module configuration file?
@@ -38,14 +38,25 @@ class UpdateCommand(BaseCommand):
             help='Clean the DB before the Command'),
         )
 
-    def handle_sheet(self, muni_object, filepath):
-        '''
-        handle each csv file in the muni directory
-        '''
-        year = parse_filename(filepath)
-        muni_object.handle_sheet(year, filepath)
-        
-         
+    # def handle_sheet(self, muni_object, filepath):
+    #     '''
+    #     handle each csv file in the muni directory
+    #     '''
+    #     year = parse_filename(filepath)
+    #     muni_object.handle_sheet(year, filepath)
+
+    def add_muni(self,muni_object, years=[]):
+        db = Dataset('munis')
+        muni_entry = db.dataset.find_one({'name':muni_object.MUNI})
+
+        if muni_entry is None:  #TODO: this is ugly
+            db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years})
+        else:
+            # import pdb; pdb.set_trace()
+            new_years = list(set(muni_entry['years']+years))
+            db.dataset.save(muni_entry)
+
+
     def handle_muni(self, muni, options):
         '''
         handle each muni in the root/data directory
@@ -58,10 +69,16 @@ class UpdateCommand(BaseCommand):
             raise NoMuniParser("no Muni parser for: %s" %(muni, ))
 
         muni_object = muni_class(print_data=options['print_data'])
-        
+        years = []
+
         for filename in os.listdir(muni_path):
-            self.handle_sheet(muni_object, join(muni_path, filename))
-        
+            # self.handle_sheet(muni_object, join(muni_path, filename))
+            year = parse_filename(filename)
+            muni_object.handle_sheet(year, join(muni_path, filename))
+            years.append(year)
+
+        self.add_muni(muni_object, years)
+
 
     def handle(self, *args, **options):
         print "bla for the win"

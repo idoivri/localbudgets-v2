@@ -19,4 +19,5 @@ class BeerMuni(AbstractMuni):
              2013: fields_2013}
     
     MUNI = 'beer_sheva'
+    info = {}
 

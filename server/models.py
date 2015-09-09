@@ -33,12 +33,14 @@ def _mongo_client():
     return MongoClient(MONGO_SERVER)
 
 class Dataset():
-    def __init__(self, collection, muni, year, clean=True):
+    def __init__(self, collection, muni=None, year=None, clean=True):
         self.client = _mongo_client()
         db = self.client.database
-        db = db[collection]
-        munidb = db[muni]
-        self.dataset = munidb[year]
+        self.dataset = db[collection]
+        if muni:
+            self.dataset = self.dataset[muni]
+            if year:
+                self.dataset = self.dataset[year]
     
     def __getattr__(self, attr):
         return self.dataset.__getattribute__(attr)

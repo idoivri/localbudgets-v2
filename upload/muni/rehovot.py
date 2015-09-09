@@ -7,3 +7,4 @@ class RehovotMuni(AbstractMuni):
               3: AmountField}
 
      MUNI = 'rehovot'
+     info = {}

@@ -7,3 +7,4 @@ class QiryatBialikMuni(AbstractMuni):
               2: AmountField}  # TODO: make sure this is the right column number.
 
     MUNI = 'qiryat_bialik'
+    info = {}
