@@ -5,7 +5,7 @@ import os.path
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
-from server.models import del_collection, Dataset
+from server.models import get_munis
 from upload.muni import munis_loaders
 
 # TODO: maybe move this const to a module configuration file?
@@ -46,7 +46,7 @@ class UpdateCommand(BaseCommand):
     #     muni_object.handle_sheet(year, filepath)
 
     def add_muni(self,muni_object, years=[]):
-        db = Dataset('munis')
+        db = get_munis()
         muni_entry = db.dataset.find_one({'name':muni_object.MUNI})
 
         if muni_entry is None:  #TODO: this is ugly
@@ -68,7 +68,7 @@ class UpdateCommand(BaseCommand):
         else:
             raise NoMuniParser("no Muni parser for: %s" %(muni, ))
 
-        muni_object = muni_class(print_data=options['print_data'])
+        muni_object = muni_class(print_data=options['print_data'],clean=options['clean'])
         years = []
 
         for filename in os.listdir(muni_path):
@@ -82,9 +82,8 @@ class UpdateCommand(BaseCommand):
 
     def handle(self, *args, **options):
         print "bla for the win"
-        if options['clean']:
-            del_collection('raw')
-
+        # if options['clean']:
+        #     del_collection(RAW_COLLECTION)
         muni_list = os.listdir(join(root_dir, DATA_DIR))
         if len(args) > 0:
             muni_list = filter(lambda x: x in muni_list,args)

@@ -2,6 +2,7 @@
 from django.db import models
 from pymongo import MongoClient
 from settings import MONGO_SERVER
+import itertools
 
 # TODO: put it somewhere else.
 INFLATION = {1992: 2.338071159424868,
@@ -29,24 +30,74 @@ INFLATION = {1992: 2.338071159424868,
  2014: 1.0,
 }
 
+RAW_COLLECTION = 'raw'
+MUNIS_COLLECTION = 'munis'
+FLATTEN_COLLECTION = 'flatten'
+SCHEME_COLLECTION = 'scheme'
+
+def cleaner(func):
+    def f(*args, **kwargs):
+        ds = func(*args)
+        if 'clean' in kwargs and kwargs['clean']:
+            ds.drop()
+        return ds
+    return f
+
+
 def _mongo_client():
     return MongoClient(MONGO_SERVER)
+def _get_database(client):
+    return client.database
 
 class Dataset():
-    def __init__(self, collection, muni=None, year=None, clean=True):
+    def __init__(self, pointer):
         self.client = _mongo_client()
         db = self.client.database
-        self.dataset = db[collection]
-        if muni:
-            self.dataset = self.dataset[muni]
-            if year:
-                self.dataset = self.dataset[year]
-    
+        self.dataset = db
+        # import pdb; pdb.set_trace()
+        for arg in pointer:
+            self.dataset = self.dataset[arg]
+        # self.client = client
+        # self.dataset = dataset
+
+        # if clean:
+        #    self.dataset.drop()
+
     def __getattr__(self, attr):
         return self.dataset.__getattribute__(attr)
-    
+
+    # def set_dataset(self,ds):
+    #     self.dataset = ds
+
     def close(self):
         self.client.close()
+
+@cleaner
+def get_budget(muni,year):
+    return Dataset([RAW_COLLECTION,muni,year])
+
+
+@cleaner
+def get_flatten():
+    return Dataset([FLATTEN_COLLECTION])
+
+@cleaner
+def get_munis():
+    return Dataset([MUNIS_COLLECTION])
+
+@cleaner
+def get_scheme():
+    return Dataset([SCHEME_COLLECTION])
+
+
+
+def muni_iter():
+    munis = get_munis()
+    iter = ()
+    for muni in munis.find():
+        # import pdb; pdb.set_trace()
+        iter =  itertools.chain(iter,((muni['name'],year,get_budget(muni['name'], str(year))) for year in muni['years']))
+    return iter
 
 def del_collection(collection_name):
     client = _mongo_client()

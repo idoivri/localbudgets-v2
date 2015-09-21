@@ -1,4 +1,4 @@
-from server.models import Dataset
+from server.models import get_budget
 import csv
 import logging
 
@@ -9,12 +9,13 @@ class AbstractMuni(object):
     years = []
     muni = "Unknown"
 
-    def __init__(self, print_data=False):
+    def __init__(self, print_data=False, clean=False):
         self.print_data = print_data
+        self.clean = clean
 
-    def handle_sheet( self, year, filename ):
+    def handle_sheet(self, year, filename):
         # TODO: do this more generic than this!
-        dataset = Dataset('raw', self.MUNI, year)
+        dataset = get_budget(self.MUNI, year, clean = self.clean)
         reader = csv.reader(file(filename, 'rb'))
 
         if year in self.years:
