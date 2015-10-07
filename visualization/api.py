@@ -1,9 +1,9 @@
-from visualization.utils import FlatenDataset as flaten_Dataset
+from server.models import get_flatten
 import re
 
 def search_code(code):
     # TODO : rewrite this code 
-    dataset = flaten_Dataset('flaten')
+    dataset = get_flatten()
     results = []
     code_rex = re.compile("^%s*" %(code,))
     for item in dataset.find({'code': code_rex}):
@@ -12,5 +12,5 @@ def search_code(code):
                                                         and (key != 'children')})
     for result in results:
         result['amount'] = int(result['amount'])
-
+    dataset.close()
     return results
