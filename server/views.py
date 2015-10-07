@@ -4,16 +4,17 @@ from pymongo import MongoClient
 from pymongo import MongoClient as client
 from django.shortcuts import render
 
-from upload.utils import Dataset
+from server.models import get_budget
 
 def show_table(request, muni_name,year):
     client = MongoClient()
-    db = client.database
-    muni = Dataset(muni_name,year)
+    # db = client.database
+    muni = get_budget(muni_name,year)
     lines = []
     for line in muni.find():
         lines.append(line)
-
+    
+    muni.close()
     return render(request, 'simple_table.html', {'query_results':lines} )
 
 def index_page(request):
