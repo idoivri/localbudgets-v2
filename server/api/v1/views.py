@@ -64,5 +64,5 @@ def get_autocomplete(request):
         res.append({'id':key_id,'label':'','value':json.dumps(results_dict[key])})
 
 
-    print res
+    # print res
     return HttpResponse(json.dumps(res), 'application/json')

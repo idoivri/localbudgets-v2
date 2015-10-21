@@ -45,11 +45,14 @@ class UpdateCommand(BaseCommand):
     #     year = parse_filename(filepath)
     #     muni_object.handle_sheet(year, filepath)
 
-    def add_muni(self,muni_object, years=[]):
+    def add_muni(self,muni_object, years=None):
         db = get_munis()
         muni_entry = db.dataset.find_one({'name':muni_object.MUNI})
 
-        if muni_entry is None:  #TODO: this is ugly
+        if years is None:
+            years = []
+
+        if muni_entry is None:
             db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years})
         else:
             # import pdb; pdb.set_trace()
