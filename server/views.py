@@ -4,14 +4,16 @@ from pymongo import MongoClient
 from pymongo import MongoClient as client
 from django.shortcuts import render
 
-from server.models import get_budget, get_munis
+from server.models import get_budget, muni_iter
 
 from collections import defaultdict
+
+from server.models import get_raw_budget
 
 def show_table(request, muni_name,year):
     # client = MongoClient()
     # db = client.database
-    muni = get_budget(muni_name,year)
+    muni = get_raw_budget(muni_name,year)
     lines = []
     for line in muni.find():
         lines.append(line)
@@ -40,7 +42,7 @@ def index_page(request):
     # client = muni_
 
     res = defaultdict(list)
-    for muni,year in get_munis():
+    for muni,year in muni_iter():
         res[muni].append(year)
 
     for muni in res:

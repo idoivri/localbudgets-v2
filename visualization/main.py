@@ -7,7 +7,7 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 
 import csv
-from server.models import get_budget,get_flatten,get_scheme,muni_iter
+from server.models import get_raw_budget,get_flatten,get_scheme,muni_iter
 from visualization.tree import Tree
 
 
@@ -59,11 +59,12 @@ class Muni2TreeCommand(BaseCommand):
 
         schema_datasset = get_scheme()
         flatten_dataset = get_flatten()
-        for (muni,year,budget_dataset) in muni_iter():
-
+        for (muni,year) in muni_iter():
+            print muni, year
             tree = Tree.from_dict(schema_datasset.find_one())
             tree.update_field('muni',muni)
             tree.update_field('year',year)
+            budget_dataset = get_raw_budget(muni,year)
             for line in budget_dataset.find({}):
                 node = Tree(muni=muni,year=year,**line)
                 tree.insert_node(node)

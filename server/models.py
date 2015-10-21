@@ -73,9 +73,12 @@ class Dataset():
         self.client.close()
 
 @cleaner
-def get_budget(muni,year):
+def get_raw_budget(muni,year):
     return Dataset([RAW_COLLECTION,muni,year])
 
+@cleaner
+def get_budget(muni,year):
+    return Dataset([FLATTEN_COLLECTION]).find({'muni': muni,'year': year})
 
 @cleaner
 def get_flatten():
@@ -93,11 +96,11 @@ def get_scheme():
 
 def muni_iter():
     munis = get_munis()
-    iter = ()
     for muni in munis.find():
-        # import pdb; pdb.set_trace()
-        iter =  itertools.chain(iter,((muni['name'],year,get_budget(muni['name'], str(year))) for year in muni['years']))
-    return iter
+        for year in muni['years']:
+            yield (muni['name'], year)
+
+    munis.close()
 
 def del_collection(collection_name):
     client = _mongo_client()
