@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 
 <html>
     <head>
@@ -56,21 +56,34 @@
             <div class="col-md-4" style="text-align:center">
 
 
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  בחר עירייה
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="muni_dropdown">
+                  {% for muni_name in munis %}
+                  <li><a href="#">{{ muni_name }}</a></li>
+                  <!-- <li><a href="#">Another action</a></li> -->
+                  <!-- <li><a href="#">Something else here</a></li> -->
+                  <!-- <li><a href="#">Separated link</a></li> -->
+                </ul>
+              </div>
+
               <div class="input-group">
                 <input type="text" class="form-control" id="search_input" placeholder="מה תרצה לחפש?">
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="button" id="search_btn">חפש!</button>
                 </span>
               </div>
-
-              <div class="btn-group" data-toggle="buttons" id="search_type">
+              <!-- <div class="btn-group" data-toggle="buttons" id="search_type">
                   <label class="btn btn-default active">
                       <input type="radio" id="static_search" /> חיפוש רגיל
                   </label>
                   <label class="btn btn-default ">
                       <input type="radio" id="dynamic_search"  /> חיפוש דינאמי
                   </label>
-              </div>
+              </div> -->
 
             </div>
             <!-- Empty column -->
