@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'get_query_result', get_query_result, name="get_query_result"),
     url(r'^lines', commands.lines, name="lines"),
     url(r'^get_autocomplete', get_autocomplete, name="autocomplete"),
+    url(r'^get_muni_years', commands.get_muni_years, name="get_muni_years")
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

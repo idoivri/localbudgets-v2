@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from pymongo import MongoClient as client
 from django.shortcuts import render
 
-from server.models import get_budget, muni_iter
+from server.models import get_budget, get_muni_names
 
 from collections import defaultdict
 
@@ -41,12 +41,14 @@ def index_page(request):
     # res.append(muni)
     # client = muni_
 
-    res = defaultdict(list)
-    for muni,year in muni_iter():
-        res[muni].append(year)
+    # res = defaultdict(list)
+    # for muni,year in muni_iter():
+    #     res[muni].append(year)
+    #
+    # for muni in res:
+    #     res[muni].sort()
 
-    for muni in res:
-        res[muni].sort()
+    res = [muni for muni in get_muni_names()]
 
     # muni.close()
-    return render(request,'index.html', {'munis': res.keys() , 'years':res})
+    return render(request,'index.html', {'munis': res})

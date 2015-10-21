@@ -63,11 +63,22 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="muni_dropdown">
                   {% for muni_name in munis %}
-                  <li><a href="#">{{ muni_name }}</a></li>
-                  <!-- <li><a href="#">Another action</a></li> -->
-                  <!-- <li><a href="#">Something else here</a></li> -->
-                  <!-- <li><a href="#">Separated link</a></li> -->
+                  <li><a href="#" id="{{muni_name}}">{{ muni_name }}</a></li>
+                  {% endfor %}
+
                 </ul>
+
+                <button class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  בחר שנה
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="years_dropdown" id="years_dropdown_vals">
+                  <!-- {% for muni_name in munis %} -->
+                  <!-- <li><a href="#" id="{{muni_name}}">{{ muni_name }}</a></li> -->
+                  <!-- {% endfor %} -->
+
+                </ul>
+
               </div>
 
               <div class="input-group">

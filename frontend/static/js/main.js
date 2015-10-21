@@ -178,6 +178,16 @@ var set_basic_search = (function(){
 
 
 $(document).ready(function() {
+
+  $(function(){
+
+     $(".dropdown-menu").on('click', 'li a', function(){
+       $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
+       $("#muni_dropdown:first-child").val($(this).val());
+    });
+
+ });
+
   set_autocomplete(true);
 
   $('#search_type.btn-group').click(function(){
@@ -191,6 +201,10 @@ $(document).ready(function() {
        set_autocomplete(false);
      }
   })
+
+
+  
+
   //
   // $("#advanced_search").click(function(){
   //   $("#advanced_search_form").attr('class', 'visible');

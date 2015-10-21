@@ -7,6 +7,8 @@ from pymongo import MongoClient as client
 from rest_framework.renderers import JSONRenderer
 from collections import defaultdict
 
+from server.models import get_muni_years
+
 _heb_convert = { u'hura':u"הופה היי" }
 
 def find_term(term, line):
@@ -160,6 +162,16 @@ def get_res(request):
     #         "children" : children}
 
     # return res
+
+
+@api_view(['GET'])
+def get_muni_years(request):
+    """The entry endpoint of our v1 API"""
+    years = [year for year in get_muni_years(request.name)]
+
+    return Response(JSONRenderer().render({
+        'res' : years,
+    }))
 
 
 @api_view(['GET'])
