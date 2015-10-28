@@ -184,9 +184,16 @@ $(document).ready(function() {
      $(".dropdown-menu").on('click', 'li a', function(){
        $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
        $("#muni_dropdown:first-child").val($(this).val());
+
+       $.get('/api/v1/get_query_result',
+           {
+             advanced : false,
+             term: search_term
+           }
+       );
     });
 
- });
+  });
 
   set_autocomplete(true);
 
@@ -203,7 +210,7 @@ $(document).ready(function() {
   })
 
 
-  
+
 
   //
   // $("#advanced_search").click(function(){
