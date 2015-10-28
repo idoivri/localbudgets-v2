@@ -175,7 +175,11 @@ var set_basic_search = (function(){
 //   });
 // });
 
+var get_data = (function(name,year){
 
+alert([name, year])
+
+});
 
 $(document).ready(function() {
 
@@ -184,7 +188,7 @@ $(document).ready(function() {
      $(".muni_name").on('click', function(){
 
        $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
-       $("#muni_dropdown:first-child").val($(this).val());
+       $("#muni_dropdown:first-child").val($(this).attr('id'));
 
        // Clear previous results
        $("#years_dropdown_vals").empty()
@@ -203,20 +207,17 @@ $(document).ready(function() {
                           on('click', function(){
                             $("#years_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
                             $("#years_dropdown:first-child").val($(this).val());
+                            get_data($("#muni_dropdown:first-child").val(), $(this).text())
                           })
                  );
 
                $("#years_dropdown_vals").append( item_wrapped ) ;
              });
-
-
            }
        );
        $("#years_dropdown").removeClass("disabled");
 
     });
-
-    // $(".muni_year")
 
   });
   //
