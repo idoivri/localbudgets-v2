@@ -7,7 +7,7 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 
 import csv
-from server.models import get_raw_budget,get_flatten,get_scheme,muni_iter
+from server.models import get_raw_budget,get_flatten,get_scheme,muni_iter,update_root
 from visualization.tree import Tree
 
 
@@ -70,8 +70,8 @@ class Muni2TreeCommand(BaseCommand):
                 tree.insert_node(node)
 
             tree.update_amount()
-            tree.to_db(flatten_dataset)
-
+            root = tree.to_db(flatten_dataset)
+            update_root(muni,year,root)
             budget_dataset.close()
 
         schema_datasset.close()

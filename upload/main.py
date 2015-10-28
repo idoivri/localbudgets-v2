@@ -10,6 +10,7 @@ from upload.muni import munis_loaders
 
 # TODO: maybe move this const to a module configuration file?
 DATA_DIR = 'data'
+SCHEMA = 'schema'
 
 # TODO: add options
 
@@ -56,7 +57,7 @@ class UpdateCommand(BaseCommand):
             db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years})
         else:
             # import pdb; pdb.set_trace()
-            new_years = list(set(muni_entry['years']+years))
+            muni_entry['years'] = list(set(muni_entry['years']+years))
             db.dataset.save(muni_entry)
 
 
@@ -87,7 +88,7 @@ class UpdateCommand(BaseCommand):
         print "bla for the win"
         # if options['clean']:
         #     del_collection(RAW_COLLECTION)
-        muni_list = os.listdir(join(root_dir, DATA_DIR))
+        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR)) if not muni==SCHEMA]
         if len(args) > 0:
             muni_list = filter(lambda x: x in muni_list,args)
 

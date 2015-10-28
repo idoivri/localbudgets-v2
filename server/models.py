@@ -102,6 +102,16 @@ def muni_iter():
 
     munis.close()
 
+def update_root(muni,year,root):
+    munis=get_munis()
+    entry = munis.find_one({'name':muni})
+    if not 'roots' in entry.keys():
+        entry['roots'] = {}
+    entry['roots'][str(year)] = root
+    munis.save(entry)
+    munis.close()
+
+
 def del_collection(collection_name):
     client = _mongo_client()
     db = client.database
