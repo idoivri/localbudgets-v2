@@ -187,17 +187,26 @@ $(document).ready(function() {
 
        // Clear previous results
        $("#years_dropdown_vals").empty()
-
+       //
        $.get('/api/v1/get_muni_year',
            {
-             name : $(this).val(),
-             sucess: function(result){
-               alert(result);
-             }
+             name : $(this).text()
+           },
+           function(result){
+             years = $.parseJSON(result).res;
+
+             $.each(years, function(index, year){
+
+               var item_wrapped = $('<li/>').append(
+                        $("<a/>").attr("id",year).text(year)
+                 );
+
+               $("#years_dropdown_vals").append( item_wrapped ) ;
+
+             });
            }
        );
        $("#years_dropdown").removeClass('disabled');
-      //  $("#years_dropdown_vals").enable()
     });
 
   });
