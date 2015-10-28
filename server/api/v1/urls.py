@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^$', api_index, name='api_v1'),
     url(r'get_query_result', get_query_result, name="get_query_result"),
     url(r'^get_autocomplete', get_autocomplete, name="autocomplete"),
+    url(r'^get_muni_year', commands.get_muni_year, name="get_muni_year"),
 
 ]
 

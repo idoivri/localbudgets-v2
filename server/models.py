@@ -106,7 +106,7 @@ def get_muni_years(muni_name):
     munis = get_munis()
 
     muni = munis.find_one({'name':muni_name})
-    for year in muni['years']:
+    for year in sorted(muni['years']):
         yield year
 
     munis.close()

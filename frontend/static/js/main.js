@@ -185,12 +185,19 @@ $(document).ready(function() {
        $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
        $("#muni_dropdown:first-child").val($(this).val());
 
-       $.get('/api/v1/get_query_result',
+       // Clear previous results
+       $("#years_dropdown_vals").empty()
+
+       $.get('/api/v1/get_muni_year',
            {
-             advanced : false,
-             term: search_term
+             name : $(this).val(),
+             sucess: function(result){
+               alert(result);
+             }
            }
        );
+       $("#years_dropdown").removeClass('disabled');
+      //  $("#years_dropdown_vals").enable()
     });
 
   });
