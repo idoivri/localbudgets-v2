@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 
 <html>
     <head>
@@ -28,6 +28,22 @@
 
     <body>
 
+      <ul class="rtl nav nav-tabs " style="float: right">
+        <li role="presentation"><a href="#">קרדיטים</a></li>
+        <li role="presentation"><a href="#">אודות הפרוייקט</a></li>
+        <li role="presentation" class="active"><a href="#">בית</a></li>
+      </ul>
+
+
+      <div class="container-fluid center-block rtl">
+          <div class="row">
+            <div class=".col-md-4 .col-md-offset-4">
+              <img src="{{ STATIC_URL }}images/sadna-logo.png" class="text-center">
+            </div>
+          </div>
+      </div>
+
+
       <div class="container-fluid center-block rtl">
           <div class="row">
 
@@ -56,21 +72,42 @@
             <div class="col-md-4" style="text-align:center">
 
 
-              <div class="input-group">
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown">
+                  בחר עירייה
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="muni_dropdown">
+                  {% for muni_name in munis %}
+                  <li><a href="#" id="{{muni_name}}" class="muni_name">{{ muni_name }}</a></li>
+                  {% endfor %}
+
+                </ul>
+              </div>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown">
+                  בחר שנה
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu"  id="years_dropdown_vals" aria-labelledby="years_dropdown">
+
+                </ul>
+              </div>
+
+              <!-- <div class="input-group">
                 <input type="text" class="form-control" id="search_input" placeholder="מה תרצה לחפש?">
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="button" id="search_btn">חפש!</button>
                 </span>
-              </div>
-
-              <div class="btn-group" data-toggle="buttons" id="search_type">
+              </div> -->
+              <!-- <div class="btn-group" data-toggle="buttons" id="search_type">
                   <label class="btn btn-default active">
                       <input type="radio" id="static_search" /> חיפוש רגיל
                   </label>
                   <label class="btn btn-default ">
                       <input type="radio" id="dynamic_search"  /> חיפוש דינאמי
                   </label>
-              </div>
+              </div> -->
 
             </div>
             <!-- Empty column -->

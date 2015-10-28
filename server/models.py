@@ -92,7 +92,24 @@ def get_munis():
 def get_scheme():
     return Dataset([SCHEME_COLLECTION])
 
+@cleaner
+def get_muni_names():
+    munis = get_munis()
 
+    for muni in munis.find():
+        yield muni['name']
+
+    munis.close()
+
+@cleaner
+def get_muni_years(muni_name):
+    munis = get_munis()
+
+    muni = munis.find_one({'name':muni_name})
+    for year in sorted(muni['years']):
+        yield year
+
+    munis.close()
 
 def muni_iter():
     munis = get_munis()
@@ -121,4 +138,3 @@ def del_collection(collection_name):
         collection.drop()
 
     client.close()
-    

@@ -175,22 +175,69 @@ var set_basic_search = (function(){
 //   });
 // });
 
+var get_data = (function(name,year){
 
+alert([name, year])
+
+});
 
 $(document).ready(function() {
-  set_autocomplete(true);
 
-  $('#search_type.btn-group').click(function(){
+  $(function(){
 
-     var search = $('#search_type .btn-group .active').attr("id");
+     $(".muni_name").on('click', function(){
 
-     if(search === "static_search"){
-       set_autocomplete(true);
-       $('#auto_data').empty();
-     } else{
-       set_autocomplete(false);
-     }
-  })
+       $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
+       $("#muni_dropdown:first-child").val($(this).attr('id'));
+
+       // Clear previous results
+       $("#years_dropdown_vals").empty()
+       //
+       $.get('/api/v1/get_muni_year',
+           {
+             name : $(this).text()
+           },
+           function(result){
+             years = $.parseJSON(result).res;
+            //  alert(years)
+             $.each(years, function(index, year){
+
+               var item_wrapped = $('<li/>').append(
+                        $("<a/>").attr("id",year).text(year).addClass("muni_year").
+                          on('click', function(){
+                            $("#years_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
+                            $("#years_dropdown:first-child").val($(this).val());
+                            get_data($("#muni_dropdown:first-child").val(), $(this).text())
+                          })
+                 );
+
+               $("#years_dropdown_vals").append( item_wrapped ) ;
+             });
+           }
+       );
+       $("#years_dropdown").removeClass("disabled");
+
+    });
+
+  });
+  //
+  // set_autocomplete(true);
+  //
+  // $('#search_type.btn-group').click(function(){
+  //
+  //    var search = $('#search_type .btn-group .active').attr("id");
+  //
+  //    if(search === "static_search"){
+  //      set_autocomplete(true);
+  //      $('#auto_data').empty();
+  //    } else{
+  //      set_autocomplete(false);
+  //    }
+  // })
+
+
+
+
   //
   // $("#advanced_search").click(function(){
   //   $("#advanced_search_form").attr('class', 'visible');

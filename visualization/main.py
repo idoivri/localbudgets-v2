@@ -51,7 +51,6 @@ class TreeCommand(BaseCommand):
         dataset.insert(root.to_dict())
         dataset.close()
 
-        print dict
 
 class Muni2TreeCommand(BaseCommand):
     def handle(self, *args, **options):
