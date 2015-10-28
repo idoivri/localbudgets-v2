@@ -21,4 +21,4 @@ def index_page(request):
 
     # res = [muni for muni in get_muni_names()]
 
-    return render(request,'index.html', {'munis': res})
+    return render(request,'index.html', {'munis': res.keys(), 'muni_years' : res })
