@@ -17,8 +17,8 @@ def get_muni_year(request):
     else:
         years = []
 
-    logger = logging.getLogger()
-    logger.warning(years)
+    # logger = logging.getLogger()
+    # logger.warning(years)
 
     return Response(JSONRenderer().render({
         'res' : years,
