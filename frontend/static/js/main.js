@@ -210,20 +210,20 @@ $(document).ready(function() {
     });
 
   });
-
-  set_autocomplete(true);
-
-  $('#search_type.btn-group').click(function(){
-
-     var search = $('#search_type .btn-group .active').attr("id");
-
-     if(search === "static_search"){
-       set_autocomplete(true);
-       $('#auto_data').empty();
-     } else{
-       set_autocomplete(false);
-     }
-  })
+  // 
+  // set_autocomplete(true);
+  //
+  // $('#search_type.btn-group').click(function(){
+  //
+  //    var search = $('#search_type .btn-group .active').attr("id");
+  //
+  //    if(search === "static_search"){
+  //      set_autocomplete(true);
+  //      $('#auto_data').empty();
+  //    } else{
+  //      set_autocomplete(false);
+  //    }
+  // })
 
 
 
