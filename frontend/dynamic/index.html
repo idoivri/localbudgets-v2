@@ -28,6 +28,22 @@
 
     <body>
 
+      <ul class="rtl nav nav-tabs " style="float: right">
+        <li role="presentation"><a href="#">קרדיטים</a></li>
+        <li role="presentation"><a href="#">אודות הפרוייקט</a></li>
+        <li role="presentation" class="active"><a href="#">בית</a></li> 
+      </ul>
+
+
+      <div class="container-fluid center-block rtl">
+          <div class="row">
+            <div class=".col-md-4 .col-md-offset-4">
+              <img src="{{ STATIC_URL }}images/sadna-logo.png" class="text-center">
+            </div>
+          </div>
+      </div>
+
+
       <div class="container-fluid center-block rtl">
           <div class="row">
 
@@ -57,7 +73,7 @@
 
 
               <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown">
                   בחר עירייה
                   <span class="caret"></span>
                 </button>
@@ -67,15 +83,15 @@
                   {% endfor %}
 
                 </ul>
-              </div>
-              <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                <button class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown">
                   בחר שנה
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu"  id="years_dropdown_vals" aria-labelledby="years_dropdown">
 
                 </ul>
+
               </div>
 
               <div class="input-group">
