@@ -181,7 +181,8 @@ $(document).ready(function() {
 
   $(function(){
 
-     $(".dropdown-menu").on('click', 'li a', function(){
+     $(".muni_name").on('click', function(){
+
        $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
        $("#muni_dropdown:first-child").val($(this).val());
 
@@ -194,23 +195,31 @@ $(document).ready(function() {
            },
            function(result){
              years = $.parseJSON(result).res;
-
+            //  alert(years)
              $.each(years, function(index, year){
 
                var item_wrapped = $('<li/>').append(
-                        $("<a/>").attr("id",year).text(year)
+                        $("<a/>").attr("id",year).text(year).addClass("muni_year").
+                          on('click', function(){
+                            $("#years_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
+                            $("#years_dropdown:first-child").val($(this).val());
+                          })
                  );
 
                $("#years_dropdown_vals").append( item_wrapped ) ;
-
              });
+
+
            }
        );
-       $("#years_dropdown").removeClass('disabled');
+       $("#years_dropdown").removeClass("disabled");
+
     });
 
+    // $(".muni_year")
+
   });
-  // 
+  //
   // set_autocomplete(true);
   //
   // $('#search_type.btn-group').click(function(){
