@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from pymongo import MongoClient as client
 from django.shortcuts import render
 
-from server.models import get_budget, get_muni_names, muni_iter
+from server.models import  get_muni_names, muni_iter
 
 from collections import defaultdict
 
