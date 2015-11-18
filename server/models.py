@@ -76,9 +76,10 @@ class Dataset():
 def get_raw_budget(muni,year):
     return Dataset([RAW_COLLECTION,muni,year])
 
-@cleaner
-def get_budget(muni,year):
-    return Dataset([FLATTEN_COLLECTION]).find({'muni': muni,'year': year})
+# Depracated since it can't be closed. use get flatten
+# @cleaner
+# def get_budget(muni,year):
+#     return Dataset([FLATTEN_COLLECTION]).find({'muni': muni,'year': year})
 
 @cleaner
 def get_flatten():
@@ -119,14 +120,7 @@ def muni_iter():
 
     munis.close()
 
-def update_root(muni,year,root):
-    munis=get_munis()
-    entry = munis.find_one({'name':muni})
-    if not 'roots' in entry.keys():
-        entry['roots'] = {}
-    entry['roots'][str(year)] = root
-    munis.save(entry)
-    munis.close()
+
 
 
 def del_collection(collection_name):

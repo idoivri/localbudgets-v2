@@ -1,16 +1,37 @@
-from server.models import get_flatten
+from server.models import get_flatten,get_munis
+from tree import Tree
 import re
 
-def search_code(code):
+def search_code(muni,year,code):
     # TODO : rewrite this code 
     dataset = get_flatten()
     results = []
     code_rex = re.compile("^%s*" %(code,))
-    for item in dataset.find({'code': code_rex}):
-        results.append({key: value 
-                        for key, value in item.items() if (key != "_id") 
-                                                        and (key != 'children')})
+    for item in dataset.find({'muni':muni,'year':year,'code': code_rex}):
+        results.append({key: value for key, value in item.items() if (key != "_id") and (key != 'children')})
+
     for result in results:
         result['amount'] = int(result['amount'])
     dataset.close()
     return results
+
+
+def get_budget_tree(muni,year):
+    dataset = get_flatten()
+    root = get_root(muni,year)
+    dataset.close()
+    return root
+
+
+
+def get_root(muni,year):
+    munis=get_munis()
+    flatten = get_flatten()
+    entry = munis.find_one({'name':muni})
+    root_id =  entry['roots'][str(year)]
+    root = flatten.find_one(root_id)
+    root_tree = Tree.from_db(flatten,root)
+
+    munis.close()
+    flatten.close()
+    return root_tree

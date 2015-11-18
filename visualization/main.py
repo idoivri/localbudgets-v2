@@ -76,3 +76,11 @@ class Muni2TreeCommand(BaseCommand):
         schema_datasset.close()
         flatten_dataset.close()
 
+def update_root(muni,year,root):
+    munis=get_munis()
+    entry = munis.find_one({'name':muni})
+    if not 'roots' in entry.keys():
+        entry['roots'] = {}
+    entry['roots'][str(year)] = root
+    munis.save(entry)
+    munis.close()

@@ -9,6 +9,7 @@ from pymongo import MongoClient as client
 
 from server.utils.utils import get_res
 from visualization.api import search_code
+from visualization.api import get_budget_tree as vis_get_budget_tree
 
 import itertools, random, json
 
@@ -45,3 +46,9 @@ def get_autocomplete(request):
 
     # print res
     return HttpResponse(json.dumps(res), 'application/json')
+
+@api_view(['GET'])
+def get_budget_tree(request):
+    muni = request.GET.get('muni')
+    year = request.GET.get('year')
+    return HttpResponse(vis_get_budget_tree(muni,year))
