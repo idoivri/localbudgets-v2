@@ -175,9 +175,9 @@ var set_basic_search = (function(){
 //   });
 // });
 
-var get_data = (function(name,year){
+var get_data = (function(muni,year){
 
-alert([name, year])
+alert([muni, year])
 
 var width = 960,
     height = 700,
@@ -206,9 +206,13 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-d3.json("/api/v1/get_blabla", function(error, root) {
+d3.json("/api/v1/get_budget_tree?muni=" + muni + "&year=" + year.toString(), function(error, root) {
   if (error) throw error;
-  var root = JSON.parse(root);
+//  var root = JSON.parse(root);
+  alert(root);
+  var g = svg.selectAll("g")
+      .data(partition.nodes(root))
+    .enter().append("g");
 
   var path = svg.selectAll("path")
       .data(partition.nodes(root))
@@ -217,10 +221,32 @@ d3.json("/api/v1/get_blabla", function(error, root) {
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .on("click", click);
 
+  var text = g.append("text")
+    .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+    .attr("x", function(d) { return y(d.y); })
+    .attr("dx", "6") // margin
+    .attr("dy", ".35em") // vertical-align
+    .text(function(d) { return d.name; });
+
   function click(d) {
+    // fade out all text elements
+    text.transition().attr("opacity", 0);
+
     path.transition()
       .duration(750)
-      .attrTween("d", arcTween(d));
+      .attrTween("d", arcTween(d))
+      .each("end", function(e, i) {
+          // check if the animated element's data e lies within the visible angle span given in d
+          if (e.x >= d.x && e.x < (d.x + d.dx)) {
+            // get a selection of the associated text element
+            var arcText = d3.select(this.parentNode).select("text");
+            // fade in the text element and recalculate positions
+            arcText.transition().duration(750)
+              .attr("opacity", 1)
+              .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+              .attr("x", function(d) { return y(d.y); });
+          }
+      });
   }
 });
 

@@ -57,18 +57,27 @@ class Tree(object):
         return root
 
 
-    def to_dict(self):
+    def to_dict(self, level=999):
         if isinstance(self.amount, UndefinedAmount):
             amount = None
         else:
             amount = str(self.amount)
 
-        return {'code': self.code,
+        tree_dict = {'code': self.code,
                 'amount': amount,
+                # TODO: Fix this hack. (Nitzan happy now?)
+                'size': amount,
                 'name': self.name,
                 'muni': self.muni,
                 'year': self.year,
-                'children': [i.to_dict() for i in self.children]}
+                }
+
+        if level > 0:
+            tree_dict['children'] = [i.to_dict(level -1) for i in self.children]
+
+        return tree_dict
+        
+            
 
 
     def node_to_db(self,dataset,children):

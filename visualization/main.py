@@ -7,7 +7,7 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 
 import csv
-from server.models import get_raw_budget,get_flatten,get_scheme,muni_iter,update_root
+from server.models import get_raw_budget,get_flatten, get_scheme,muni_iter, get_munis
 from visualization.tree import Tree
 
 

@@ -20,7 +20,7 @@ def get_budget_tree(muni,year):
     dataset = get_flatten()
     root = get_root(muni,year)
     dataset.close()
-    return root
+    return root.to_dict(4)
 
 
 
