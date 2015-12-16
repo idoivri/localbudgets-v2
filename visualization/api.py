@@ -3,7 +3,7 @@ from tree import Tree
 import re
 
 def search_code(muni,year,code):
-    # TODO : rewrite this code 
+    # TODO : rewrite this code
     dataset = get_flatten()
     results = []
     code_rex = re.compile("^%s*" %(code,))
@@ -20,7 +20,7 @@ def get_budget_tree(muni,year):
     dataset = get_flatten()
     root = get_root(muni,year)
     dataset.close()
-    return root.to_dict(4)
+    return root.to_dict(1)
 
 
 

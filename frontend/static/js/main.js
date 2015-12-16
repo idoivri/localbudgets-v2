@@ -191,7 +191,7 @@ var y = d3.scale.sqrt()
 
 var color = d3.scale.category20c();
 
-var svg = d3.select("#example").append("svg")
+var svg = d3.select("#auto_data").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
@@ -216,7 +216,7 @@ d3.json("/api/v1/get_budget_tree?muni=" + muni + "&year=" + year.toString(), fun
 
   var path = svg.selectAll("path")
       .data(partition.nodes(root))
-    .enter().append("path")
+      .enter().append("path")
       .attr("d", arc)
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .on("click", click);
@@ -247,6 +247,9 @@ d3.json("/api/v1/get_budget_tree?muni=" + muni + "&year=" + year.toString(), fun
               .attr("x", function(d) { return y(d.y); });
           }
       });
+  }
+  function computeTextRotation(d){
+    return (x(d.x +d.dx /2) - Math.PI/2) / Math.PI * 180;
   }
 });
 
@@ -291,8 +294,8 @@ $(document).ready(function() {
                         $("<a/>").attr("id",year).text(year).addClass("muni_year").
                           on('click', function(){
                             $("#years_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
-                            $("#years_dropdown:first-child").val($(this).val());
-                            get_data($("#muni_dropdown:first-child").val(), $(this).text())
+                            $("#years_dropdown:first-child").val($(this).text());
+                            $("#muni_go").removeClass("disabled");
                           })
                  );
 
@@ -301,7 +304,11 @@ $(document).ready(function() {
            }
        );
        $("#years_dropdown").removeClass("disabled");
+    });
 
+    $("#muni_go").on('click', function(){
+      $("#auto_data").empty();
+      get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() );
     });
 
   });
