@@ -16,21 +16,39 @@ def search_code(muni,year,code):
     return results
 
 
-def get_budget_tree(muni,year):
-    dataset = get_flatten()
-    root = get_root(muni,year)
-    dataset.close()
-    return root.to_dict(4)
+def get_budget_tree(muni, year, layer=2):
+    if !(0 <= layer <= 4):
+        layer = 4
+    root = get_root(muni, year)
+
+    return root.to_dict(layer)
 
 
+def _get_layer(node ,layer):
+    if not layer:
+        return node
 
-def get_root(muni,year):
-    munis=get_munis()
+    nodes = []
+    nodes.extend(_get_layer(x, layer-1) for x in node.children)
+
+    return nodes
+
+def get_budget(muni, year, layer=4):
+    if !(0 <= layer <= 4):
+        layer = 4
+
+    root = get_root(muni, year)
+
+    return _get_layer(root, layer)
+
+
+def get_root(muni, year):
+    munis = get_munis()
     flatten = get_flatten()
     entry = munis.find_one({'name':muni})
     root_id =  entry['roots'][str(year)]
     root = flatten.find_one(root_id)
-    root_tree = Tree.from_db(flatten,root)
+    root_tree = Tree.from_db(flatten, root)
 
     munis.close()
     flatten.close()

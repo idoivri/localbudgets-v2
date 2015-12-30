@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^get_autocomplete', get_autocomplete, name="autocomplete"),
     url(r'^get_muni_year', commands.get_muni_year, name="get_muni_year"),
     url(r'^get_budget_tree', get_budget_tree , name="get_budget_tree"),
+    url(r'^get_budget', get_budget , name="get_budget"),
 
 ]
 
