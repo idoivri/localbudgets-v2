@@ -3,7 +3,7 @@ from tree import Tree
 import re
 
 def search_code(muni,year,code):
-    # TODO : rewrite this code 
+    # TODO : rewrite this code
     dataset = get_flatten()
     results = []
     code_rex = re.compile("^%s*" %(code,))

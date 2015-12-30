@@ -19,7 +19,6 @@
         <link href="{{ STATIC_URL }}css/horizBarChart.css" type="text/css" rel="stylesheet"></link>
 
 
-
     <!-- // <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/tablesort.js"></script> -->
 
     <!-- // <link href="{{ STATIC_URL }}css/semantic.css" type="text/css" rel="stylesheet"></link> -->
@@ -71,8 +70,7 @@
             <!-- Main display -->
             <div class="col-md-4" style="text-align:center">
 
-
-              <div class="dropdown">
+              <div class="dropdown btn-group">
                 <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown">
                   בחר עירייה
                   <span class="caret"></span>
@@ -81,47 +79,32 @@
                   {% for muni_name in munis %}
                   <li><a href="#" id="{{muni_name}}" class="muni_name">{{ muni_name }}</a></li>
                   {% endfor %}
-
                 </ul>
               </div>
-              <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown">
+
+              <div class="dropdown btn-group">
+                <li class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown">
+
                   בחר שנה
                   <span class="caret"></span>
-                </button>
+                </li>
                 <ul class="dropdown-menu"  id="years_dropdown_vals" aria-labelledby="years_dropdown">
 
                 </ul>
               </div>
 
-              <!-- <div class="input-group">
-                <input type="text" class="form-control" id="search_input" placeholder="מה תרצה לחפש?">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" id="search_btn">חפש!</button>
-                </span>
-              </div> -->
-              <!-- <div class="btn-group" data-toggle="buttons" id="search_type">
-                  <label class="btn btn-default active">
-                      <input type="radio" id="static_search" /> חיפוש רגיל
-                  </label>
-                  <label class="btn btn-default ">
-                      <input type="radio" id="dynamic_search"  /> חיפוש דינאמי
-                  </label>
-              </div> -->
+              <div class="btn-group">
+                <button class="btn btn-default disabled" type="button" id="muni_go">
+                  יאללה!
+                </button>
+              </div>
 
             </div>
             <!-- Empty column -->
             <div class="col-md-4" style="text-align: center;"></div>
           </div>
-          <div id="example">
-          </div>
-          <ul id="auto_data" class="chart ltr"></ul>
-          <!-- <div class="row">
-            <div class="col-md-4" style="text-align: center;"></div>
-            <div class="col-md-4" style="text-align: center;"></div>
 
-            <div class="col-md-4" style="text-align: center;"></div>
-          </div> -->
+          <ul id="auto_data" class="chart center" style="text-align:center"></ul>
         </div>
 
       <footer class="footer">
