@@ -16,21 +16,58 @@ def search_code(muni,year,code):
     return results
 
 
-def get_budget_tree(muni,year):
-    dataset = get_flatten()
-    root = get_root(muni,year)
-    dataset.close()
-    return root.to_dict(1)
+def get_budget_tree(muni, year, layer=2):
+    if not (0 <= layer <= 4):
+        layer = 4
+    root = get_root(muni, year)
+
+    return root.to_dict(layer)
 
 
+def _get_layer(node ,layer):
+    if not layer:
+        return [node]
 
-def get_root(muni,year):
-    munis=get_munis()
+    nodes = []
+    for x in node.children:
+        nodes.extend(_get_layer(x, layer-1))
+
+    return nodes
+
+def get_budget(muni=None, year=None, layer=4):
+    if not (0 <= layer <= 4):
+        layer = 4
+
+    munis = get_munis()
+
+    if muni is None:
+        munis = list(munis.find({}))
+    else:
+        munis = list(munis.find({'name':muni}))
+
+    quries = []
+    if year is None:
+        for muni in munis:
+            quries.extend([(muni['name'], year) for year in muni['years']])
+    else:
+        years = [year]
+        quries.extend([(muni['name'], year) for muni in munis])
+
+    budgets = []
+    for query in quries:
+        budgets.extend(_get_layer(get_root(*query), layer))
+
+    budgets = [budget.to_dict(0) for budget in budgets]
+    return budgets
+        
+
+def get_root(muni, year):
+    munis = get_munis()
     flatten = get_flatten()
     entry = munis.find_one({'name':muni})
     root_id =  entry['roots'][str(year)]
     root = flatten.find_one(root_id)
-    root_tree = Tree.from_db(flatten,root)
+    root_tree = Tree.from_db(flatten, root)
 
     munis.close()
     flatten.close()
