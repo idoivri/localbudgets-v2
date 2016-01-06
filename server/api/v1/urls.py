@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from server.api.v1.views import api_index, get_query_result, get_autocomplete, get_budget_tree
+from server.api.v1.views import api_index, get_query_result, get_autocomplete, get_budget_tree, get_budget
 import server.api.v1.commands.commands as commands
 
 
