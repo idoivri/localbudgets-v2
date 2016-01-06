@@ -26,21 +26,40 @@ def get_budget_tree(muni, year, layer=2):
 
 def _get_layer(node ,layer):
     if not layer:
-        return node
+        return [node]
 
     nodes = []
-    nodes.extend(_get_layer(x, layer-1) for x in node.children)
+    for x in node.children:
+        nodes.extend(_get_layer(x, layer-1))
 
     return nodes
 
-def get_budget(muni, year, layer=4):
+def get_budget(muni=None, year=None, layer=4):
     if not (0 <= layer <= 4):
         layer = 4
 
-    root = get_root(muni, year)
+    munis = get_munis()
 
-    return _get_layer(root, layer)
+    if muni is None:
+        munis = list(munis.find({}))
+    else:
+        munis = list(munis.find({'name':muni}))
 
+    quries = []
+    if year is None:
+        for muni in munis:
+            quries.extend([(muni['name'], year) for year in muni['years']])
+    else:
+        years = [year]
+        quries.extend([(muni['name'], year) for muni in munis])
+
+    budgets = []
+    for query in quries:
+        budgets.extend(_get_layer(get_root(*query), layer))
+
+    budgets = [budget.to_dict(0) for budget in budgets]
+    return budgets
+        
 
 def get_root(muni, year):
     munis = get_munis()
