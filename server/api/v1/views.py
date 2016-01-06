@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from pymongo import MongoClient as client
 
 from server.utils.utils import get_res
+from server.utils import dumps
+from server.models import get_munis as db_get_munis
 from visualization.api import search_code
 from visualization.api import get_budget_tree as vis_get_budget_tree
 from visualization.api import get_budget as vis_get_budget
@@ -63,3 +65,9 @@ def get_budget(request):
     layer = int(request.GET.get('layer', 0))
     return HttpResponse(json.dumps(vis_get_budget(muni, year, layer)), 'application/json')
 
+@api_view(['GET'])
+def get_munis(request):
+    munis = db_get_munis()
+    munis = list(munis.find({}))
+
+    return HttpResponse(dumps(munis, 'application/json'))
