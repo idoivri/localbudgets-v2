@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
 
   <title>Gates Foundation Spending - Vallandingham.me</title>
   <meta name="description" content="">
@@ -14,12 +14,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
   <!-- end CSS-->
 
-  <script src="js/libs/modernizr-2.0.6.min.js"></script>
+  <script src="{{ STATIC_URL }}js/modernizr-2.0.6.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.10.0/coffee-script.min.js"></script>
 </head>
 
 <body>
@@ -43,14 +44,14 @@
 
 
   <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+  <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/jquery.js"><\/script>')</script>
 
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
-  <script src="js/CustomTooltip.js"></script>
-  <script src="js/libs/coffee-script.js"></script>
-  <script src="js/libs/d3.js"></script>
-  <script type="text/coffeescript" src="coffee/vis.coffee"></script>
+  <script defer src="{{ STATIC_URL }}js/plugins.js"></script>
+  <script defer src="{{ STATIC_URL }}js/script.js"></script>
+  <script src="{{ STATIC_URL }}js/CustomTooltip.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/coffee-script.js"></script>
+  <script src="{{ STATIC_URL }}js/d3.min.js"></script>
+  <script type="text/coffeescript" src="{{ STATIC_URL }}js/coffee/vis.coffee"></script>
   <script type="text/javascript">
     $(document).ready(function() {
         $(document).ready(function() {
@@ -62,14 +63,6 @@
             return false;
           });
         });
-    });
-  </script>
-
-
-  <script>
-    window._gaq = [['_setAccount','UA-17355070-1'],['_trackPageview'],['_trackPageLoadTime']];
-    Modernizr.load({
-      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
     });
   </script>
 
