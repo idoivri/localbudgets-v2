@@ -106,11 +106,14 @@ class Tree(object):
 
 
     @classmethod
-    def from_db(cls, dataset, root_dict):
+    def from_db(cls, dataset, root_dict, layer=999):
+
         children = []
-        for _id in root_dict['children']:
-            child = dataset.find_one({'_id': _id})
-            children.append(cls.from_db(dataset, child))
+
+        if layer > 0:
+            for _id in root_dict['children']:
+                child = dataset.find_one({'_id': _id})
+                children.append(cls.from_db(dataset, child,layer-1))
 
         root_dict['children'] = children
         root = cls(**root_dict)

@@ -1,6 +1,10 @@
+import re
+
 from server.models import get_flatten,get_munis
 from tree import Tree
-import re
+
+from server.utils import profile
+
 
 def search_code(muni,year,code):
     # TODO : rewrite this code
@@ -55,19 +59,19 @@ def get_budget(muni=None, year=None, layer=4):
 
     budgets = []
     for query in quries:
-        budgets.extend(_get_layer(get_root(*query), layer))
+        budgets.extend(_get_layer(get_root(*query,layer=layer), layer))
 
     budgets = [budget.to_dict(0) for budget in budgets]
     return budgets
         
 
-def get_root(muni, year):
+def get_root(muni, year, layer=4):
     munis = get_munis()
     flatten = get_flatten()
     entry = munis.find_one({'name':muni})
-    root_id =  entry['roots'][str(year)]
+    root_id = entry['roots'][str(year)]
     root = flatten.find_one(root_id)
-    root_tree = Tree.from_db(flatten, root)
+    root_tree = Tree.from_db(flatten, root, layer)
 
     munis.close()
     flatten.close()
