@@ -13,6 +13,7 @@ class Tree(object):
                        muni = None,
                        year = None,
                        children=None,
+                       _id = None,
                        *args,
                        **kws):
         self.name = name
@@ -24,6 +25,7 @@ class Tree(object):
         self.code = code
         self.muni = muni
         self.year = year
+        self._id = _id
         self.children = []
         if children is not None:
             for child in children:
@@ -70,6 +72,7 @@ class Tree(object):
                 'name': self.name,
                 'muni': self.muni,
                 'year': self.year,
+                '_id':self._id,
                 }
 
         if level > 0:

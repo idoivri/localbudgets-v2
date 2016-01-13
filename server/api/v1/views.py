@@ -44,18 +44,18 @@ def get_autocomplete(request):
     res = []
     for key_id,key in enumerate(results_keys):
         print results_dict[key]
-        res.append({'id':key_id,'label':'','value':json.dumps(results_dict[key])})
+        res.append({'id':key_id,'label':'','value':dumps(results_dict[key])})
 
 
     # print res
-    return HttpResponse(json.dumps(res), 'application/json')
+    return HttpResponse(dumps(res), 'application/json')
 
 @api_view(['GET'])
 def get_budget_tree(request):
     muni = request.GET.get('muni')
     year = request.GET.get('year')
     layer = request.GET.get('layer', 1)
-    return HttpResponse(json.dumps(vis_get_budget_tree(muni, year, layer)), 'application/json')
+    return HttpResponse(dumps(vis_get_budget_tree(muni, year, layer)), 'application/json')
 
 @api_view(['GET'])
 def get_budget(request):
@@ -63,7 +63,7 @@ def get_budget(request):
     year = request.GET.get('year', None)
     # FIXME: the convert might be a bug
     layer = int(request.GET.get('layer', 1))
-    return HttpResponse(json.dumps(vis_get_budget(muni, year, layer)), 'application/json')
+    return HttpResponse(dumps(vis_get_budget(muni, year, layer)), 'application/json')
 
 @api_view(['GET'])
 def get_munis(request):
