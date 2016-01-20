@@ -44,11 +44,15 @@ class BubbleChart
   # that will serve as the data behind each
   # bubble in the vis, then add each node
   # to @nodes to be used later
+  Debug_numberOfDisplayedNodes = 0 #TODO REMOVE DEBUG
   create_nodes: () =>
     @data.forEach (d) => 
       node = {
         id: d.code
-        radius: @radius_scale(parseInt(d.amount))
+        radius: @radius_scale(r = parseInt(d.amount); 
+        if r > 0 #TODO REMOVE DEBUG
+          Debug_numberOfDisplayedNodes++
+        )
         value: d.amount
         name: d.name
         org: "org"
@@ -60,8 +64,7 @@ class BubbleChart
       @nodes.push node
 
     @nodes.sort (a,b) -> b.value - a.value
-
-
+    console.log("DEBUG: Number of nodes " + Debug_numberOfDisplayedNodes) #TODO REMOVE DEBUG
   # create svg at #vis and then 
   # create circle representation for each node
   create_vis: () =>
@@ -205,7 +208,7 @@ $ ->
     else
       root.display_all()
   # TODO get json from server    
-  d3.json "http://localhost:8000/api/v1/get_budget?layer=1", render_vis
+  d3.json "http://localhost:8000/api/v1/get_budget?layer=2", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
