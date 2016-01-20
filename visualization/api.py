@@ -2,6 +2,7 @@ import re
 
 from server.models import get_flatten,get_munis
 from tree import Tree
+from bson.objectid import ObjectId
 
 # from server.utils import profile
 
@@ -64,15 +65,31 @@ def get_budget(muni=None, year=None, layer=4):
     budgets = [budget.to_dict(0) for budget in budgets]
     return budgets
         
+def get_node_subtree(_id, layer=4):
+    budgets = _get_layer(get_subtree(_id,layer=layer), layer)
+    # Repeats get_budget. Consider refactoring
+    budgets = [budget.to_dict(0) for budget in budgets]
+    return budgets
 
 def get_root(muni, year, layer=4):
     munis = get_munis()
     flatten = get_flatten()
     entry = munis.find_one({'name':muni})
     root_id = entry['roots'][str(year)]
-    root = flatten.find_one(root_id)
+
+    root_tree = get_subtree(root_id,layer)
+    munis.close()
+    flatten.close()
+    return root_tree
+
+def get_subtree(_id,layer):
+    if not isinstance(_id,ObjectId):
+        _id = ObjectId(_id)
+    flatten = get_flatten()
+    print type(_id)
+    print type(_id)=='unicode'
+    root = flatten.find_one(_id)
     root_tree = Tree.from_db(flatten, root, layer)
 
-    munis.close()
     flatten.close()
     return root_tree

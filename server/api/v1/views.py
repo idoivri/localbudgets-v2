@@ -12,6 +12,7 @@ from server.utils import dumps
 from server.models import get_munis as db_get_munis
 from visualization.api import search_code
 from visualization.api import get_budget_tree as vis_get_budget_tree
+from visualization.api import get_node_subtree as vis_get_node_subtree
 from visualization.api import get_budget as vis_get_budget
 
 import itertools, random, json
@@ -64,6 +65,13 @@ def get_budget(request):
     # FIXME: the convert might be a bug
     layer = int(request.GET.get('layer', 1))
     return HttpResponse(dumps(vis_get_budget(muni, year, layer)), 'application/json')
+
+@api_view(['GET'])
+def get_node_subtree(request):
+    node_id = request.GET.get('node_id', None)
+    layer = int(request.GET.get('layer', 1))
+    return HttpResponse(dumps(vis_get_node_subtree(node_id, layer)), 'application/json')
+
 
 @api_view(['GET'])
 def get_munis(request):
