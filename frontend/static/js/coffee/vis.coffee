@@ -45,7 +45,7 @@ class BubbleChart
   # bubble in the vis, then add each node
   # to @nodes to be used later
   create_nodes: () =>
-    @data.forEach (d) =>
+    @data.forEach (d) => 
       node = {
         id: d.code
         radius: @radius_scale(parseInt(d.amount))
@@ -205,6 +205,7 @@ $ ->
     else
       root.display_all()
   # TODO get json from server    
-  d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
+  d3.json "http://localhost:8000/api/v1/get_budget?layer=1", render_vis
+  #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
