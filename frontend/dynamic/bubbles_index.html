@@ -1,33 +1,13 @@
 <!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
-
-  <title>Gates Foundation Spending - Vallandingham.me</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
-  <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
-  <!-- end CSS-->
-
-  <script src="{{ STATIC_URL }}js/modernizr-2.0.6.min.js"></script>
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.10.0/coffee-script.min.js"></script>-->
+  <title>Open Local Budget Bubbles View</title>
 </head>
 
 <body>
-
   <div id="container" class="container">
     <header>
-    <h1>Gates Foundation Educational Spending</h1>
+    <h1>Open Local Budget Bubbles View</h1>
     </header>
     <div id="main" role="main">
       <div id="view_selection" class="btn-group">
@@ -36,14 +16,8 @@
       </div>
       <div id="vis"></div>
     </div>
-    <footer>
-    <p>A demonstration of animated bubble charts in D3.js</p>
-    <p><a href="http://vallandingham.me/bubble_charts_in_d3.html">Blog Post</a> | <a href="https://github.com/vlandham/gates_bubbles">Code</a> | <a href="http://www.washingtonpost.com/wp-srv/metro/data/gates-grants.html">Data</a></p>
-    </footer>
   </div> <!--! end of #container -->
 
-
-  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
   <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/jquery.js"><\/script>')</script>
 
   <script defer src="{{ STATIC_URL }}js/plugins.js"></script>
@@ -65,12 +39,5 @@
         });
     });
   </script>
-
-
-  <!--[if lt IE 7 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
-  
 </body>
 </html>

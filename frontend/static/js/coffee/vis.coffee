@@ -5,7 +5,7 @@ class BubbleChart
     @width = 940
     @height = 600
 
-    # @tooltip = CustomTooltip("gates_tooltip", 240)
+    @tooltip = CustomTooltip("gates_tooltip", 240)
 
     # locations the nodes will move towards
     # depending on which view is currently being
@@ -48,7 +48,7 @@ class BubbleChart
   create_nodes: () =>
     @data.forEach (d) => 
       node = {
-        id: d.code
+        id: d._id
         radius: @radius_scale(r = parseInt(d.amount); 
         if r > 0 #TODO REMOVE DEBUG
           Debug_numberOfDisplayedNodes++
@@ -182,6 +182,7 @@ class BubbleChart
     content +="<span class=\"name\">Amount:</span><span class=\"value\"> $#{addCommas(data.value)}</span><br/>"
     content +="<span class=\"name\">Year:</span><span class=\"value\"> #{data.year}</span>"
     @tooltip.showTooltip(content,d3.event)
+    console.log('hover')
 
 
   hide_details: (data, i, element) =>
@@ -206,9 +207,8 @@ $ ->
     if view_type == 'year'
       root.display_year()
     else
-      root.display_all()
-  # TODO get json from server    
-  d3.json "http://localhost:8000/api/v1/get_budget?layer=2", render_vis
+      root.display_all()    
+  d3.json "http://localhost:8000/api/v1/get_budget?layer=1&muni=hura&year=2010", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
