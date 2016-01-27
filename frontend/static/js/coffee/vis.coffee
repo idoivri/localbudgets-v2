@@ -182,7 +182,6 @@ class BubbleChart
     content +="<span class=\"name\">Amount:</span><span class=\"value\"> $#{addCommas(data.value)}</span><br/>"
     content +="<span class=\"name\">Year:</span><span class=\"value\"> #{data.year}</span>"
     @tooltip.showTooltip(content,d3.event)
-    console.log('hover')
 
 
   hide_details: (data, i, element) =>
