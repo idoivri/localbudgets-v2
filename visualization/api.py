@@ -56,7 +56,7 @@ def get_budget(muni=None, year=None, layer=4):
             quries.extend([(muni['name'], year) for year in muni['years']])
     else:
         years = [year]
-        quries.extend([(muni['name'], year) for muni in munis])
+        quries.extend([(muni['name'], year) for muni in munis if int(year) in muni['years']])
 
     budgets = []
     for query in quries:
