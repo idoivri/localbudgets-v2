@@ -30,8 +30,8 @@ class BubbleChart
 
     # nice looking colors - no reason to buck the trend
     @fill_color = d3.scale.ordinal()
-      .domain(["low", "medium", "high"])
-      .range(["#d84b2a", "#beccae", "#7aa25c"])
+      .domain(["hura", "gush_etzion", "ashdod", "beer_sheva", "qiryat_bialik", "kfar_shmaryahu", "rishon_letzion"])
+      .range(["#d84b2a", "#FF83AE", "#53AF0D","#3397BF","#11D3EA","#FCFA3F","#E741CF"])
 
     # use the max total_amount in the data as the max in the scale's domain
     max_amount = d3.max(@data, (d) -> parseInt(d.amount))
@@ -56,7 +56,7 @@ class BubbleChart
         value: d.amount
         name: d.name
         org: "org"
-        group: "group"
+        group: d.muni
         year: d.year
         x: Math.random() * 900
         y: Math.random() * 800
@@ -207,7 +207,7 @@ $ ->
       root.display_year()
     else
       root.display_all()    
-  d3.json "http://localhost:8000/api/v1/get_budget?layer=1&muni=hura&year=2010", render_vis
+  d3.json "http://localhost:8000/api/v1/get_budget?layer=1", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
