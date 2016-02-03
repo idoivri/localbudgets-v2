@@ -30,6 +30,7 @@ class BubbleChart
 
     # nice looking colors - no reason to buck the trend
     @fill_color = d3.scale.ordinal()
+      #TODO muni names are hardcoded here, one day we could get them from the server at api/v1/get_munis
       .domain(["hura", "gush_etzion", "ashdod", "beer_sheva", "qiryat_bialik", "kfar_shmaryahu", "rishon_letzion"])
       .range(["#d84b2a", "#FF83AE", "#53AF0D","#3397BF","#11D3EA","#FCFA3F","#E741CF"])
 
@@ -180,7 +181,8 @@ class BubbleChart
     d3.select(element).attr("stroke", "black")
     content = "<span class=\"name\">Title:</span><span class=\"value\"> #{data.name}</span><br/>"
     content +="<span class=\"name\">Amount:</span><span class=\"value\"> $#{addCommas(data.value)}</span><br/>"
-    content +="<span class=\"name\">Year:</span><span class=\"value\"> #{data.year}</span>"
+    content +="<span class=\"name\">Year:</span><span class=\"value\"> #{data.year}</span><br/>"
+    content +="<span class=\"name\">Muni:</span><span class=\"value\"> #{data.muni}</span>"
     @tooltip.showTooltip(content,d3.event)
 
 
@@ -207,7 +209,7 @@ $ ->
       root.display_year()
     else
       root.display_all()    
-  d3.json "http://localhost:8000/api/v1/get_budget?layer=1", render_vis
+  d3.json "http://localhost:8000/api/v1/get_budget?layer=1&year=2010", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
