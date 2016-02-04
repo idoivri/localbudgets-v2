@@ -2,8 +2,8 @@
 class BubbleChart
   constructor: (data) ->
     @data = data
-    @width = 940
-    @height = 600
+    @width = 1000
+    @height = 1000
 
     @tooltip = CustomTooltip("gates_tooltip", 240)
 
@@ -16,6 +16,17 @@ class BubbleChart
       "2009": {x: @width / 2, y: @height / 2},
       "2010": {x: 2 * @width / 3, y: @height / 2}
     }
+
+    @muni_centers = {
+      "hura": {x: 500, y: 200},
+      "gush_etzion": {x: 200, y: 200},
+      "ashdod": {x: 700, y: 200},
+      "beer_sheva": {x: 100, y: 500},
+      "qiryat_bialik": {x: 500 , y: 500},
+      "kfar_shmaryahu": {x: 500, y: 500},
+      "rishon_letzion": {x: 700, y: 700}
+    }
+
 
     # used when setting up force and
     # moving around nodes
@@ -159,6 +170,26 @@ class BubbleChart
       d.x = d.x + (target.x - d.x) * (@damper + 0.02) * alpha * 1.1
       d.y = d.y + (target.y - d.y) * (@damper + 0.02) * alpha * 1.1
 
+  # sets the display of bubbles to be separated
+  # into each year. Does this by calling move_towards_year
+  display_by_muni: () =>
+    @force.gravity(@layout_gravity)
+      .charge(this.charge)
+      .friction(0.9)
+      .on "tick", (e) =>
+        @circles.each(this.move_towards_muni(e.alpha))
+          .attr("cx", (d) -> d.x)
+          .attr("cy", (d) -> d.y)
+    @force.start()
+
+  # move all circles to their associated @year_centers 
+  move_towards_muni: (alpha) =>
+    (d) =>
+      target = @muni_centers[d.group]
+      d.x = d.x + (target.x - d.x) * (@damper + 0.02) * alpha * 1.1
+      d.y = d.y + (target.y - d.y) * (@damper + 0.02) * alpha * 1.1
+
+
   # Method to display year titles
   display_years: () =>
     years_x = {"2008": 160, "2009": @width / 2, "2010": @width - 160}
@@ -182,7 +213,7 @@ class BubbleChart
     content = "<span class=\"name\">Title:</span><span class=\"value\"> #{data.name}</span><br/>"
     content +="<span class=\"name\">Amount:</span><span class=\"value\"> $#{addCommas(data.value)}</span><br/>"
     content +="<span class=\"name\">Year:</span><span class=\"value\"> #{data.year}</span><br/>"
-    content +="<span class=\"name\">Muni:</span><span class=\"value\"> #{data.muni}</span>"
+    content +="<span class=\"name\">Muni:</span><span class=\"value\"> #{data.group}</span>"
     @tooltip.showTooltip(content,d3.event)
 
 
@@ -204,9 +235,13 @@ $ ->
     chart.display_group_all()
   root.display_year = () =>
     chart.display_by_year()
+  root.display_muni = () =>
+    chart.display_by_muni()
   root.toggle_view = (view_type) =>
     if view_type == 'year'
       root.display_year()
+    else if view_type == 'muni'
+      root.display_muni()
     else
       root.display_all()    
   d3.json "http://localhost:8000/api/v1/get_budget?layer=1&year=2010", render_vis
