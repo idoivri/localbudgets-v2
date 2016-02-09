@@ -2,8 +2,8 @@
 class BubbleChart
   constructor: (data) ->
     @data = data
-    @width = 1000
-    @height = 1000
+    @width = 900  
+    @height = 500
 
     @tooltip = CustomTooltip("gates_tooltip", 240)
 
@@ -12,9 +12,9 @@ class BubbleChart
     # used
     @center = {x: @width / 2, y: @height / 2}
     @year_centers = {
-      "2008": {x: @width / 3, y: @height / 2},
-      "2009": {x: @width / 2, y: @height / 2},
-      "2010": {x: 2 * @width / 3, y: @height / 2}
+      "2013": {x: @width / 3, y: @height / 2},
+      "2014": {x: @width / 2, y: @height / 2},
+      "2015": {x: 2 * @width / 3, y: @height / 2}
     }
 
     @muni_centers = {
@@ -192,7 +192,7 @@ class BubbleChart
 
   # Method to display year titles
   display_years: () =>
-    years_x = {"2008": 160, "2009": @width / 2, "2010": @width - 160}
+    years_x = {"2013": 160, "2014": @width / 2, "2015": @width - 160}
     years_data = d3.keys(years_x)
     years = @vis.selectAll(".years")
       .data(years_data)
@@ -244,7 +244,7 @@ $ ->
       root.display_muni()
     else
       root.display_all()    
-  d3.json "http://localhost:8000/api/v1/get_budget?layer=1&year=2010", render_vis
+  d3.json "http://localhost:8000/api/v1/get_budget?layer=1&muni=ashdod&year=2015&year=2010", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
