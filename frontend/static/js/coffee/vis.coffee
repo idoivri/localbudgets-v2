@@ -2,7 +2,7 @@
 class BubbleChart
   constructor: (data) ->
     @data = data
-    @width = 900  
+    @width = 900
     @height = 500
 
     @tooltip = CustomTooltip("gates_tooltip", 240)
@@ -48,7 +48,7 @@ class BubbleChart
     # use the max total_amount in the data as the max in the scale's domain
     max_amount = d3.max(@data, (d) -> parseInt(d.amount))
     @radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 85])
-    
+
     this.create_nodes()
     this.create_vis()
 
@@ -58,10 +58,10 @@ class BubbleChart
   # to @nodes to be used later
   Debug_numberOfDisplayedNodes = 0 #TODO REMOVE DEBUG
   create_nodes: () =>
-    @data.forEach (d) => 
+    @data.forEach (d) =>
       node = {
         id: d._id
-        radius: @radius_scale(r = parseInt(d.amount); 
+        radius: @radius_scale(r = parseInt(d.amount);
         if r > 0 #TODO REMOVE DEBUG
           Debug_numberOfDisplayedNodes++
         )
@@ -77,7 +77,7 @@ class BubbleChart
 
     @nodes.sort (a,b) -> b.value - a.value
     console.log("DEBUG: Number of nodes " + Debug_numberOfDisplayedNodes) #TODO REMOVE DEBUG
-  # create svg at #vis and then 
+  # create svg at #vis and then
   # create circle representation for each node
   create_vis: () =>
     @vis = d3.select("#vis").append("svg")
@@ -88,7 +88,7 @@ class BubbleChart
     @circles = @vis.selectAll("circle")
       .data(@nodes, (d) -> d.id)
 
-    # used because we need 'this' in the 
+    # used because we need 'this' in the
     # mouse callbacks
     that = this
 
@@ -112,9 +112,9 @@ class BubbleChart
   # Charge is proportional to the diameter of the
   # circle (which is stored in the radius attribute
   # of the circle's associated data.
-  # This is done to allow for accurate collision 
+  # This is done to allow for accurate collision
   # detection with nodes of different sizes.
-  # Charge is negative because we want nodes to 
+  # Charge is negative because we want nodes to
   # repel.
   # Dividing by 8 scales down the charge to be
   # appropriate for the visualization dimensions.
@@ -163,7 +163,7 @@ class BubbleChart
 
     this.display_years()
 
-  # move all circles to their associated @year_centers 
+  # move all circles to their associated @year_centers
   move_towards_year: (alpha) =>
     (d) =>
       target = @year_centers[d.year]
@@ -182,7 +182,7 @@ class BubbleChart
           .attr("cy", (d) -> d.y)
     @force.start()
 
-  # move all circles to their associated @year_centers 
+  # move all circles to their associated @year_centers
   move_towards_muni: (alpha) =>
     (d) =>
       target = @muni_centers[d.group]
@@ -243,8 +243,8 @@ $ ->
     else if view_type == 'muni'
       root.display_muni()
     else
-      root.display_all()    
-  d3.json "http://localhost:8000/api/v1/get_budget?layer=1&muni=ashdod&year=2015&year=2010", render_vis
+      root.display_all()
+  d3.json "/api/v1/get_budget?layer=1&muni=ashdod&year=2015&year=2010", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
