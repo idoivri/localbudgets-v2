@@ -57,16 +57,22 @@ class BubbleChart
   # bubble in the vis, then add each node
   # to @nodes to be used later
   Debug_numberOfDisplayedNodes = 0 #TODO REMOVE DEBUG
+  Debug_numberOfBadDisplayedNodes = 0
   create_nodes: () =>
     @data.forEach (d) =>
       node = {
         id: d._id
-        radius: @radius_scale(r = parseInt(d.amount);
+        radius: Math.abs( @radius_scale(r = parseInt(d.amount);
         if r > 0 #TODO REMOVE DEBUG
           Debug_numberOfDisplayedNodes++
-        )
+        else
+          Debug_numberOfBadDisplayedNodes++
+        ))
         value: d.amount
-        name: d.name
+        name: if parseInt(d.amount) > 0
+          d.name
+        else
+          d.name+'-neg'
         org: "org"
         group: d.muni
         year: d.year
@@ -77,6 +83,7 @@ class BubbleChart
 
     @nodes.sort (a,b) -> b.value - a.value
     console.log("DEBUG: Number of nodes " + Debug_numberOfDisplayedNodes) #TODO REMOVE DEBUG
+    console.log("DEBUG: Number of bad nodes " + Debug_numberOfBadDisplayedNodes) #TODO REMOVE DEBUG
   # create svg at #vis and then
   # create circle representation for each node
   create_vis: () =>
@@ -244,7 +251,7 @@ $ ->
       root.display_muni()
     else
       root.display_all()
-  d3.json "/api/v1/get_budget?layer=1&muni=ashdod&year=2015&year=2010", render_vis
+  d3.json "/api/v1/get_budget?layer=2&year=2011", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
