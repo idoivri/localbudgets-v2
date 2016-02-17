@@ -227,7 +227,9 @@ var get_data = (function(muni,year){
           .on("click", click);
 
           path.append("title")
-          .text(function(d) { return d.name + "\n" + d.amount; });
+          .text(function(d) {
+             return d.name + "\n" + d.amount +"\n" + "קוד:" + d.code; 
+           });
 
       var text = g.append("text")
         .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
