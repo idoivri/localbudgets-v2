@@ -180,7 +180,7 @@ var muni_color_scale;
 var get_data = (function(muni,year){
   var width = 550,
       height = 550,
-      radius = Math.min(width, height) / 2;
+      radius = Math.min(width, height) / 2 - 10;
 
   var x = d3.scale.linear()
       .range([0, 2 * Math.PI]);
@@ -190,7 +190,7 @@ var get_data = (function(muni,year){
 
   var color = d3.scale.category20c();
 
-  d3.select("#auto_data svg").remove();
+  //d3.select("#auto_data svg").remove();
 
   var svg = d3.select("#auto_data").append("svg")
       .attr("width", width)
@@ -226,16 +226,21 @@ var get_data = (function(muni,year){
           .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
           .on("click", click);
 
+          path.append("title")
+          .text(function(d) { return d.name + "\n" + d.amount; });
+
       var text = g.append("text")
         .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
         .attr("x", function(d) { return y(d.y); })
         .attr("dx", "6") // margin
         .attr("dy", ".35em") // vertical-align
-        .text(function(d) { return d.name; });
+        .text(function(d) { return ""; }); //TODO I've deleted the text,
+        //we should decide if that's good and remove the text related code from
+        //this script
 
       function click(d) {
         // fade out all text elements
-        text.transition().attr("opacity", 0);
+        // text.transition().attr("opacity", 0);
 
         path.transition()
           .duration(750)
@@ -247,7 +252,7 @@ var get_data = (function(muni,year){
                 var arcText = d3.select(this.parentNode).select("text");
                 // fade in the text element and recalculate positions
                 arcText.transition().duration(750)
-                  .attr("opacity", 1)
+                  .attr("opacity", 0)
                   .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
                   .attr("x", function(d) { return y(d.y); });
               }
