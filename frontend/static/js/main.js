@@ -379,11 +379,6 @@ var get_data= (function (muni,year) {
           .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
           .on("click", click);
 
-          path.append("title")
-          .text(function(d) {
-             return d.name + "\n" + d.amount +"\n" + "קוד:" + d.code;
-           });
-
       var text = g.append("text")
         .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
         .attr("x", function(d) { return y(d.y); })
