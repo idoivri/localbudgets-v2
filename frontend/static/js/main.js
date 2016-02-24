@@ -190,7 +190,7 @@ var get_data= (function (muni,year) {
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>" + (d.name == 'root' ? 'חורה' : d.name) + "</strong> \
+    return "<strong>" + d.name + "</strong> \
             <span style='color:red'>" + formatNumber(d.amount) + ' ש"ח' + "</span> <br>" +
             "<strong>" + "סעיף" + "</strong> \
             <span style='color:orange'>" + (d.code ? d.code : 'כל הסעיפים') + "</span>";
@@ -269,11 +269,6 @@ var get_data= (function (muni,year) {
           .on("click", click)
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide);
-
-          path.append("title")
-          .text(function(d) {
-             return d.name + "\n" + d.amount +"\n" + "קוד:" + d.code;
-           });
 
       var text = g.append("text")
         .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
