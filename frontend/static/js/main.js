@@ -290,6 +290,10 @@ var muni_color_scale;
         //we should decide if that's good and remove the text related code from
         //this script
 
+        function getDepthOneAncestor(node) {
+          return node.depth > 1 ? getDepthOneAncestor(node.parent) : node;
+        }
+        
       function click(d) {
         // fade out all text elements
         // text.transition().attr("opacity", 0);
