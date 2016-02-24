@@ -1,4 +1,3 @@
-
 class BubbleChart
   constructor: (data) ->
     @data = data
@@ -57,33 +56,26 @@ class BubbleChart
   # bubble in the vis, then add each node
   # to @nodes to be used later
   Debug_numberOfDisplayedNodes = 0 #TODO REMOVE DEBUG
-  Debug_numberOfBadDisplayedNodes = 0
   create_nodes: () =>
     @data.forEach (d) =>
       node = {
         id: d._id
-        radius: Math.abs( @radius_scale(r = parseInt(d.amount);
+        radius: @radius_scale(r = parseInt(d.amount);
         if r > 0 #TODO REMOVE DEBUG
           Debug_numberOfDisplayedNodes++
-        else
-          Debug_numberOfBadDisplayedNodes++
-        ))
+        )
         value: d.amount
-        name: if parseInt(d.amount) > 0
-          d.name
-        else
-          d.name+'-neg'
+        name: d.name
         org: "org"
         group: d.muni
         year: d.year
-        x: Math.random() * 900
-        y: Math.random() * 800
+        x: Math.random() * @width
+        y: Math.random() * @height
       }
       @nodes.push node
 
     @nodes.sort (a,b) -> b.value - a.value
     console.log("DEBUG: Number of nodes " + Debug_numberOfDisplayedNodes) #TODO REMOVE DEBUG
-    console.log("DEBUG: Number of bad nodes " + Debug_numberOfBadDisplayedNodes) #TODO REMOVE DEBUG
   # create svg at #vis and then
   # create circle representation for each node
   create_vis: () =>
@@ -178,7 +170,7 @@ class BubbleChart
       d.y = d.y + (target.y - d.y) * (@damper + 0.02) * alpha * 1.1
 
   # sets the display of bubbles to be separated
-  # into each year. Does this by calling move_towards_year
+  # into each muni. Does this by calling move_towards_muni
   display_by_muni: () =>
     @force.gravity(@layout_gravity)
       .charge(this.charge)
@@ -189,7 +181,7 @@ class BubbleChart
           .attr("cy", (d) -> d.y)
     @force.start()
 
-  # move all circles to their associated @year_centers
+  # move all circles to their associated @muni_centers
   move_towards_muni: (alpha) =>
     (d) =>
       target = @muni_centers[d.group]
@@ -251,7 +243,7 @@ $ ->
       root.display_muni()
     else
       root.display_all()
-  d3.json "/api/v1/get_budget?layer=2&year=2011", render_vis
+  d3.json "/api/v1/get_budget?layer=1&muni=ashdod&year=2015&year=2010", render_vis
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis

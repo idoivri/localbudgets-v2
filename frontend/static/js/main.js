@@ -1,37 +1,3 @@
-// var empty_table = (function(){ $("#table_body").empty(); });
-//
-// var set_table = (function(innerHtml){
-//   $("#table_body").append(innerHtml);
-//   $('#res_table_bla').tablesort();
-//   $('#res_table_bla thead th.number').data('sortBy', function(th, td, sorter) {
-// 			return parseInt(td.text(), 10);
-// 		});
-//
-// });
-//
-// var clusterData = (function(data_res,status){
-//   var data = $.parseJSON(data_res).res;
-//
-// });
-//
-// var parseTableRes = (function(data_res,status){
-//     var data = $.parseJSON(data_res).res;
-//     var innerHtml ='';
-//     var rowVal;
-//     empty_table();
-//     $.each(data, function(i,item){
-//       rowVal = '<tr>'+
-//                   '<td>' + item.muni + '</td>' +
-//                   '<td>' + item.year + '</td>' +
-//                   '<td>' + item.code + '</td>' +
-//                   '<td>' + item.name + '</td>' +
-//                   '<td>' + item.amount + '</td>' +
-//                 '</tr>';
-//       innerHtml += rowVal;
-//     });
-//     set_table(innerHtml);
-// });
-
 var set_autocomplete = (function (is_disabled){
   $("#search_input").autocomplete({
     disabled : is_disabled,
@@ -176,8 +142,92 @@ var set_basic_search = (function(){
 // });
 
 var muni_color_scale;
+  var get_data_2 = (function (muni,year) {
+    var width = 960,
+    height = 960,
+    radius = (Math.min(width, height) / 2) - 10;
 
-var get_data = (function(muni,year){
+    var formatNumber = d3.format(",d");
+
+    //ההיקף
+    var x = d3.scale.linear()
+    .range([0, 2 * Math.PI]);
+
+    //העומק
+    var y = d3.scale.sqrt()
+    .range([0, radius]);
+
+    var color = d3.scale.category20c();
+    var color = d3.scale.ordinal().range(
+      ['#50514f','#f25f5c','#ffe066','#247ba0','#70c1b3']);
+      (['rgb(228,26,28)','rgb(55,126,184)','rgb(77,175,74)',
+      'rgb(152,78,163)','rgb(255,127,0)','rgb(255,255,51)',
+      'rgb(166,86,40)','rgb(247,129,191)','rgb(153,153,153)'])
+    var partition = d3.layout.partition()
+    .value(function(d) {
+      return d.amount;
+    });
+
+    var arc = d3.svg.arc()
+    .startAngle(function(d) {
+      return Math.max(0, Math.min(2 * Math.PI, x(d.x)));
+    })
+    .endAngle(function(d) {
+      return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx)));
+    })
+    .innerRadius(function(d) {
+      return Math.max(0, y(d.y));
+    })
+    .outerRadius(function(d) {
+      return Math.max(0, y(d.y + d.dy));
+    });
+
+    var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<strong>" + (d.name == 'root' ? 'חורה' : d.name) + "</strong> \
+              <span style='color:red'>" + formatNumber(d.amount) + ' ש"ח' + "</span> <br>" +
+              "<strong>" + "סעיף" + "</strong> \
+              <span style='color:orange'>" + (d.code ? d.code : 'כל הסעיפים') + "</span>";
+    })
+
+    var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
+
+    svg.call(tip);
+    d3.json("get_budget_tree.json", function(error, root) {
+      if (error) throw error;
+
+      svg.selectAll("path")
+      .data(partition.nodes(root))
+      .enter().append("path")
+      .attr("d", arc)
+      .style("fill", function fill(d) {
+        //return d3.rgb(d.depth * (256/4),0,(d.code ? d.code[0] : 0) * 256/9);
+        return (d.depth ? color(getDepthOneAncestor(d).code) : "wheat");
+      })
+      //.style("opacity", function opacity(d) {
+        // return 1 - d.depth/10;
+      //})
+      //.style("opacity:hover",0.5)
+      .on("click", click)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+
+      //remove native tooltip
+      // .append("title")
+      // .text(function(d) {
+      //   return d.name + "\n" + formatNumber(d.value) + "\nקוד: " + d.code;
+      // });
+    });
+
+  })
+
+  var get_data = (function(muni,year){
   var width = 550,
       height = 550,
       radius = Math.min(width, height) / 2 - 10;
@@ -228,7 +278,7 @@ var get_data = (function(muni,year){
 
           path.append("title")
           .text(function(d) {
-             return d.name + "\n" + d.amount +"\n" + "קוד:" + d.code; 
+             return d.name + "\n" + d.amount +"\n" + "קוד:" + d.code;
            });
 
       var text = g.append("text")

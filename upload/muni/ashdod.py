@@ -10,4 +10,7 @@ class AshdodMuni(AbstractMuni):
               2: AmountField}
 
     MUNI = 'ashdod'
-    info = {}
+
+    # FIXME population added from wikipedia, valid for december 2014. only for
+    # ashdod
+    info = {'population': 218000}
