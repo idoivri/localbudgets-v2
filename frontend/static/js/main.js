@@ -265,7 +265,7 @@ var get_data= (function (muni,year) {
           .data(partition.nodes(root))
           .enter().append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color( d.name); })  
+          .style("fill", function(d) { return color( d.name); })
           .on("click", click)
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide);
@@ -356,7 +356,11 @@ var get_data= (function (muni,year) {
       .innerRadius(function(d) { return Math.max(0, y(d.y)); })
       .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-
+  // Helper method for choosing the fill color for the paths
+  // finds the depth one Ancestor of given node
+  function getDepthOneAncestor(node) {
+        return node.depth > 1 ? getDepthOneAncestor(node.parent) : node;
+  }
   $.get( '/api/v1/get_budget_tree',
       {
         muni : muni,
