@@ -243,7 +243,11 @@ $ ->
       root.display_muni()
     else
       root.display_all()
+# <<<<<<< Updated upstream
   d3.json "/api/v1/get_budget?layer=1&muni=ashdod&year=2015&year=2010", render_vis
+# =======
+  # d3.json "/api/v1/get_budget?layer=1&year=2011&muni=beer_sheva", render_vis
+
   #d3.json "http://localhost:3000/data/TEST__EXAMPLE_budget.json", render_vis
   #d3.json "data/convertcsv.json", render_vis
   #d3.csv "data/gates_money.csv", render_vis
