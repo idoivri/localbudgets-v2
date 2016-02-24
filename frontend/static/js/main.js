@@ -229,6 +229,8 @@ var get_data= (function (muni,year) {
   //   // });
   // });
 
+  d3.select("svg").remove();
+
   var svg = d3.select("#auto_data").append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -254,6 +256,7 @@ var get_data= (function (muni,year) {
       }
   ).done(
     function(root,error){
+
       var g = svg.selectAll("g")
           .data(partition.nodes(root))
         .enter().append("g");
@@ -262,9 +265,8 @@ var get_data= (function (muni,year) {
           .data(partition.nodes(root))
           .enter().append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+          .style("fill", function(d) { return color( d.name); })  
           .on("click", click)
-          // .on("click", click)
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide);
 
@@ -390,7 +392,7 @@ var get_data= (function (muni,year) {
         function getDepthOneAncestor(node) {
           return node.depth > 1 ? getDepthOneAncestor(node.parent) : node;
         }
-        
+
       function click(d) {
         // fade out all text elements
         // text.transition().attr("opacity", 0);
