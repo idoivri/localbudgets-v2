@@ -147,7 +147,7 @@ var get_data= (function (muni,year) {
   // height = 960,
   // radius = (Math.min(width, height) / 2) - 10;
 
-  var width = 550,
+  var width = 1200,
       height = 550,
       radius = Math.min(width, height) / 2 - 10;
 
@@ -302,6 +302,33 @@ var get_data= (function (muni,year) {
       function computeTextRotation(d){
         return (x(d.x +d.dx /2) - Math.PI/2) / Math.PI * 180;
       }
+
+      //legend  code
+      var legendRectSize = 28;
+      var legendSpacing = 8
+      var legend = svg.selectAll('.legend')
+      .data(color.domain())
+      .enter()
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) {
+        var height = legendRectSize + legendSpacing;
+        var offset =  height * color.domain().length / 2;
+        var horz = radius + 200;
+        var vert = i * height - offset;
+        return 'translate(' + horz + ',' + vert + ')';
+      });
+
+      legend.append('rect')
+      .attr('width', legendRectSize)
+      .attr('height', legendRectSize)
+      .style('fill', color)
+      .style('stroke', color);
+
+      legend.append('text')
+      .attr('x', -10)
+      .attr('y', legendRectSize - legendSpacing)
+      .text(function(d) { return d; });
   });
 
   // d3.select(self.frameElement).style("height", height + "px");
