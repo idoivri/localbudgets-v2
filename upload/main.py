@@ -5,7 +5,7 @@ import os.path
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
-from server.models import get_munis
+from server.models import get_munis, del_database
 from upload.muni import munis_loaders
 
 # TODO: maybe move this const to a module configuration file?
@@ -95,3 +95,8 @@ class UpdateCommand(BaseCommand):
         if len(muni_list) > 0:
             for muni in muni_list:
                 self.handle_muni(muni, options)
+                
+
+class CleanCommand(BaseCommand):
+    def handle(self, *args, **options):
+        del_database()
