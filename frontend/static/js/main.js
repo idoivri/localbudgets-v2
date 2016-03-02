@@ -334,8 +334,6 @@ var get_data= (function (muni,year) {
       .attr('y', legendRectSize - legendSpacing)
       .text(function(d) { return d.name ;});
 
-
-      //TODO fix experimental legend mouseover behavior
       legend.on("mouseover",function (dLegend) {
         console.log(dLegend);
         path
