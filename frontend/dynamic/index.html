@@ -1,79 +1,111 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
-    <head>
+<head>
 
-        <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <script language="javascript" type="text/javascript" src='{{ STATIC_URL }}js/jquery.js' ></script>
-        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/d3.min.js"></script>
-        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
-        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.js"></script>
-        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/horizBarChart.js"></script>
-        <script src=
-        "http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js">
-        </script>
+    <title>Freelancer - Start Bootstrap Theme</title>
 
-        <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" type="text/css" rel="stylesheet"></link>
-        <link href="{{ STATIC_URL }}css/bootstrap.min.css" type="text/css" rel="stylesheet"></link>
-        <link href="{{ STATIC_URL }}css/main.css" type="text/css" rel="stylesheet"></link>
-        <link href="{{ STATIC_URL }}css/jquery-ui.css" type="text/css" rel="stylesheet"></link>
-        <link href="{{ STATIC_URL }}css/horizBarChart.css" type="text/css" rel="stylesheet"></link>
-        <link href="{{ STATIC_URL }}css/sunburst_page.css" type="text/css" rel="stylesheet"></link>
+    <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-rtl.css">
 
+    <!-- Custom CSS -->
+    <link href="{{ STATIC_URL }}css/freelancer.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/main.css" type="text/css" rel="stylesheet"></link> -->
+    <link href="{{ STATIC_URL }}css/jquery-ui.css" type="text/css" rel="stylesheet"></link>
+    <link href="{{ STATIC_URL }}css/sunburst_page.css" type="text/css" rel="stylesheet"></link>
 
-    <!-- // <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/tablesort.js"></script> -->
+    <!-- Custom Fonts -->
+    <link href="{{ STATIC_URL }}font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Alef:400,700' rel='stylesheet' type='text/css'>
+    <!--<link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">-->
 
-    <!-- // <link href="{{ STATIC_URL }}css/semantic.css" type="text/css" rel="stylesheet"></link> -->
-    <!-- // <link href="{{ STATIC_URL }}css/main.css" type="text/css" rel="stylesheet"></link> -->
-    </head>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-    <body>
+</head>
 
-      <ul class="rtl nav nav-tabs " style="float: right">
-        <li role="presentation"><a href="#">קרדיטים</a></li>
-        <li role="presentation"><a href="#">אודות הפרוייקט</a></li>
-        <li role="presentation" class="active"><a href="#">בית</a></li>
-      </ul>
+<body id="page-top" class="index">
 
-
-      <div class="container-fluid center-block rtl">
-          <div class="row">
-            <div class=".col-md-4 .col-md-offset-4">
-              <img src="{{ STATIC_URL }}images/sadna-logo.png" class="text-center">
-            </div>
-          </div>
-      </div>
-
-
-      <div class="container-fluid center-block rtl">
-          <div class="row">
-
-          </div>
-
-          <div class="row spacer">
-              <!-- Empty column -->
-            <div class="col-md-4"></div>
-
-            <!-- Main display -->
-            <div class="col-md-4" style="text-align:center">
-              <p>תמיד חלמת לדעת על מה העירייה שלך מוציאה את תקציבה השנתי?</p>
-              <p>תמיד רצית להשוות את השקעת העיריות השונות בחינוך ולא ידעת איך?</p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" rel="home" href="#" title="תקציב מקומי פתוח">
+                        <img style="max-width:150px; margin-top: -35px; color:white;"
+                             src="{{ STATIC_URL }}img/OpenMuni_Logo_Final.png"><b>תקציב מקומי</b> פתוח
+                </a>
+                <!-- <a class="navbar-brand" href="#page-top">תקציב מקומי פתוח</a> -->
             </div>
 
-            <!-- Empty column -->
-            <div class="col-md-4" style="text-align: center;"></div>
-          </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#portfolio">תקציבים</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#about">אודות</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#contact">צרו קשר</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <img class="img-responsive img-ido" src="{{ STATIC_URL }}img/sadna-logo.png" alt="">
+                    <div class="intro-text">
+                        <span class="name">תקציב מקומי פתוח</span>
+                        <hr class="star-light">
+                        <span class="skills">תקציבי הרשויות המקומיות בישראל - שקופים</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Portfolio Grid Section -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>תקציבים</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
 
 
-        <div class="row">
-            <!-- Empty column -->
-            <div class="col-md-4"></div>
 
-            <!-- Main display -->
-            <div class="col-md-4" style="text-align:center">
-
+            <div class="row text-center">
               <div class="dropdown btn-group">
                 <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown">
                   בחר עירייה
@@ -81,11 +113,10 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="muni_dropdown">
                   {% for muni_name in munis %}
-                  <li><a href="#" id="{{muni_name}}" class="muni_name">{{ muni_name }}</a></li>
+                    <li><a href="#" id="{{muni_name}}" class="muni_name">{{ muni_name }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
-
               <div class="dropdown btn-group">
                 <li class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown">
 
@@ -110,13 +141,81 @@
 
           <ul id="auto_data" class="chart center" style="text-align:center"></ul>
         </div>
+    </section>
 
-      <footer class="footer">
-        <div class="container">
-          <p class="text-muted">bla bla disclaimer bla bla</p>
+
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="footer-above">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col col-md-4">
+                        <h3>איפה אנחנו?</h3>
+                        <p>כל יום רביעי בערב, גבעת רם, 19:00</p>
+                    </div>
+                    <div class="footer-col col-md-4">
+                        <h3>מרחבי הרשת</h3>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-dribbble"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col col-md-4">
+                        <h3>איפה הקוד?</h3>
+                        <p>התקציב המקומי הפתוח הינו פרוייקט קוד פתוח שזמין לעיון והורדה <a href="http://github.com/idoivri/localbudgets/">בגיטהאב</a>.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </footer>
 
-    </body>
+    </footer>
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-top page-scroll visible-xs visible-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{{ STATIC_URL }}js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="{{ STATIC_URL }}js/classie.js"></script>
+    <script src="{{ STATIC_URL }}js/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="{{ STATIC_URL }}js/jqBootstrapValidation.js"></script>
+    <script src="{{ STATIC_URL }}js/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ STATIC_URL }}js/freelancer.js"></script>
+
+    <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/d3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.js"></script>
+    <script src=
+    "http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js">
+    </script>
+
+</body>
 
 </html>

@@ -490,13 +490,13 @@ $(document).ready(function() {
       // }
 
      $(".muni_name").on('click', function(){
-
        $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
        $("#muni_dropdown:first-child").val($(this).attr('id'));
 
        // Clear previous results
        $("#years_dropdown_vals").empty()
        //
+
        $.get('/api/v1/get_muni_year',
            {
              name : $(this).text()
@@ -526,6 +526,7 @@ $(document).ready(function() {
       get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() );
     });
 
+    get_data('ashdod','2013')
   });
   //
   // set_autocomplete(true);

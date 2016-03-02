@@ -1,0 +1,122 @@
+  <!DOCTYPE html>
+
+<html>
+    <head>
+
+        <meta charset="utf-8">
+
+        <script language="javascript" type="text/javascript" src='{{ STATIC_URL }}js/jquery.js' ></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/d3.min.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.js"></script>
+        <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/horizBarChart.js"></script>
+        <script src=
+        "http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js">
+        </script>
+
+        <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/bootstrap.min.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/main.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/jquery-ui.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/horizBarChart.css" type="text/css" rel="stylesheet"></link>
+        <link href="{{ STATIC_URL }}css/sunburst_page.css" type="text/css" rel="stylesheet"></link>
+
+
+    <!-- // <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/tablesort.js"></script> -->
+
+    <!-- // <link href="{{ STATIC_URL }}css/semantic.css" type="text/css" rel="stylesheet"></link> -->
+    <!-- // <link href="{{ STATIC_URL }}css/main.css" type="text/css" rel="stylesheet"></link> -->
+    </head>
+
+    <body>
+
+      <ul class="rtl nav nav-tabs " style="float: right">
+        <li role="presentation"><a href="#">קרדיטים</a></li>
+        <li role="presentation"><a href="#">אודות הפרוייקט</a></li>
+        <li role="presentation" class="active"><a href="#">בית</a></li>
+      </ul>
+
+
+      <div class="container-fluid center-block rtl">
+          <div class="row">
+            <div class=".col-md-4 .col-md-offset-4">
+              <img src="{{ STATIC_URL }}images/sadna-logo.png" class="text-center">
+            </div>
+          </div>
+      </div>
+
+
+      <div class="container-fluid center-block rtl">
+          <div class="row">
+
+          </div>
+
+          <div class="row spacer">
+              <!-- Empty column -->
+            <div class="col-md-4"></div>
+
+            <!-- Main display -->
+            <div class="col-md-4" style="text-align:center">
+              <p>תמיד חלמת לדעת על מה העירייה שלך מוציאה את תקציבה השנתי?</p>
+              <p>תמיד רצית להשוות את השקעת העיריות השונות בחינוך ולא ידעת איך?</p>
+            </div>
+
+            <!-- Empty column -->
+            <div class="col-md-4" style="text-align: center;"></div>
+          </div>
+
+
+        <div class="row">
+            <!-- Empty column -->
+            <div class="col-md-4"></div>
+
+            <!-- Main display -->
+            <div class="col-md-4" style="text-align:center">
+
+              <div class="dropdown btn-group">
+                <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown">
+                  בחר עירייה
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="muni_dropdown">
+                  {% for muni_name in munis %}
+                  <li><a href="#" id="{{muni_name}}" class="muni_name">{{ muni_name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <div class="dropdown btn-group">
+                <li class="btn btn-default dropdown-toggle disabled" type="button" id="years_dropdown" data-toggle="dropdown">
+
+                  בחר שנה
+                  <span class="caret"></span>
+                </li>
+                <ul class="dropdown-menu"  id="years_dropdown_vals" aria-labelledby="years_dropdown">
+
+                </ul>
+              </div>
+
+              <div class="btn-group">
+                <button class="btn btn-default disabled" type="button" id="muni_go">
+                  יאללה!
+                </button>
+              </div>
+
+            </div>
+            <!-- Empty column -->
+            <div class="col-md-4" style="text-align: center;"></div>
+          </div>
+
+          <ul id="auto_data" class="chart center" style="text-align:center"></ul>
+        </div>
+
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted">bla bla disclaimer bla bla</p>
+        </div>
+      </footer>
+
+    </body>
+
+</html>
