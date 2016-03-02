@@ -333,6 +333,25 @@ var get_data= (function (muni,year) {
       .attr('x', -10)
       .attr('y', legendRectSize - legendSpacing)
       .text(function(d) { return d.name + '('+ d.amount +')'; });
+
+
+      //TODO fix experimental legend mouseover behavior 
+      legend.on("mouseover",function (dLegend) {
+        console.log(dLegend);
+        path
+        .filter(function (d) { return d._id === dLegend._id })
+        .call(function (selection) {
+          selection[0][0].style.opacity = '0.7';
+          tip.show(dLegend,selection[0][0])
+        });
+      }).on('mouseout',function (dLegend) {
+        tip.hide()
+        path
+        .filter(function (d) { return d._id === dLegend._id })
+        .call(function (selection) {
+          selection[0][0].style.opacity = '1'
+        });
+      })
   });
 
   // d3.select(self.frameElement).style("height", height + "px");
