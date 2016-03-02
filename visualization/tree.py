@@ -126,7 +126,7 @@ class Tree(object):
     def insert_node(self,node):
         location = self
         subcode = ''
-        went_down = True
+        # went_down = True
         for c in node.code[1:]:
             subcode += c
             for child in location.children:

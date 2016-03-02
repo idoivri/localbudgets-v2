@@ -76,6 +76,7 @@ class Dataset():
 def get_raw_budget(muni,year):
     return Dataset([RAW_COLLECTION,muni,year])
 
+
 # Depracated since it can't be closed. use get flatten
 # @cleaner
 # def get_budget(muni,year):
@@ -112,13 +113,26 @@ def get_muni_years(muni_name):
 
     munis.close()
 
-def muni_iter():
-    munis = get_munis()
-    for muni in munis.find():
-        for year in muni['years']:
-            yield (muni['name'], year)
+def muni_iter(**kwargs):
+    munis = None
 
-    munis.close()
+    if kwargs['muni']:
+        muni_names = [kwargs['muni']]
+    else:
+        munis = get_munis()
+        muni_names = [muni['name'] for muni in munis.find()]
+
+    for muni in muni_names:
+        if kwargs['year']:
+            years = [kwargs['year']]
+        else:
+            years = get_muni_years(muni)
+
+        for year in years:
+            yield (muni, year)
+
+    if munis:
+        munis.close()
 
 
 

@@ -21,7 +21,7 @@ def search_code(muni,year,code):
     return results
 
 
-def get_budget_tree(muni, year, layer=2):
+def get_budget_tree(muni, year, layer=4):
     if not (0 <= layer <= 4):
         layer = 4
     root = get_root(muni, year)
