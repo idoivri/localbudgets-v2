@@ -141,6 +141,11 @@ var set_basic_search = (function(){
 //   });
 // });
 
+function colores_google(n) {
+  var colores_g = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
+  return colores_g[n % colores_g.length];
+}
+
 var muni_color_scale;
 var get_data= (function (muni,year) {
   // var width = 960,
@@ -161,12 +166,12 @@ var get_data= (function (muni,year) {
   var y = d3.scale.sqrt()
   .range([0, radius]);
 
-  var color = d3.scale.category20c();
-  var color = d3.scale.ordinal().range(
-    ['#50514f','#f25f5c','#ffe066','#247ba0','#70c1b3']);
-    (['rgb(228,26,28)','rgb(55,126,184)','rgb(77,175,74)',
-    'rgb(152,78,163)','rgb(255,127,0)','rgb(255,255,51)',
-    'rgb(166,86,40)','rgb(247,129,191)','rgb(153,153,153)'])
+  var color =  d3.scale.category10();
+  // var color = d3.scale.ordinal().range(
+  //   ['#50514f','#f25f5c','#ffe066','#247ba0','#70c1b3']);
+  //   (['rgb(228,26,28)','rgb(55,126,184)','rgb(77,175,74)',
+  //   'rgb(152,78,163)','rgb(255,127,0)','rgb(255,255,51)',
+  //   'rgb(166,86,40)','rgb(247,129,191)','rgb(153,153,153)'])
   // var partition = d3.layout.partition()
   // .value(function(d) {
   //   return d.amount;
@@ -265,7 +270,7 @@ var get_data= (function (muni,year) {
           .data(partition.nodes(root))
           .enter().append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color(d.name); })
+          .style("fill", function(d) { return color( d.code ); })
           .on("click", click)
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide);
