@@ -54,12 +54,11 @@ class UpdateCommand(BaseCommand):
             years = []
 
         if muni_entry is None:
-            db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years})
+            db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years,'roots':{}})
         else:
             # import pdb; pdb.set_trace()
             muni_entry['years'] = list(set(muni_entry['years']+years))
             db.dataset.save(muni_entry)
-        muni_entry['roots'] = {}
 
 
     def handle_muni(self, muni, options):
@@ -88,7 +87,7 @@ class UpdateCommand(BaseCommand):
         print "bla for the win"
         # if options['clean']:
         #     del_collection(RAW_COLLECTION)
-        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR)) if muni.endswith('csv') and not muni==SCHEMA ]
+        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR)) if not muni==SCHEMA ]
         if len(args) > 0:
             muni_list = filter(lambda x: x in muni_list,args)
 

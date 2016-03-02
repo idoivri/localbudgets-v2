@@ -88,9 +88,9 @@ class Muni2TreeCommand(BaseCommand):
                 else:
                     print "Budget %s, of year %s is already uploaded. Use clean to overwrite."%(muni,year)
                     continue
-            #tree = create_tree(muni,year)
-            #root = tree.to_db(flatten_dataset)
-            #update_root(muni,year,root)
+            tree = create_tree(muni,year)
+            root = tree.to_db(flatten_dataset)
+            update_root(muni,year,root)
 
         flatten_dataset.close()
 
@@ -137,8 +137,6 @@ def create_tree(muni,year):
 def update_root(muni,year,root):
     munis=get_munis()
     entry = munis.find_one({'name':muni})
-    if not 'roots' in entry.keys():
-        entry['roots'] = {}
     entry['roots'][str(year)] = root
     munis.save(entry)
     munis.close()
