@@ -141,13 +141,18 @@ var set_basic_search = (function(){
 //   });
 // });
 
+function colores_google(n) {
+  var colores_g = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
+  return colores_g[n % colores_g.length];
+}
+
 var muni_color_scale;
 var get_data= (function (muni,year) {
   // var width = 960,
   // height = 960,
   // radius = (Math.min(width, height) / 2) - 10;
 
-  var width = 550,
+  var width = 1200,
       height = 550,
       radius = Math.min(width, height) / 2 - 10;
 
@@ -161,12 +166,12 @@ var get_data= (function (muni,year) {
   var y = d3.scale.sqrt()
   .range([0, radius]);
 
-  var color = d3.scale.category20c();
-  var color = d3.scale.ordinal().range(
-    ['#50514f','#f25f5c','#ffe066','#247ba0','#70c1b3']);
-    (['rgb(228,26,28)','rgb(55,126,184)','rgb(77,175,74)',
-    'rgb(152,78,163)','rgb(255,127,0)','rgb(255,255,51)',
-    'rgb(166,86,40)','rgb(247,129,191)','rgb(153,153,153)'])
+  var color =  d3.scale.category10();
+  // var color = d3.scale.ordinal().range(
+  //   ['#50514f','#f25f5c','#ffe066','#247ba0','#70c1b3']);
+  //   (['rgb(228,26,28)','rgb(55,126,184)','rgb(77,175,74)',
+  //   'rgb(152,78,163)','rgb(255,127,0)','rgb(255,255,51)',
+  //   'rgb(166,86,40)','rgb(247,129,191)','rgb(153,153,153)'])
   // var partition = d3.layout.partition()
   // .value(function(d) {
   //   return d.amount;
@@ -265,7 +270,7 @@ var get_data= (function (muni,year) {
           .data(partition.nodes(root))
           .enter().append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color( d.name); })
+          .style("fill", function(d) { return color( d.code ); })
           .on("click", click)
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide);
@@ -302,6 +307,54 @@ var get_data= (function (muni,year) {
       function computeTextRotation(d){
         return (x(d.x +d.dx /2) - Math.PI/2) / Math.PI * 180;
       }
+
+      //legend  code
+      var legendRectSize = 28;
+      var legendSpacing = 8
+      var legend = svg.selectAll('.legend')
+      .data(
+        data = partition.nodes(root).filter (function (d) {
+        return (d.size > 0  &&  d.depth < 2) })
+      )
+      .enter()
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) {
+        console.log(i,d.name,d.size);
+        var height = legendRectSize + legendSpacing;
+        var offset =  height * data.length / 2;
+        var horz = radius + 200;
+        var vert = i * height - offset;
+        return 'translate(' + horz + ',' + vert + ')';
+      });
+
+      legend.append('rect')
+      .attr('width', legendRectSize)
+      .attr('height', legendRectSize)
+      .style('fill', function(d) { return color(d.name) })
+      .style('stroke', function(d) { return color(d.name) });
+
+      legend.append('text')
+      .attr('x', -10)
+      .attr('y', legendRectSize - legendSpacing)
+      .text(function(d) { return d.name ;});
+
+      legend.on("mouseover",function (dLegend) {
+        console.log(dLegend);
+        path
+        .filter(function (d) { return d._id === dLegend._id })
+        .call(function (selection) {
+          selection[0][0].style.opacity = '0.7';
+          tip.show(dLegend,selection[0][0])
+        });
+      }).on('mouseout',function (dLegend) {
+        tip.hide()
+        path
+        .filter(function (d) { return d._id === dLegend._id })
+        .call(function (selection) {
+          selection[0][0].style.opacity = '1'
+        });
+      })
   });
 
   // d3.select(self.frameElement).style("height", height + "px");
@@ -437,13 +490,13 @@ $(document).ready(function() {
       // }
 
      $(".muni_name").on('click', function(){
-
        $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
        $("#muni_dropdown:first-child").val($(this).attr('id'));
 
        // Clear previous results
        $("#years_dropdown_vals").empty()
        //
+
        $.get('/api/v1/get_muni_year',
            {
              name : $(this).text()
@@ -473,6 +526,7 @@ $(document).ready(function() {
       get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() );
     });
 
+    get_data('ashdod','2013')
   });
   //
   // set_autocomplete(true);
