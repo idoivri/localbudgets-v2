@@ -147,9 +147,9 @@ var get_data= (function (muni,year) {
   // height = 960,
   // radius = (Math.min(width, height) / 2) - 10;
 
-  var width = 1200,
-      height = 550,
-      radius = Math.min(width, height) / 2 - 10;
+  var width = 1100,
+      height = 1100,
+      radius = Math.min(width, height/2) / 2 - 10;
 
   var formatNumber = d3.format(",d");
 
@@ -240,7 +240,7 @@ var get_data= (function (muni,year) {
   svg.call(tip);
 
   var partition = d3.layout.partition()
-      .value(function(d) { return d.size; });
+      .value(function(d) { return d.depth < 3 ? d.size : 0 });
 
   var arc = d3.svg.arc()
       .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
@@ -265,7 +265,7 @@ var get_data= (function (muni,year) {
           .data(partition.nodes(root))
           .enter().append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color( d.name); })
+          .style("fill", function(d) { return color(d.name); })
           .on("click", click)
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide);
@@ -307,13 +307,17 @@ var get_data= (function (muni,year) {
       var legendRectSize = 28;
       var legendSpacing = 8
       var legend = svg.selectAll('.legend')
-      .data(color.domain())
+      .data(
+        data = partition.nodes(root).filter (function (d) {
+        return (d.size > 0  &&  d.depth < 2) })
+      )
       .enter()
       .append('g')
       .attr('class', 'legend')
       .attr('transform', function(d, i) {
+        console.log(i,d.name,d.size);
         var height = legendRectSize + legendSpacing;
-        var offset =  height * color.domain().length / 2;
+        var offset =  height * data.length / 2;
         var horz = radius + 200;
         var vert = i * height - offset;
         return 'translate(' + horz + ',' + vert + ')';
@@ -322,13 +326,13 @@ var get_data= (function (muni,year) {
       legend.append('rect')
       .attr('width', legendRectSize)
       .attr('height', legendRectSize)
-      .style('fill', color)
-      .style('stroke', color);
+      .style('fill', function(d) { return color(d.name) })
+      .style('stroke', function(d) { return color(d.name) });
 
       legend.append('text')
       .attr('x', -10)
       .attr('y', legendRectSize - legendSpacing)
-      .text(function(d) { return d; });
+      .text(function(d) { return d.name + '('+ d.amount +')'; });
   });
 
   // d3.select(self.frameElement).style("height", height + "px");
