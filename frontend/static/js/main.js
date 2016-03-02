@@ -147,9 +147,9 @@ var get_data= (function (muni,year) {
   // height = 960,
   // radius = (Math.min(width, height) / 2) - 10;
 
-  var width = 1100,
-      height = 1100,
-      radius = Math.min(width, height/2) / 2 - 10;
+  var width = 1200,
+      height = 550,
+      radius = Math.min(width, height) / 2 - 10;
 
   var formatNumber = d3.format(",d");
 
@@ -240,7 +240,7 @@ var get_data= (function (muni,year) {
   svg.call(tip);
 
   var partition = d3.layout.partition()
-      .value(function(d) { return d.depth < 3 ? d.size : 0 });
+      .value(function(d) { return d.size; });
 
   var arc = d3.svg.arc()
       .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
