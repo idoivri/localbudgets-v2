@@ -5,7 +5,7 @@ import os.path
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
 from importlib import import_module
-from server.models import get_munis
+from server.models import get_munis, del_database
 from upload.muni import munis_loaders
 
 # TODO: maybe move this const to a module configuration file?
@@ -54,7 +54,7 @@ class UpdateCommand(BaseCommand):
             years = []
 
         if muni_entry is None:
-            db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years})
+            db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years,'roots':{}})
         else:
             # import pdb; pdb.set_trace()
             muni_entry['years'] = list(set(muni_entry['years']+years))
@@ -71,7 +71,6 @@ class UpdateCommand(BaseCommand):
             muni_class = munis_loaders[muni]
         else:
             raise NoMuniParser("no Muni parser for: %s" %(muni, ))
-
         muni_object = muni_class(print_data=options['print_data'],clean=options['clean'])
         years = []
 
@@ -88,10 +87,15 @@ class UpdateCommand(BaseCommand):
         print "bla for the win"
         # if options['clean']:
         #     del_collection(RAW_COLLECTION)
-        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR)) if not muni==SCHEMA]
+        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR)) if not muni==SCHEMA ]
         if len(args) > 0:
             muni_list = filter(lambda x: x in muni_list,args)
 
         if len(muni_list) > 0:
             for muni in muni_list:
                 self.handle_muni(muni, options)
+                
+
+class CleanCommand(BaseCommand):
+    def handle(self, *args, **options):
+        del_database()

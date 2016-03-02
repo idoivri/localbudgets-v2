@@ -30,6 +30,7 @@ INFLATION = {1992: 2.338071159424868,
  2014: 1.0,
 }
 
+DATABASE_NAME = 'munidatabase'
 RAW_COLLECTION = 'raw'
 MUNIS_COLLECTION = 'munis'
 FLATTEN_COLLECTION = 'flatten'
@@ -47,12 +48,12 @@ def cleaner(func):
 def _mongo_client():
     return MongoClient(MONGO_SERVER)
 def _get_database(client):
-    return client.database
+    return client[DATABASE_NAME]
 
 class Dataset():
     def __init__(self, pointer):
         self.client = _mongo_client()
-        db = self.client.database
+        db = self.client[DATABASE_NAME]
         self.dataset = db
         # import pdb; pdb.set_trace()
         for arg in pointer:
@@ -75,6 +76,7 @@ class Dataset():
 @cleaner
 def get_raw_budget(muni,year):
     return Dataset([RAW_COLLECTION,muni,year])
+
 
 # Depracated since it can't be closed. use get flatten
 # @cleaner
@@ -112,23 +114,40 @@ def get_muni_years(muni_name):
 
     munis.close()
 
-def muni_iter():
-    munis = get_munis()
-    for muni in munis.find():
-        for year in muni['years']:
-            yield (muni['name'], year)
+def muni_iter(**kwargs):
+    munis = None
 
-    munis.close()
+    if kwargs['muni']:
+        muni_names = [kwargs['muni']]
+    else:
+        munis = get_munis()
+        muni_names = [muni['name'] for muni in munis.find()]
+
+    for muni in muni_names:
+        if kwargs['year']:
+            years = [kwargs['year']]
+        else:
+            years = get_muni_years(muni)
+
+        for year in years:
+            yield (muni, year)
+
+    if munis:
+        munis.close()
 
 
 
+def del_database():
+    client = _mongo_client()
+    client.drop_database(DATABASE_NAME)
+    
 
 def del_collection(collection_name):
     client = _mongo_client()
-    db = client.database
+    db = client[DATABASE_NAME]
 
     if collection_name in db.collection_names():
-        collection = client.database[collection_name]
+        collection = client[DATABASE_NAME][collection_name]
         collection.drop()
 
     client.close()

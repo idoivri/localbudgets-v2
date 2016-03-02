@@ -15,7 +15,12 @@ class AbstractMuni(object):
 
     def handle_sheet(self, year, filename):
         # TODO: do this more generic than this!
+
         dataset = get_raw_budget(self.MUNI, year, clean = self.clean)
+        if dataset.count()>0 and not self.clean:
+            print "Budget for %s, in year %d already exists. Use --clean to overwrite."%(self.MUNI,year)
+            return
+
         reader = csv.reader(file(filename, 'rb'))
 
         if year in self.years:
