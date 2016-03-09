@@ -292,7 +292,7 @@ var get_data= (function (muni,year) {
     //we should decide if that's good and remove the text related code from
     //this script
 
-    function click(d) {gitg
+    function click(d) {
 
       path.transition()
       .duration(750)
@@ -361,6 +361,8 @@ var get_data= (function (muni,year) {
           selection[0][0].style.opacity = '1'
         });
       })
+
+      legend.on("click",click)
     });
 
     // d3.select(self.frameElement).style("height", height + "px");
