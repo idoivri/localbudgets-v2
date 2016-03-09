@@ -512,6 +512,7 @@ $(document).ready(function() {
                             $("#years_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
                             $("#years_dropdown:first-child").val($(this).text());
                             $("#muni_go").removeClass("disabled");
+
                           })
                  );
 
