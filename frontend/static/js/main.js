@@ -47,9 +47,9 @@ var set_autocomplete = (function (is_disabled){
       var item_wrapped = $('<li/>')
        .attr("title", res_data.muni)
         .append(
-        $("<span/>").addClass("value").attr("data-number", res_data.name)
+        $("<span/>").addClass("value").attr("data-number", getName(d))
         .add(
-            $("<span/>").text(res_data.name).addClass("number")
+            $("<span/>").text(getName(d)).addClass("number")
           )
         );
       $('#auto_data').append(item_wrapped);
@@ -141,6 +141,14 @@ var set_basic_search = (function(){
 //   });
 // });
 
+function getName(d) {
+  if( d.name == 'root') {
+    return "כללי";
+  } else{
+    return d.name;
+  }
+}
+
 function colores_google(n) {
   var colores_g = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
   return colores_g[n % colores_g.length];
@@ -195,7 +203,7 @@ var get_data= (function (muni,year) {
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>" + d.name + "</strong> \
+    return "<strong>" + getName(d) + "</strong> \
             <span style='color:red'>" + formatNumber(d.amount) + ' ש"ח' + "</span> <br>" +
             "<strong>" + "סעיף" + "</strong> \
             <span style='color:orange'>" + (d.code ? d.code : 'כל הסעיפים') + "</span>";
@@ -320,7 +328,7 @@ var get_data= (function (muni,year) {
       .append('g')
       .attr('class', 'legend')
       .attr('transform', function(d, i) {
-        console.log(i,d.name,d.size);
+        console.log(i,getName(d),d.size);
         var height = legendRectSize + legendSpacing;
         var offset =  height * data.length / 2;
         var horz = radius + 200;
@@ -331,13 +339,13 @@ var get_data= (function (muni,year) {
       legend.append('rect')
       .attr('width', legendRectSize)
       .attr('height', legendRectSize)
-      .style('fill', function(d) { return color(d.name) })
-      .style('stroke', function(d) { return color(d.name) });
+      .style('fill', function(d) { return color(getName(d)) })
+      .style('stroke', function(d) { return color(getName(d)) });
 
       legend.append('text')
       .attr('x', -10)
       .attr('y', legendRectSize - legendSpacing)
-      .text(function(d) { return d.name ;});
+      .text(function(d) { return getName(d) ;});
 
       legend.on("mouseover",function (dLegend) {
         console.log(dLegend);
@@ -424,7 +432,7 @@ var get_data= (function (muni,year) {
           .data(partition.nodes(root))
           .enter().append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+          .style("fill", function(d) { return color(getName(d.children ? d : d.parent)); })
           .on("click", click);
 
       var text = g.append("text")
@@ -512,6 +520,7 @@ $(document).ready(function() {
                             $("#years_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
                             $("#years_dropdown:first-child").val($(this).text());
                             $("#muni_go").removeClass("disabled");
+
                           })
                  );
 
