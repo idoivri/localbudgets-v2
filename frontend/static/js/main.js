@@ -278,7 +278,7 @@ var get_data= (function (muni,year) {
           .data(partition.nodes(root))
           .enter().append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color( d.code ); })
+          .style("fill", function(d) { return color( getName(d) ); })
           .on("click", click)
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide);
