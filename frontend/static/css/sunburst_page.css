@@ -5,7 +5,8 @@ body{
 
 }
 path {
-  stroke: rgb(255, 255, 255);
+  stroke: white;
+  stroke-width: 2.5px;
 }
 path:hover{
   opacity: 0.5;
@@ -38,4 +39,10 @@ path:hover{
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
+}
+
+.chart-inner-title {
+  font-size: 20px;
+  font-weight: bolder;
+  color: green;
 }
