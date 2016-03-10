@@ -1,3 +1,4 @@
+//TODO a hack until "תקציב עיריית X" would be supported in the server
 function getName(d) {
   if( d.name == 'root') {
     return "כללי";
@@ -14,90 +15,105 @@ function colores_google(n) {
   return colores_g[n % colores_g.length];
 }
 
-var muni_color_scale;
-var get_data= (function (muni,year) {
+/**
+ * fetches (muni,year) data from server
+ * and displays all relevant visualization
+ */
+function get_data(muni,year) {
 
+  //svg canvas dimensions
   var width = 1200,
   height = 550,
+
+  // sunburst radius
   radius = Math.min(width, height) / 2 - 10;
 
-  var formatNumber = d3.format(",d");
+  //format budget values
+  var formatBudget = d3.format(",d");
 
-  //ההיקף
+  //scale perimeter
   var x = d3.scale.linear()
   .range([0, 2 * Math.PI]);
 
-  //העומק
+  //scale depth/width of arcs
   var y = d3.scale.sqrt()
   .range([0, radius]);
 
   var color =  d3.scale.category10();
 
+  //define tip html
   var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
     return "<strong>" + getName(d) + "</strong> \
-    <span style='color:red'>" + formatNumber(d.amount) + ' ש"ח' + "</span> <br>" +
+    <span style='color:red'>" + formatBudget(d.amount) + ' ש"ח' + "</span> <br>" +
     "<strong>" + "סעיף" + "</strong> \
     <span style='color:orange'>" + (d.code ? d.code : 'כל הסעיפים') + "</span>";
   })
 
+  //clean previous svg
   d3.select("svg").remove();
 
+  //append new svg
   var svg = d3.select("#auto_data").append("svg")
   .attr("width", width)
   .attr("height", height)
+  //group chart elements
   .append("g")
   .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
 
   svg.call(tip);
 
+  //d3 partition layout, by size
   var partition = d3.layout.partition()
   .value(function(d) { return d.size; });
 
+  //calculate arcs
   var arc = d3.svg.arc()
   .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
   .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
   .innerRadius(function(d) { return Math.max(0, y(d.y)); })
   .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-
+  //fetch data
   $.get( '/api/v1/get_budget_tree',
   {
     muni : muni,
     year: year.toString()
-  }
-).done(
+  })
+  .done(
   function(root,error){
 
-    var g = svg.selectAll("g")
-    .data(partition.nodes(root))
-    .enter().append("g");
-
+    //bind svg paths to budget nodes
     var path = svg.selectAll("path")
     .data(partition.nodes(root))
-    .enter().append("path")
+    .enter()
+    .append("path")
+    //draw arcs
     .attr("d", arc)
+    //color by name
     .style("fill", function(d) { return color( getName(d) ); })
+    //zoom on click
     .on("click", click)
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide);
 
+    //zoom on clicked node, and animate transition
     function click(d) {
       path.transition()
       .duration(750)
       .attrTween("d", arcTween(d))
     }
 
-    function computeTextRotation(d){
-      return (x(d.x +d.dx /2) - Math.PI/2) / Math.PI * 180;
-    }
-
     //legend  code
     var legendRectSize = 28;
     var legendSpacing = 8
+
+    //bind budget nodes to legend
     var legend = svg.selectAll('.legend')
+
+    //filter only depth 2 nodes
     .data(
       data = partition.nodes(root).filter (function (d) {
         return (d.size > 0  &&  d.depth < 2) })
@@ -105,6 +121,8 @@ var get_data= (function (muni,year) {
       .enter()
       .append('g')
       .attr('class', 'legend')
+
+      //position legend alongside chart
       .attr('transform', function(d, i) {
         var height = legendRectSize + legendSpacing;
         var offset =  height * data.length / 2;
@@ -113,17 +131,20 @@ var get_data= (function (muni,year) {
         return 'translate(' + horz + ',' + vert + ')';
       });
 
+      //legend squares
       legend.append('rect')
       .attr('width', legendRectSize)
       .attr('height', legendRectSize)
       .style('fill', function(d) { return color(getName(d)) })
       .style('stroke', function(d) { return color(getName(d)) });
 
+      //legend labels
       legend.append('text')
       .attr('x', -10)
       .attr('y', legendRectSize - legendSpacing)
       .text(function(d) { return getName(d) ;});
 
+      //show tooltip on chart when mouseover legend
       legend.on("mouseover",function (dLegend) {
         path
         .filter(function (d) { return d._id === dLegend._id })
@@ -140,10 +161,11 @@ var get_data= (function (muni,year) {
         });
       })
 
+      //zoom chart when clicking legend
       legend.on("click",click)
     });
 
-    // Interpolate the scales!
+    //interpolate the scales
     function arcTween(d) {
       var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
       yd = d3.interpolate(y.domain(), [d.y, 1]),
@@ -154,27 +176,30 @@ var get_data= (function (muni,year) {
         : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
       };
     }
-  })
+  }
 
   $(document).ready(function() {
     $(function(){
+
       $(".muni_name").on('click', function(){
+
+        //select muni
         $("#muni_dropdown:first-child").html($(this).text() + "<span class=\"caret\"></span>");
         $("#muni_dropdown:first-child").val($(this).attr('id'));
 
         // Clear previous results
         $("#years_dropdown_vals").empty()
-        //
 
+        //get avliable years for this muni
         $.get('/api/v1/get_muni_year',
         {
           name : $(this).text()
         },
         function(result){
           years = $.parseJSON(result).res;
-          //  alert(years)
           $.each(years, function(index, year){
 
+            //update years dropdown
             var item_wrapped = $('<li/>').append(
               $("<a/>").attr("id",year).text(year).addClass("muni_year").
               on('click', function(){
@@ -192,10 +217,13 @@ var get_data= (function (muni,year) {
       $("#years_dropdown").removeClass("disabled");
     });
 
+    // fetch and display chart
+    // note that get_data also displays visualization
     $("#muni_go").on('click', function(){
       get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() );
     });
 
+    //A default muni to display before user selects anything
     get_data('ashdod','2013')
   });
 });
