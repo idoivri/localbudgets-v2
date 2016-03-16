@@ -55,7 +55,7 @@ def get_autocomplete(request):
 def get_budget_tree(request):
     muni = request.GET.get('muni')
     year = request.GET.get('year')
-    layer = request.GET.get('layer', 3)
+    layer = request.GET.get('layer', 1000)
     return HttpResponse(dumps(vis_get_budget_tree(muni, year, layer)), 'application/json')
 
 @api_view(['GET'])

@@ -71,7 +71,7 @@ def get_node_subtree(_id, layer=4):
     budgets = [budget.to_dict(0) for budget in budgets]
     return budgets
 
-def get_root(muni, year, layer=4):
+def get_root(muni, year, layer=1000):
     munis = get_munis()
     flatten = get_flatten()
     entry = munis.find_one({'name':muni})

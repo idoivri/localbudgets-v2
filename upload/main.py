@@ -7,6 +7,8 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 from server.models import get_munis, del_database
 from upload.muni import munis_loaders
+import argparse
+
 
 # TODO: maybe move this const to a module configuration file?
 DATA_DIR = 'data'
@@ -24,20 +26,28 @@ def parse_filename(filename):
 
     
 class UpdateCommand(BaseCommand):
-
-    from optparse import make_option
-    option_list = BaseCommand.option_list + (
-        make_option('--print',
+    # from optparse import make_option
+    def add_arguments(self, parser):
+        parser.add_argument('--print',
             action='store_true',
             dest='print_data',
             default=False,
-            help='Print muni data to screen'),
-        make_option('--clean_all',
+            help='Print muni data to screen')
+
+        parser.add_argument('--clean_all',
             action='store_true',
             dest='clean',
             default=False,
             help='Clean the DB before the Command'),
-        )
+
+        parser.add_argument('--muni',
+            dest='muni',
+            help='Specify which muni to upload (otherwise all)'),
+
+        parser.add_argument('--year',
+            dest='year',
+            help='Specify which year to upload (otherwise all)'),
+
 
     # def handle_sheet(self, muni_object, filepath):
     #     '''
@@ -72,24 +82,33 @@ class UpdateCommand(BaseCommand):
         else:
             raise NoMuniParser("no Muni parser for: %s" %(muni, ))
         muni_object = muni_class(print_data=options['print_data'],clean=options['clean'])
-        years = []
+        years = {parse_filename(filename):filename for filename in os.listdir(muni_path) }
 
-        for filename in os.listdir(muni_path):
-            # self.handle_sheet(muni_object, join(muni_path, filename))
-            year = parse_filename(filename)
+        if options['year']:
+            if int(options['year']) in years.keys():
+                years = {int(options['year']): years[int(options['year'])]}
+            else:
+                print 'The budget for muni %s year %d does not exist '%(muni,int(options['year']))
+                return
+
+        for (year,filename) in years.items():
             muni_object.handle_sheet(year, join(muni_path, filename))
-            years.append(year)
 
-        self.add_muni(muni_object, years)
+        self.add_muni(muni_object, years.keys())
 
 
     def handle(self, *args, **options):
         print "bla for the win"
         # if options['clean']:
         #     del_collection(RAW_COLLECTION)
-        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR)) if not muni==SCHEMA ]
-        if len(args) > 0:
-            muni_list = filter(lambda x: x in muni_list,args)
+        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR))
+                     if (os.path.isdir(join(root_dir,DATA_DIR,muni)) and not muni==SCHEMA)]
+        if options['muni']:
+            if options['muni'] in muni_list:
+                muni_list = [options['muni']]
+            else:
+                print 'Data for muni %s does not exist'%options['muni']
+                return
 
         if len(muni_list) > 0:
             for muni in muni_list:

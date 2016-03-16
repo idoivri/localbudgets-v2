@@ -22,8 +22,6 @@ SECRET_KEY = '@2%m08$8s3*h)oep!+64t_78hzcaq57t%^qui1(&yb7i@tgjkk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -61,10 +59,6 @@ ROOT_URLCONF = 'server.urls'
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
-TEMPLATE_DIRS = (
-    os.path.join('frontend', 'dynamic'),
-)
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -97,3 +91,28 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 
 MONGO_SERVER = "localhost:27017"
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join('frontend', 'dynamic'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+            'debug': True
+        },
+    },
+]
+
