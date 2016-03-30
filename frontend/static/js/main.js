@@ -9,16 +9,16 @@ function getName(d) {
 
 function colores_google(n) {
   var colores_g = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099",
-                  "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395",
-                  "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300",
-                  "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
+  "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395",
+  "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300",
+  "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
   return colores_g[n % colores_g.length];
 }
 
 /**
- * fetches (muni,year) data from server
- * and displays all relevant visualization
- */
+* fetches (muni,year) data from server
+* and displays all relevant visualization
+*/
 function get_data(muni,year) {
 
   //svg canvas dimensions
@@ -83,87 +83,93 @@ function get_data(muni,year) {
     year: year.toString()
   })
   .done(
-  function(root,error){
+    function(root,error){
 
-    //bind svg paths to budget nodes
-    var path = svg.selectAll("path")
-    .data(partition.nodes(root))
-    .enter()
-    .append("path")
-    //draw arcs
-    .attr("d", arc)
-    //color by name
-    .style("fill", function(d) { return color( getName(d) ); })
-    //zoom on click
-    .on("click", click)
-    .on('mouseover', tip.show)
-    .on('mouseout', tip.hide);
+      var nodes = partition.nodes(root);
+      var clickedNode;
 
-    //zoom on clicked node, and animate transition
-    function click(d) {
-      path.transition()
-      .duration(750)
-      .attrTween("d", arcTween(d))
-    }
-
-    //legend  code
-    var legendRectSize = 28;
-    var legendSpacing = 8
-
-    //bind budget nodes to legend
-    var legend = svg.selectAll('.legend')
-
-    //filter only depth 2 nodes
-    .data(
-      data = partition.nodes(root).filter (function (d) {
-        return (d.size > 0  &&  d.depth < 2) })
-      )
+      //bind svg paths to budget nodes
+      var path = svg.selectAll("path")
+      .data(nodes)
       .enter()
-      .append('g')
-      .attr('class', 'legend')
+      .append("path")
+      //draw arcs
+      .attr("d", arc)
+      //color by name
+      .style("fill", function(d) { return color( getName(d) ); })
+      //zoom on click
+      .on("click", click)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
 
-      //position legend alongside chart
-      .attr('transform', function(d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset =  height * data.length / 2;
-        var horz = radius + 200;
-        var vert = i * height - offset;
-        return 'translate(' + horz + ',' + vert + ')';
-      });
+      //zoom on clicked node, and animate transition
+      function click(d) {
+        path.transition()
+        .duration(750)
+        .attrTween("d", arcTween(d))
 
-      //legend squares
-      legend.append('rect')
-      .attr('width', legendRectSize)
-      .attr('height', legendRectSize)
-      .style('fill', function(d) { return color(getName(d)) })
-      .style('stroke', function(d) { return color(getName(d)) });
+        showLegend(d)
+      }
 
-      //legend labels
-      legend.append('text')
-      .attr('x', -10)
-      .attr('y', legendRectSize - legendSpacing)
-      .text(function(d) { return getName(d) ;});
+      //show legend with children of selected node
+      function showLegend(d) {
 
-      //show tooltip on chart when mouseover legend
-      legend.on("mouseover",function (dLegend) {
-        path
-        .filter(function (d) { return d._id === dLegend._id })
-        .call(function (selection) {
-          selection[0][0].style.opacity = '0.7';
-          tip.show(dLegend,selection[0][0])
+        //legend  code
+        var legendRectSize = 28;
+        var legendSpacing = 8
+
+        //clean previous legend
+        d3.selectAll(".legend").remove();
+
+        //bind budget nodes to legend
+        var legend = svg.selectAll('.legend')
+        .data(data = d.children)
+        .enter()
+        .append('g')
+        .attr('class', 'legend')
+
+        //position legend alongside chart
+        .attr('transform', function(d, i) {
+          var height = legendRectSize + legendSpacing;
+          var offset =  height * data.length / 2;
+          var horz = radius + 200;
+          var vert = i * height - offset;
+          return 'translate(' + horz + ',' + vert + ')';
         });
-      }).on('mouseout',function (dLegend) {
-        path
-        .filter(function (d) { return d._id === dLegend._id })
-        .call(function (selection) {
-          selection[0][0].style.opacity = '1'
-          tip.hide(dLegend,selection[0][0])
-        });
-      })
+        //legend squares
+        legend.append('rect')
+        .attr('width', legendRectSize)
+        .attr('height', legendRectSize)
+        .style('fill', function(d) { return color(getName(d)) })
+        .style('stroke', function(d) { return color(getName(d)) });
 
-      //zoom chart when clicking legend
-      legend.on("click",click)
-    });
+        //legend labels
+        legend.append('text')
+        .attr('x', -10)
+        .attr('y', legendRectSize - legendSpacing)
+        .text(function(d) { return getName(d) ;});
+
+        //show tooltip on chart when mouseover legend
+        legend.on("mouseover",function (dLegend) {
+          path
+          .filter(function (d) { return d._id === dLegend._id })
+          .call(function (selection) {
+            selection[0][0].style.opacity = '0.7';
+            tip.show(dLegend,selection[0][0])
+          });
+        }).on('mouseout',function (dLegend) {
+          path
+          .filter(function (d) { return d._id === dLegend._id })
+          .call(function (selection) {
+            selection[0][0].style.opacity = '1'
+            tip.hide(dLegend,selection[0][0])
+          });
+        })
+        //zoom chart when clicking legend
+        legend.on("click",click)
+      } //end of showLegend
+
+    }); //end of visualization wrapper function
 
     //interpolate the scales
     function arcTween(d) {
