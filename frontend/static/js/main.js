@@ -105,17 +105,35 @@ function get_data(muni,year) {
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide);
 
-      //zoom on clicked node, and animate transition
+      // zoom on clicked node
       function click(d) {
+
+        //zoom on clicked node, and animate transition with arcTween()
         path.transition()
         .duration(750)
         .attrTween("d", arcTween(d))
 
+        // update legend to show children
         showLegend(d)
+
+        // show navbar
+        showNavBar(d)
+      }
+
+      function showNavBar(d) {
+        var node = d;
+        var str = ""
+        while (node.depth != 0) {
+          str += node.name + ' < '
+          node = node.parent
+        }
+        console.log(str);
       }
 
       //show legend with children of selected node
       function showLegend(d) {
+
+        if (d.children == null) return;
 
         //legend  code
         var legendRectSize = 28;
