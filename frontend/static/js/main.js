@@ -67,7 +67,10 @@ function get_data(muni,year) {
 
   //d3 partition layout, by size
   var partition = d3.layout.partition()
-  .value(function(d) { return d.size; });
+  .value(function(d) { return d.size; })
+  .sort(function comparator(a, b) {
+        return b.code - a.code;
+  });
 
   //calculate arcs
   var arc = d3.svg.arc()
