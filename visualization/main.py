@@ -34,7 +34,8 @@ class TreeCommand(BaseCommand):
         # We Create dictionary in the following format
         # { node_code : [node_object, node_parent_code] }
         nodes = {line['CODE']: [Tree(name=line['NAME'],
-                                     code=line['CODE']), 
+                                     code=line['CODE'],
+                                     expense=line['DIRECTION']), 
                                 line['PARENT']] 
                  for line in reader}
         root = Tree()

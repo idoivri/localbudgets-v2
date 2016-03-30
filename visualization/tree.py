@@ -14,6 +14,7 @@ class Tree(object):
                        amount=None,
                        muni = None,
                        year = None,
+                       expense = None,
                        children=None,
                        _id = None,
                        *args,
@@ -23,6 +24,13 @@ class Tree(object):
             self.amount = int(amount)
         else:
             self.amount = UndefinedAmount()
+
+        if expense == "EXPENDITURE":
+            self.expense = True
+        elif expense == "REVENUE":
+            self.expense = False
+        else:
+            self.expense = None
 
         self.code = code
         self.muni = muni
@@ -73,6 +81,7 @@ class Tree(object):
                 'size': amount,
                 'name': self.name,
                 'muni': self.muni,
+                'expense': self.expense,
                 'year': self.year,
                 '_id':self._id,
                 }
@@ -92,6 +101,7 @@ class Tree(object):
             amount = str(self.amount)
         return dataset.insert({'code': self.code,
                                'amount': amount,
+                               'expense': self.expense,
                                'name': self.name,
                                'muni': self.muni,
                                'year': self.year,
