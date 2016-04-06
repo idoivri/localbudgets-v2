@@ -40,7 +40,7 @@ class TreeCommand(BaseCommand):
         root = Tree()
 
         # We go through the dict to create the hierarchy.
-        for [node,parent] in nodes.values():
+        for [node, parent] in nodes.values():
             if not parent:
                 root.add_child(node)
             else:
@@ -53,27 +53,27 @@ class TreeCommand(BaseCommand):
 
 
 class Muni2TreeCommand(BaseCommand):
-    from optparse import make_option
-    option_list = BaseCommand.option_list + (
-        make_option('--print',
+
+    def add_arguments(self, parser):
+        parser.add_argument('--print',
             action='store_true',
             dest='print_data',
             default=False,
-            help='Print muni data to screen'),
-        make_option('--clean_all',
+            help='Print muni data to screen')
+        parser.add_argument('--clean_all',
             action='store_true',
             dest='clean',
             default=False,
-            help='Clean the DB before the Command'),
-        make_option('--muni',
+            help='Clean the DB before the Command')
+        parser.add_argument('--muni',
             dest='muni',
             metavar="MUNI",
-            help='Specify muni'),
-        make_option('--year',
+            help='Specify muni')
+        parser.add_argument('--year',
             dest='year',
             metavar="YEAR",
-            help='Specify year'),
-        )
+            help='Specify year')
+
 
 
     def handle(self, *args, **options):

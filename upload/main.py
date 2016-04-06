@@ -7,7 +7,6 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 from server.models import get_munis, del_database
 from upload.muni import munis_loaders
-import argparse
 
 
 # TODO: maybe move this const to a module configuration file?
@@ -26,7 +25,6 @@ def parse_filename(filename):
 
     
 class UpdateCommand(BaseCommand):
-    # from optparse import make_option
     def add_arguments(self, parser):
         parser.add_argument('--print',
             action='store_true',
