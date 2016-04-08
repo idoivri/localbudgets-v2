@@ -17,19 +17,21 @@ class AmountField(AbstractField):
     name = 'amount'
     def __init__(self, amount):
         #TODO: this is ugly, will be removed. Dash Yaniv.
+        self.value = amount
         amount = amount.replace(',','')
         amount = amount[:amount.find('.')]
-        self.value = amount.strip()
+        self.amount = amount.strip()
 
     def is_valid(self):
-        return None != re.match("[-+]?[0-9]*", self.value)
+        return None != re.match("^[-+]?[0-9]*$", self.amount)
 
     def process(self):
-        if not self.is_valid:
-            raise Exception("Amount Field is not valied")
-        if self.value == '-' or self.value == '':
+        if not self.is_valid():
+            raise Exception("Amount Field is not valied (%s)" %(self.value, ))
+        if self.amount == '-' or self.amount == '':
             return 0
-        return int(self.value)
+
+        return int(self.amount)
 
 
         
@@ -37,7 +39,7 @@ class CodeField(AbstractField):
     name = 'code'
     # TODO
     def process(self):
-        return self.value
+        return self.value.replace("-", '')
     
 class DescriptionField(AbstractField):
     name = 'name'
