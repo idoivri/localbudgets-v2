@@ -7,6 +7,7 @@ from qiryat_bialik import QiryatBialikMuni
 from rehovot import RehovotMuni
 from rishon_letzion import RishonLetzionMuni
 from tel_aviv import TelAvivMuni
+from jerusalem import JerusalemMuni
 from schema import SchemaMuni
 
 # Might need a FIXME: if we override one of the keys...
@@ -19,6 +20,7 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  RehovotMuni.MUNI : RehovotMuni,
                  RishonLetzionMuni.MUNI : RishonLetzionMuni,
                  TelAvivMuni.MUNI : TelAvivMuni,
+                 JerusalemMuni.MUNI : JerusalemMuni,
                  SchemaMuni.MUNI : SchemaMuni
 
 
