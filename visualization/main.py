@@ -80,7 +80,7 @@ class Muni2TreeCommand(BaseCommand):
     def handle(self, *args, **options):
         print "bla for the win"
         flatten_dataset = get_flatten()
-        for (muni, year) in muni_iter(**options):
+        for (muni, year, info) in muni_iter(**options):
             print 'Converting to tree the budget %s of year %s'%(muni, year)
 
             if budget_exists(muni,year):
@@ -90,6 +90,7 @@ class Muni2TreeCommand(BaseCommand):
                     print "Budget %s, of year %s is already uploaded. Use clean to overwrite."%(muni,year)
                     continue
             tree = create_tree(muni,year)
+            tree.name = "%s (%s)" %(info['name'], year)
             root = tree.to_db(flatten_dataset)
             update_root(muni,year,root)
 

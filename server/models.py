@@ -114,6 +114,14 @@ def get_muni_years(muni_name):
 
     munis.close()
 
+@cleaner
+def get_muni_info(muni_name):
+    munis = get_munis()
+    muni = munis.find_one({'name':muni_name})
+    munis.close()
+
+    return dict(muni)
+
 def muni_iter(**kwargs):
     munis = None
 
@@ -129,8 +137,10 @@ def muni_iter(**kwargs):
         else:
             years = get_muni_years(muni)
 
+        info = get_muni_info(muni)
+
         for year in years:
-            yield (muni, year)
+            yield (muni, year, info)
 
     if munis:
         munis.close()
