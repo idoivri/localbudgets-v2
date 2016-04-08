@@ -144,14 +144,13 @@ class Tree(object):
 
 
     def _insert_node(self, node, code):
-        if code == '' or not self.children:
-            self.add_child(node)
-        else:
-            self.children.sort(cmp=code_len_cmp, reverse=True)
-            for child in self.children:
-                if code.startswith(child.code):
-                    code = code[len(child.code):]
-                    return child._insert_node(node, code)
+        self.children.sort(cmp=code_len_cmp, reverse=True)
+        for child in self.children:
+            if code.startswith(child.code):
+                return child._insert_node(node, code)
+
+        self.add_child(node)
+        return
 
 
     def update_amount(self):
