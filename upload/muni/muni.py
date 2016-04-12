@@ -14,7 +14,7 @@ class AbstractMuni(object):
         self.clean = clean
 
     def handle_sheet(self, year, filename):
-        # TODO: do this more generic than this!
+        print 'handling file: %s' %(filename,)
 
         dataset = get_raw_budget(self.MUNI, year, clean = self.clean)
         if dataset.count()>0 and not self.clean:
@@ -28,7 +28,7 @@ class AbstractMuni(object):
         else:
             fields = self.fields
 
-        for line in reader:
+        for line_number, line in enumerate(reader):
             new_line = {}
 
             line_fields = [fields[index](line[index])
@@ -46,10 +46,10 @@ class AbstractMuni(object):
                 self.print_str(new_line)
                 dataset.insert(new_line)
             else:
-                invalid_fields = [' : '.join([field.name, field.value, field.error()]) 
+                invalid_fields = [':'.join([field.name, field.value, field.error()]) 
                                   for field in line_fields if not field.is_valid()]
                 #self.logger.info('invalid fields: %s', ' '.join(invalid_fields))
-                print 'invalid fields: %s' %(' '.join(invalid_fields),)
+                print 'invalid fields in line %d : %s' %(line_number, ', '.join(invalid_fields),)
         dataset.close()
 
     def print_str(self, data_str):

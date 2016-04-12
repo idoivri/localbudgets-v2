@@ -136,9 +136,6 @@ class Tree(object):
 
     # TODO: figure out what to do with the fist_digit
     def insert_node(self, node):
-        if node.code == '':
-            return 
-            
         first_digit, code = node.code[0], node.code[1:]
         self._insert_node(node, code)
 
