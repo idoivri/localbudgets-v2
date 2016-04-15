@@ -25,10 +25,13 @@ class Tree(object):
         else:
             self.amount = UndefinedAmount()
 
+        # TODO: this should be in a class method and not in the constractor.
         if expense == "EXPENDITURE":
             self.expense = True
         elif expense == "REVENUE":
             self.expense = False
+        elif isinstance(expense, bool):
+            self.expense = expense
         else:
             self.expense = None
 
