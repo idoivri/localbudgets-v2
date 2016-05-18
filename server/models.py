@@ -95,12 +95,25 @@ def get_munis():
 def get_scheme():
     return Dataset([SCHEME_COLLECTION])
 
+def muni_to_hebrew(name):
+    heb_names = {
+        'beer_sheva' : "באר שבע",
+        'ashdod' : "אשדוד",
+        'gush_etzion' : "גוש עציון",
+        'hura' : "הורה",
+        'jerusalem' : "ירושלים",
+        'kfar_shmaryahu' : "כפר שמריהו",
+        'qiryat_bialik' : "קריית ביאליק",
+        'rishon_letzion' : "ראשון לציון"
+    }
+    return heb_names[str(name)]
+
 @cleaner
 def get_muni_names():
     munis = get_munis()
 
     for muni in munis.find():
-        yield muni['name']
+        yield (muni['name'],muni_to_hebrew(muni['name']) )
 
     munis.close()
 
@@ -109,7 +122,7 @@ def get_muni_years(muni_name):
     munis = get_munis()
 
     muni = munis.find_one({'name':muni_name})
-    for year in sorted(muni['years']):
+    for year in sorted(muni['roots']):
         yield year
 
     munis.close()
@@ -150,7 +163,7 @@ def muni_iter(**kwargs):
 def del_database():
     client = _mongo_client()
     client.drop_database(DATABASE_NAME)
-    
+
 
 def del_collection(collection_name):
     client = _mongo_client()
