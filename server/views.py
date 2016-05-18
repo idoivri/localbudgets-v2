@@ -13,6 +13,7 @@ from server.models import get_raw_budget
 def index_page(request):
 
     res = [(muni[0],muni[1]) for muni in get_muni_names()]
+    
     return render(request,'index.html', {'munis': res})
 
 def bubbles_index_page(request):

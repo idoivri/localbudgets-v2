@@ -199,6 +199,11 @@ function get_data(muni,year) {
         // Clear previous results
         $("#years_dropdown_vals").empty()
 
+        // Hack to make the first child the selection
+        $("#years_dropdown:first-child").html("בחר שנה<span class=\"caret\"></span>");
+        $("#muni_go").addClass("disabled");
+
+
         //get avliable years for this muni
         $.get('/api/v1/get_muni_year',
         {
