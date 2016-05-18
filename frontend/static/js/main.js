@@ -110,9 +110,9 @@ function get_data(muni,year) {
         path.transition()
         .duration(750)
         .attrTween("d", arcTween(d))
-
-        showLegend(d)
+        showLegend(d);
       }
+      showLegend(root);
 
       //show legend with children of selected node
       function showLegend(d) {
@@ -202,7 +202,7 @@ function get_data(muni,year) {
         //get avliable years for this muni
         $.get('/api/v1/get_muni_year',
         {
-          name : $(this).text()
+          name : $(this).attr('id')
         },
         function(result){
           years = $.parseJSON(result).res;
@@ -233,6 +233,6 @@ function get_data(muni,year) {
     });
 
     //A default muni to display before user selects anything
-    get_data('ashdod','2013')
+    // get_data('ashdod','2013')
   });
 });
