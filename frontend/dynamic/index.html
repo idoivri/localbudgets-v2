@@ -65,9 +65,9 @@
                     <li class="page-scroll">
                         <a href="#portfolio">תקציבים</a>
                     </li>
-                    <li class="page-scroll">
+                    <!-- <li class="page-scroll">
                         <a href="#about">אודות</a>
-                    </li>
+                    </li> -->
                     <li class="page-scroll">
                         <a href="#contact">צרו קשר</a>
                     </li>
@@ -113,8 +113,8 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="muni_dropdown">
-                  {% for muni_name in munis %}
-                    <li><a id="{{muni_name}}" class="muni_name">{{ muni_name }}</a></li>
+                  {% for muni_name, muni_name_heb in munis %}
+                    <li><a id="{{muni_name}}" class="muni_name">{{ muni_name_heb }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
@@ -152,43 +152,45 @@
 
 
     <!-- Footer -->
-    <footer class="text-center">
-        <div class="footer-above">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col col-md-4">
-                        <h3>איפה אנחנו?</h3>
-                        <p>כל יום רביעי בערב, גבעת רם, 19:00</p>
-                    </div>
-                    <div class="footer-col col-md-4">
-                        <h3>מרחבי הרשת</h3>
-                        <ul class="list-inline">
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-dribbble"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="footer-col col-md-4">
-                        <h3>איפה הקוד?</h3>
-                        <p>התקציב המקומי הפתוח הינו פרוייקט קוד פתוח שזמין לעיון והורדה <a href="http://github.com/idoivri/localbudgets/">בגיטהאב</a>.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section id="contact">
+      <footer class="text-center">
+          <div class="footer-above">
+              <div class="container">
+                  <div class="row">
+                      <div class="footer-col col-md-4">
+                          <h3>איפה אנחנו?</h3>
+                          <p>כל יום רביעי בערב, גבעת רם, 19:00</p>
+                      </div>
+                      <div class="footer-col col-md-4">
+                          <h3>מרחבי הרשת</h3>
+                          <ul class="list-inline">
+                              <li>
+                                  <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
+                              </li>
+                              <li>
+                                  <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
+                              </li>
+                              <li>
+                                  <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                              </li>
+                              <li>
+                                  <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
+                              </li>
+                              <li>
+                                  <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-dribbble"></i></a>
+                              </li>
+                          </ul>
+                      </div>
+                      <div class="footer-col col-md-4">
+                          <h3>איפה הקוד?</h3>
+                          <p>התקציב המקומי הפתוח הינו פרוייקט קוד פתוח שזמין לעיון והורדה <a href="http://github.com/idoivri/localbudgets/">בגיטהאב</a>.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
 
-    </footer>
+      </footer>
+    </section>
 
     <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
     <div class="scroll-top page-scroll visible-xs visible-sm">

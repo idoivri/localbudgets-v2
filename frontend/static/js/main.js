@@ -112,9 +112,9 @@ function get_data(muni,year) {
         path.transition()
         .duration(750)
         .attrTween("d", arcTween(d))
-
-        showLegend(d)
+        showLegend(d);
       }
+      showLegend(root);
 
       //show legend with children of selected node
       function showLegend(d) {
@@ -203,10 +203,15 @@ function get_data(muni,year) {
         // Clear previous results
         $("#years_dropdown_vals").empty()
 
+        // Hack to make the first child the selection
+        $("#years_dropdown:first-child").html("בחר שנה<span class=\"caret\"></span>");
+        $("#muni_go").addClass("disabled");
+
+
         //get avliable years for this muni
         $.get('/api/v1/get_muni_year',
         {
-          name : $(this).text()
+          name : $(this).attr('id')
         },
         function(result){
           years = $.parseJSON(result).res;
@@ -233,10 +238,11 @@ function get_data(muni,year) {
     // fetch and display chart
     // note that get_data also displays visualization
     $("#muni_go").on('click', function(){
+      if( $("#muni_go").hasClass("disabled") ) { return; }
       get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() );
     });
 
     //A default muni to display before user selects anything
-    get_data('ashdod','2013')
+    // get_data('ashdod','2013')
   });
 });
