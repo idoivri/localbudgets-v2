@@ -13,6 +13,7 @@
 
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
     <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/bootstrap-switch.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-rtl.css">
 
     <!-- Custom CSS -->
@@ -134,6 +135,11 @@
                 </button>
               </div>
 
+              <!-- toggle income or expense -->
+              <div class="btn-group">
+                <input id="muni_toggle_income_expense" data-off-text="הכנסות" data-on-text="הוצאות" type="checkbox" checked>
+              </div>
+
             </div>
             <br><br><br>
             <!-- Empty column -->
@@ -196,6 +202,9 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap-Switch JavaScript -->
+    <script src="{{ STATIC_URL }}js/bootstrap-switch.min.js"></script>
 
     <!-- Plugin JavaScript -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>

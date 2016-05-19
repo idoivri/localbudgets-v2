@@ -8,7 +8,8 @@ function getName(d) {
 }
 
 function colores_google(n) {
-  var colores_g = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099",
+  var colores_g = 
+  ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099",
   "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395",
   "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300",
   "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
@@ -82,8 +83,9 @@ function get_data(muni,year) {
   //fetch data
   $.get( '/api/v1/get_budget_tree',
   {
-    muni : muni,
-    year: year.toString()
+    muni : muni, //which muni
+    year: year.toString(), // which year
+    budget: 'all' // { 'income','expense','all' } whether to show income or expense budget
   })
   .done(
     function(root,error){
@@ -188,6 +190,8 @@ function get_data(muni,year) {
   }
 
   $(document).ready(function() {
+    // Initialize Bootstrap Switch
+    $("#muni_toggle_income_expense").bootstrapSwitch();
     $(function(){
 
       $(".muni_name").on('click', function(){
