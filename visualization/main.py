@@ -49,6 +49,9 @@ class TreeCommand(BaseCommand):
 
         # Upload the Tree to the DB.
         dataset = get_scheme()
+        if dataset.count() > 0:
+            print 'Schema is already uploaded. Exiting.'
+            return
         dataset.insert(root.to_dict())
         dataset.close()
 
@@ -107,11 +110,12 @@ def budget_exists(muni,year):
 def remove_muni_year_tree(muni, year):
     print 'Cleaning budget tree of %s of year %s'%(muni, year)
     flatten = get_flatten()
-    results = flatten.delete_many({'muni':muni,'year':int(year)})
+    results = flatten.delete_many({'muni':muni,'year': year })
     flatten.close()
 
     munis = get_munis()
     entry = munis.find_one({'name':muni})
+
     entry['roots'].pop(str(year))
     munis.save(entry)
     munis.close()

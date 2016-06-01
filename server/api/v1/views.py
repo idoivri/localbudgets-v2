@@ -4,12 +4,14 @@
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse
 from pymongo import MongoClient as client
 
 from server.utils.utils import get_res
 from server.utils import dumps
 from server.models import get_munis as db_get_munis
+from server.models import get_muni_info
 from visualization.api import search_code
 from visualization.api import get_budget_tree as vis_get_budget_tree
 from visualization.api import get_node_subtree as vis_get_node_subtree
@@ -56,7 +58,16 @@ def get_budget_tree(request):
     muni = request.GET.get('muni')
     year = request.GET.get('year')
     layer = request.GET.get('layer', 1000)
-    return HttpResponse(dumps(vis_get_budget_tree(muni, year, layer)), 'application/json')
+    expense = request.GET.get('expense', None)
+    if expense is not None:
+        if expense == 'true':
+            expense = True
+        elif expense == 'false':
+            expense = False
+        else:
+            expense = None
+
+    return HttpResponse(dumps(vis_get_budget_tree(muni, year, layer=layer, expense=expense)), 'application/json')
 
 @api_view(['GET'])
 def get_budget(request):
@@ -79,3 +90,14 @@ def get_munis(request):
     munis = list(munis.find({}))
 
     return HttpResponse(dumps(munis, 'application/json'))
+
+@api_view(['GET'])
+def get_muni_roots(request):
+    if 'name' in request.GET:
+        years = sorted([year for year in get_muni_info(request.GET['name'])['roots']])
+    else:
+        years = []
+
+    return Response(JSONRenderer().render({
+        'res': years,
+    }))

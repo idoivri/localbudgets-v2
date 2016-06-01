@@ -54,6 +54,8 @@ class Tree(object):
 
     def add_child(self, node):
         assert isinstance(node, Tree)
+        if (node.expense is None):
+            node.expense = self.expense
         self.children.append(node)
 
     def update_field(self,field_name,field_value):
@@ -124,14 +126,16 @@ class Tree(object):
 
 
     @classmethod
-    def from_db(cls, dataset, root_dict, layer=999):
-
+    def from_db(cls, dataset, root_dict, layer=999, expense=None):
         children = []
 
         if layer > 0:
             for _id in root_dict['children']:
                 child = dataset.find_one({'_id': _id})
-                children.append(cls.from_db(dataset, child,layer-1))
+                if expense is not None:
+                    if not(child['expense']) == expense:
+                        continue
+                children.append(cls.from_db(dataset, child, layer-1))
 
         root_dict['children'] = children
         root = cls(**root_dict)

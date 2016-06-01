@@ -121,11 +121,12 @@ def get_muni_names():
 def get_muni_years(muni_name):
     munis = get_munis()
 
-    muni = munis.find_one({'name':muni_name})
-    for year in sorted(muni['roots']):
+    muni = munis.find_one({'name': muni_name})
+    for year in sorted(muni['years']):
         yield year
 
     munis.close()
+
 
 @cleaner
 def get_muni_info(muni_name):

@@ -21,15 +21,17 @@ def search_code(muni,year,code):
     return results
 
 
-def get_budget_tree(muni, year, layer=4):
+def get_budget_tree(muni, year, layer=4, expense=None):
+
     if not (0 <= layer <= 4):
         layer = 4
-    root = get_root(muni, year)
+
+    root = get_root_tree(muni, year, layer=layer, expense=expense)
 
     return root.to_dict(layer)
 
 
-def _get_layer(node ,layer):
+def _get_layer(node, layer):
     if not layer:
         return [node]
 
@@ -71,25 +73,23 @@ def get_node_subtree(_id, layer=4):
     budgets = [budget.to_dict(0) for budget in budgets]
     return budgets
 
-def get_root(muni, year, layer=1000):
+def get_root_tree(muni, year, layer=1000, expense=None):
     munis = get_munis()
     flatten = get_flatten()
     entry = munis.find_one({'name':muni})
+    # import pdb; pdb.set_trace()
     root_id = entry['roots'][str(year)]
-
-    root_tree = get_subtree(root_id,layer)
+    root_tree = get_subtree(root_id, layer, expense=expense)
     munis.close()
     flatten.close()
     return root_tree
 
-def get_subtree(_id,layer):
-    if not isinstance(_id,ObjectId):
+def get_subtree(_id, layer, expense=None):
+    if not isinstance(_id, ObjectId):
         _id = ObjectId(_id)
     flatten = get_flatten()
-    print type(_id)
-    print type(_id)=='unicode'
     root = flatten.find_one(_id)
-    root_tree = Tree.from_db(flatten, root, layer)
+    root_tree = Tree.from_db(flatten, root, layer, expense=expense)
 
     flatten.close()
     return root_tree

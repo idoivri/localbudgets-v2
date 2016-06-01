@@ -209,7 +209,7 @@ function get_data(muni,year) {
 
 
         //get avliable years for this muni
-        $.get('/api/v1/get_muni_year',
+        $.get('/api/v1/get_muni_roots',
         {
           name : $(this).attr('id')
         },
