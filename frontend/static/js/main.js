@@ -248,7 +248,7 @@ function get_data(muni,year,expense) {
     // note that get_data also displays visualization
     $("#muni_go").on('click', function(){
       if( $("#muni_go").hasClass("disabled") ) { return; }
-      get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() ,,document.getElementById('muni_toggle_income_expense').checked);
+      get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() ,document.getElementById('muni_toggle_income_expense').checked);
     });
 
 
