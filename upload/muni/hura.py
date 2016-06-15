@@ -7,5 +7,4 @@ class HuraMuni(AbstractMuni):
               6: AmountField}  # TODO: make sure this is the right column number.
 
     MUNI = 'hura'
-    info = {}
 

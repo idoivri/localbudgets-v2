@@ -1,13 +1,26 @@
 from server.models import get_raw_budget
 import csv
 import logging
+from muni_info import infos
+
+class MetaMuni(type):
+    # TODO: fix me we might not need a metaclass for this problem...
+    def __new__(cls, name, bases, dct):
+        if name is not 'AbstractMuni':
+            if dct['MUNI'] not in infos:
+                raise Exception("There is no information about muni: %s in the file muni_info.py" 
+                                %(dct['MUNI'],))
+            dct['info'] = infos[dct['MUNI']]
+            
+        return super(MetaMuni, cls).__new__(cls, name, bases, dct)
 
 class AbstractMuni(object):
     """municipality class"""
+    __metaclass__ = MetaMuni
 
     fields = []
     years = []
-    muni = "Unknown"
+    MUNI = "Unknown"
 
     def __init__(self, print_data=False, clean=False):
         self.print_data = print_data

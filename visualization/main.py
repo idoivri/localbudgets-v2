@@ -93,7 +93,7 @@ class Muni2TreeCommand(BaseCommand):
                     print "Budget %s, of year %s is already uploaded. Use clean to overwrite."%(muni,year)
                     continue
             tree = create_tree(muni,year)
-            tree.name = "%s (%s)" %(info['name'], year)
+            tree.name = "%s (%s)" %(info['heb_name'], year)
             root = tree.to_db(flatten_dataset)
             update_root(muni,year,root)
 

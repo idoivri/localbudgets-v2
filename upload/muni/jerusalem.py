@@ -9,5 +9,3 @@ class JerusalemMuni(AbstractMuni):
               0: AmountField}
 
     MUNI = 'jerusalem'
-
-    info = {}
