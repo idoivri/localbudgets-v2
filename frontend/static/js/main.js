@@ -1,4 +1,11 @@
 //TODO a hack until "תקציב עיריית X" would be supported in the server
+function toggle_expense(){
+    console.log('Bla')
+    if( $("#muni_go").hasClass("disabled") ) { return; }
+    get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() ,document.getElementById('muni_toggle_income_expense').checked);
+    };
+
+
 function getName(d) {
   if( d.name == 'root') {
     return "כללי";
@@ -20,7 +27,9 @@ function colores_google(n) {
 * fetches (muni,year) data from server
 * and displays all relevant visualization
 */
-function get_data(muni,year) {
+
+
+function get_data(muni,year,expense) {
 
   //svg canvas dimensions
   var width = 1200,
@@ -85,7 +94,7 @@ function get_data(muni,year) {
   {
     muni : muni, //which muni
     year: year.toString(), // which year
-    budget: 'all' // { 'income','expense','all' } whether to show income or expense budget
+    expense: expense // { 'income','expense','all' } whether to show income or expense budget
   })
   .done(
     function(root,error){
@@ -239,8 +248,9 @@ function get_data(muni,year) {
     // note that get_data also displays visualization
     $("#muni_go").on('click', function(){
       if( $("#muni_go").hasClass("disabled") ) { return; }
-      get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() );
+      get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() ,,document.getElementById('muni_toggle_income_expense').checked);
     });
+
 
     //A default muni to display before user selects anything
     // get_data('ashdod','2013')
