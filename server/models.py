@@ -70,8 +70,14 @@ class Dataset():
     # def set_dataset(self,ds):
     #     self.dataset = ds
 
+    def __enter__(self):
+        return self
+
     def close(self):
         self.client.close()
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
 @cleaner
 def get_raw_budget(muni,year):
@@ -95,27 +101,7 @@ def get_munis():
 def get_scheme():
     return Dataset([SCHEME_COLLECTION])
 
-def muni_to_hebrew(name):
-    heb_names = {
-        'beer_sheva' : "באר שבע",
-        'ashdod' : "אשדוד",
-        'gush_etzion' : "גוש עציון",
-        'hura' : "הורה",
-        'jerusalem' : "ירושלים",
-        'kfar_shmaryahu' : "כפר שמריהו",
-        'qiryat_bialik' : "קריית ביאליק",
-        'rishon_letzion' : "ראשון לציון"
-    }
-    return heb_names[str(name)]
 
-@cleaner
-def get_muni_names():
-    munis = get_munis()
-
-    for muni in munis.find():
-        yield (muni['name'],muni_to_hebrew(muni['name']) )
-
-    munis.close()
 
 @cleaner
 def get_muni_years(muni_name):
@@ -132,34 +118,29 @@ def get_muni_years(muni_name):
 def get_muni_info(muni_name):
     munis = get_munis()
     muni = munis.find_one({'name':muni_name})
+    info = muni['info']
     munis.close()
+    return dict(info)
 
-    return dict(muni)
+def muni_iter(muni=None, years=None, **kws):
+    if muni is None:
+        with get_munis() as munis:
+            muni_names = [muni['name'] for muni in munis.find()]
 
-def muni_iter(**kwargs):
-    munis = None
+    for muni_name in muni_names:
+        muni_years = get_muni_years(muni_name)
+        if years is not None:
+            muni_years = [year for year in muni_years if year in years]
 
-    if kwargs['muni']:
-        muni_names = [kwargs['muni']]
-    else:
-        munis = get_munis()
-        muni_names = [muni['name'] for muni in munis.find()]
+        info = get_muni_info(muni_name)
 
-    for muni in muni_names:
-        if kwargs['year']:
-            years = [kwargs['year']]
-        else:
-            years = get_muni_years(muni)
+        for year in muni_years:
+            yield (muni_name, year, info)
+            
 
-        info = get_muni_info(muni)
-
-        for year in years:
-            yield (muni, year, info)
-
-    if munis:
-        munis.close()
-
-
+def get_muni_names():
+    for muni, year, info in muni_iter():
+        yield (muni, info['heb_name'])
 
 def del_database():
     client = _mongo_client()

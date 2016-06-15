@@ -11,6 +11,3 @@ class AshdodMuni(AbstractMuni):
 
     MUNI = 'ashdod'
 
-    # FIXME population added from wikipedia, valid for december 2014. only for
-    # ashdod
-    info = {'population': 218000}
