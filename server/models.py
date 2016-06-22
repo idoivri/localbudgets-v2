@@ -113,6 +113,14 @@ def get_muni_years(muni_name):
 
     munis.close()
 
+@cleaner
+def get_muni_roots(muni_name):
+    munis = get_munis()
+
+    muni = munis.find_one({'name': muni_name})
+    for year in sorted(muni['roots']):
+        yield year
+    munis.close()
 
 @cleaner
 def get_muni_info(muni_name):
@@ -128,18 +136,13 @@ def muni_iter(muni=None, years=None, **kws):
             muni_names = [muni['name'] for muni in munis.find()]
 
     for muni_name in muni_names:
-        muni_years = get_muni_years(muni_name)
-        if years is not None:
-            muni_years = [year for year in muni_years if year in years]
-
         info = get_muni_info(muni_name)
+        yield (muni_name,info)
 
-        for year in muni_years:
-            yield (muni_name, year, info)
             
 
 def get_muni_names():
-    for muni, year, info in muni_iter():
+    for muni, info in muni_iter():
         yield (muni, info['heb_name'])
 
 def del_database():

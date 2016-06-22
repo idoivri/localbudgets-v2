@@ -7,7 +7,7 @@ from settings import BASE_DIR as root_dir
 from importlib import import_module
 
 import csv
-from server.models import get_raw_budget,get_flatten, get_scheme,muni_iter, get_munis
+from server.models import get_raw_budget,get_flatten, get_scheme,muni_iter, get_munis,get_muni_years
 from visualization.tree import Tree
 
 
@@ -83,19 +83,20 @@ class Muni2TreeCommand(BaseCommand):
     def handle(self, *args, **options):
         print "bla for the win"
         flatten_dataset = get_flatten()
-        for (muni, year, info) in muni_iter(**options):
-            print 'Converting to tree the budget %s of year %s'%(muni, year)
+        for (muni, info) in muni_iter(**options):
+            for year in get_muni_years(muni):
+                print 'Converting to tree the budget %s of year %s'%(muni, year)
 
-            if budget_exists(muni,year):
-                if options['clean']:
-                    remove_muni_year_tree(muni, year)
-                else:
-                    print "Budget %s, of year %s is already uploaded. Use clean to overwrite."%(muni,year)
-                    continue
-            tree = create_tree(muni,year)
-            tree.name = "%s (%s)" %(info['heb_name'], year)
-            root = tree.to_db(flatten_dataset)
-            update_root(muni,year,root)
+                if budget_exists(muni,year):
+                    if options['clean']:
+                        remove_muni_year_tree(muni, year)
+                    else:
+                        print "Budget %s, of year %s is already uploaded. Use clean to overwrite."%(muni,year)
+                        continue
+                tree = create_tree(muni,year)
+                tree.name = "%s (%s)" %(info['heb_name'], year)
+                root = tree.to_db(flatten_dataset)
+                update_root(muni,year,root)
 
         flatten_dataset.close()
 

@@ -11,6 +11,7 @@ from pymongo import MongoClient as client
 from server.utils.utils import get_res
 from server.utils import dumps
 from server.models import get_munis as db_get_munis
+from server.models import get_muni_roots as db_get_muni_roots
 from server.models import get_muni_info
 from visualization.api import search_code
 from visualization.api import get_budget_tree as vis_get_budget_tree
@@ -94,7 +95,7 @@ def get_munis(request):
 @api_view(['GET'])
 def get_muni_roots(request):
     if 'name' in request.GET:
-        years = sorted([year for year in get_muni_info(request.GET['name'])['roots']])
+        years = sorted([year for year in db_get_muni_roots(request.GET['name'])])
     else:
         years = []
 

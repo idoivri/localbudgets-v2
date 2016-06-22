@@ -3,7 +3,7 @@
 
 defualt_info = {'heb_name': 'bla'}
 
-infos = {'jerusalem': {'heb_name': u'רושלים'},
+infos = {'jerusalem': {'heb_name': u'ירושלים'},
          'ashdod': {'heb_name': u'אשדוד'},
          'beer_sheva': {'heb_name': u'באר שבע'},
          'gush_etzion': {'heb_name': u'גוש עציון'},
