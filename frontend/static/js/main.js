@@ -1,11 +1,10 @@
-//TODO a hack until "תקציב עיריית X" would be supported in the server
 function toggle_expense(){
-    console.log('Bla')
     if( $("#muni_go").hasClass("disabled") ) { return; }
     get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() ,document.getElementById('muni_toggle_income_expense').checked);
     };
 
 
+//TODO a hack until "תקציב עיריית X" would be supported in the server
 function getName(d) {
   if( d.name == 'root') {
     return "כללי";
@@ -104,7 +103,7 @@ function get_data(muni,year,expense) {
 
       //bind svg paths to budget nodes
       var path = svg.selectAll("path")
-      .data(nodes)
+      .data(nodes.filter(function(d) {return d.depth < 3}))
       .enter()
       .append("path")
       //draw arcs
