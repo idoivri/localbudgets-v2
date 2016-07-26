@@ -116,3 +116,4 @@ TEMPLATES = [
     },
 ]
 
+MAX_LEVEL = 10

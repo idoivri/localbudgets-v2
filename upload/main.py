@@ -20,7 +20,11 @@ class NoMuniParser(Exception): pass
 
 
 def parse_filename(filename):
-    year_str, ext = os.path.basename(filename).split(extsep)
+    try:
+        year_str, ext = os.path.basename(filename).split(extsep)
+    except ValueError: #File is not in the format of *.*
+        return None
+
     return int(year_str)
 
     
@@ -80,7 +84,7 @@ class UpdateCommand(BaseCommand):
         else:
             raise NoMuniParser("no Muni parser for: %s" %(muni, ))
         muni_object = muni_class(print_data=options['print_data'],clean=options['clean'])
-        years = {parse_filename(filename):filename for filename in os.listdir(muni_path) }
+        years = {parse_filename(filename): filename for filename in os.listdir(muni_path) if parse_filename is not None}
 
         if options['year']:
             if int(options['year']) in years.keys():

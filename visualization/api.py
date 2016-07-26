@@ -3,7 +3,7 @@ import re
 from server.models import get_flatten,get_munis
 from tree import Tree
 from bson.objectid import ObjectId
-
+from settings import MAX_LEVEL
 # from server.utils import profile
 
 
@@ -21,10 +21,10 @@ def search_code(muni,year,code):
     return results
 
 
-def get_budget_tree(muni, year, layer=4, expense=None):
+def get_budget_tree(muni, year, layer=MAX_LEVEL, expense=None):
 
-    if not (0 <= layer <= 4):
-        layer = 4
+    if not (0 <= layer <= MAX_LEVEL):
+        layer = MAX_LEVEL
 
     root = get_root_tree(muni, year, layer=layer, expense=expense)
 

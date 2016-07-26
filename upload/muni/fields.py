@@ -19,7 +19,7 @@ class AmountField(AbstractField):
         #TODO: this is ugly, will be removed. Dash Yaniv.
         self.value = amount
         amount = amount.replace(',','')
-        amount = amount[:amount.find('.')]
+        amount = amount.split('.')[0]
         self.amount = amount.strip()
 
     def is_valid(self):

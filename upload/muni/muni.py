@@ -57,6 +57,7 @@ class AbstractMuni(object):
 
                 # insert line data to DB
                 self.print_str(new_line)
+
                 dataset.insert(new_line)
             else:
                 invalid_fields = [':'.join([field.name, field.value, field.error()]) 
