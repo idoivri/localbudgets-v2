@@ -23,9 +23,17 @@ def parse_filename(filename):
     try:
         year_str, ext = os.path.basename(filename).split(extsep)
     except ValueError: #File is not in the format of *.*
+        print 'file name ({}) should be in format yyyy.csv'.format(filename)
         return None
-
-    return int(year_str)
+    try:
+        year = int(year_str)
+    except ValueError: #File is not in the format of *.*
+        print 'file name ({}) should be in format yyyy.csv'.format(filename)
+        return None
+    if not 1900<year<2100:
+        print 'file name ({}) should be in format yyyy.csv (1900<yyyy<2100)'.format(filename)
+        return None
+    return year
 
     
 class UpdateCommand(BaseCommand):
@@ -84,8 +92,10 @@ class UpdateCommand(BaseCommand):
         else:
             raise NoMuniParser("no Muni parser for: %s" %(muni, ))
         muni_object = muni_class(print_data=options['print_data'],clean=options['clean'])
-        years = {parse_filename(filename): filename for filename in os.listdir(muni_path) if parse_filename is not None}
+        os.listdir(muni_path)
+        years = {parse_filename(filename): filename for filename in os.listdir(muni_path) if parse_filename(filename) is not None}
 
+        print years
         if options['year']:
             if int(options['year']) in years.keys():
                 years = {int(options['year']): years[int(options['year'])]}
