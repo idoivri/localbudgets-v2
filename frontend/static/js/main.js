@@ -14,14 +14,51 @@ function getName(d) {
   }
 }
 
+function HSVtoRGB(h, s, v) {
+    var r, g, b, i, f, p, q, t;
+    if (arguments.length === 1) {
+        s = h.s, v = h.v, h = h.h;
+    }
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
+
+function getColor(d) {
+ var x = d3.scale.linear()
+  .range([0, 2 * Math.PI]);
+   var meanAngle = (Math.max(0, Math.min(2 * Math.PI, x(d.x)))+Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))))/2;
+//    console.log(meanAngle);
+    var hsv2rgb = HSVtoRGB(meanAngle/(Math.PI*2),0.63,0.65);
+  return 'rgb('+ hsv2rgb.r +','+hsv2rgb.g +','+hsv2rgb.b +')'
+}
+
+
+
 function colores_google(n) {
-  var colores_g = 
+  var colores_g =
   ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099",
   "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395",
   "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300",
   "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
   return colores_g[n % colores_g.length];
 }
+
 
 /**
 * fetches (muni,year) data from server
@@ -49,7 +86,7 @@ function get_data(muni,year,expense) {
   var y = d3.scale.sqrt()
   .range([0, radius]);
 
-  var color =  d3.scale.category10();
+  var color =  getColor;
 
   //define tip html
   var tip = d3.tip()
@@ -109,9 +146,8 @@ function get_data(muni,year,expense) {
       .append("path")
       //draw arcs
       .attr("d", arc)
-      //color by name
-      .style("fill", function(d) { return color( getName(d) ); })
-      //zoom on click
+      .style("fill", function(d) { return color( d ); })
+//      zoom on click
       .on("click", click)
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide);
@@ -154,7 +190,7 @@ function get_data(muni,year,expense) {
         legend.append('rect')
         .attr('width', legendRectSize)
         .attr('height', legendRectSize)
-        .style('fill', function(d) { return color(getName(d)) })
+        .style('fill', function(d) { return color(d) })
         .style('stroke', function(d) { return color(getName(d)) });
 
         //legend labels
