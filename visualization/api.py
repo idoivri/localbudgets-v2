@@ -77,7 +77,6 @@ def get_root_tree(muni, year, layer=1000, expense=None):
     munis = get_munis()
     flatten = get_flatten()
     entry = munis.find_one({'name':muni})
-    # import pdb; pdb.set_trace()
     root_id = entry['roots'][str(year)]
     root_tree = get_subtree(root_id, layer, expense=expense)
     munis.close()
@@ -89,7 +88,20 @@ def get_subtree(_id, layer, expense=None):
         _id = ObjectId(_id)
     flatten = get_flatten()
     root = flatten.find_one(_id)
-    root_tree = Tree.from_db(flatten, root, layer, expense=expense)
+    if expense is None:
+        root_tree = Tree.from_db(flatten, root, layer, expense=expense)
+    else:
+        second_level_roots = [flatten.find_one(_id) for _id in root['children']]
+        if second_level_roots[0]['expense'] is True:
+            expenditure_root = second_level_roots[0]
+            revenue_root = second_level_roots[1]
+        else:
+            expenditure_root = second_level_roots[1]
+            revenue_root = second_level_roots[0]
+        if expense:
+            root_tree = Tree.from_db(flatten, expenditure_root, layer, expense=expense)
+        else:
+            root_tree = Tree.from_db(flatten, revenue_root, layer, expense=expense)
 
     flatten.close()
     return root_tree

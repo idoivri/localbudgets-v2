@@ -1,4 +1,12 @@
 def code_len_cmp(a, b):
+    # None code is smaller then any other code (for the top roots)
+    if a.code is None:
+        if b.code is None:
+            return 0
+        else: # a is None b isn't -> a is bigger
+            return 1
+    if b.code is None:
+            return -1
     return cmp(len(a.code), len(b.code))
 
 class UndefinedAmount(object):
@@ -148,6 +156,7 @@ class Tree(object):
 
 
     def _insert_node(self, node, code):
+        # import pdb; pdb.set_trace()
         self.children.sort(cmp=code_len_cmp, reverse=True)
         for child in self.children:
             if code.startswith(child.code):

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.core.management.base import BaseCommand
 
 import os
@@ -14,6 +16,13 @@ from visualization.tree import Tree
 SCHEME_FILENAME = 'data/schema/1994.csv'
 
 class TreeCommand(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument('--clean',
+            action='store_true',
+            dest='clean',
+            default=False,
+            help='Clean the DB before the Command')
+
     fields = ['CODE', 'PARENT', 'PARENT SCOPE', 'DIRECTION', 'INVERSE', 'INVERSE SCOPE', 'COMPARABLE', 'NAME', 'NAME_EN',
               'NAME_RU', 'NAME_AR', 'DESCRIPTION', 'DESCRIPTION_EN', 'DESCRIPTION_RU', 'DESCRIPTION_AR']
     def _parse_csv(self, filename):
@@ -40,18 +49,29 @@ class TreeCommand(BaseCommand):
                  for line in reader}
         root = Tree()
 
+        expenditure_root = Tree(name=u'הוצאות', amount=None, code=None, expense=True, _id=None)
+        revenue_root = Tree(name=u'הכנסות', amount=None,  code=None, expense=False, _id=None)
+        root.add_child(expenditure_root)
+        root.add_child(revenue_root)
+
         # We go through the dict to create the hierarchy.
         for [node, parent] in nodes.values():
             if not parent:
-                root.add_child(node)
+                if node.expense:
+                    expenditure_root.add_child(node)
+                else:
+                    revenue_root.add_child(node)
             else:
                 nodes[parent][0].add_child(node)
 
         # Upload the Tree to the DB.
         dataset = get_scheme()
         if dataset.count() > 0:
-            print 'Schema is already uploaded. Exiting.'
-            return
+            if options['clean']:
+                dataset.delete_many({})
+            else:
+                print 'Schema is already uploaded. Exiting.'
+                return
         dataset.insert(root.to_dict())
         dataset.close()
 
@@ -64,7 +84,7 @@ class Muni2TreeCommand(BaseCommand):
             dest='print_data',
             default=False,
             help='Print muni data to screen')
-        parser.add_argument('--clean_all',
+        parser.add_argument('--clean',
             action='store_true',
             dest='clean',
             default=False,
@@ -121,22 +141,31 @@ def remove_muni_year_tree(muni, year):
     munis.save(entry)
     munis.close()
 
-def create_tree(muni,year):
+def create_tree(muni, year):
+    schema_dataset = get_scheme()
 
-    schema_datasset = get_scheme()
+    tree = Tree.from_dict(schema_dataset.find_one())
+    tree.update_field('muni', muni)
+    tree.update_field('year', year)
+    if tree.children[0].expense:
+        expense_root = tree.children[0]
+        revenue_root = tree.children[1]
+    else:
+        expense_root = tree.children[1]
+        revenue_root = tree.children[0]
 
-    tree = Tree.from_dict(schema_datasset.find_one())
-    tree.update_field('muni',muni)
-    tree.update_field('year',year)
-    budget_dataset = get_raw_budget(muni,year)
+    budget_dataset = get_raw_budget(muni, year)
 
     for line in budget_dataset.find({}):
-        node = Tree(muni=muni,year=year,**line)
-        tree.insert_node(node)
+        node = Tree(muni=muni, year=year, **line)
+        if len([x for x in expense_root.children if x.code == node.code[1]]):
+            expense_root.insert_node(node)
+        else:
+            revenue_root.insert_node(node)
 
     tree.update_amount()
 
-    schema_datasset.close()
+    schema_dataset.close()
     budget_dataset.close()
 
     return tree
@@ -147,3 +176,4 @@ def update_root(muni,year,root):
     entry['roots'][str(year)] = root
     munis.save(entry)
     munis.close()
+
