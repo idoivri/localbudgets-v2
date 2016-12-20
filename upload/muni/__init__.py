@@ -9,7 +9,9 @@ from rishon_letzion import RishonLetzionMuni
 from tel_aviv import TelAvivMuni
 from jerusalem import JerusalemMuni
 from kfar_saba import KfarSabaMuni
+from netanya import NetanyaMuni
 from schema import SchemaMuni
+
 
 # Might need a FIXME: if we override one of the keys...
 munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
@@ -23,7 +25,8 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  TelAvivMuni.MUNI : TelAvivMuni,
                  JerusalemMuni.MUNI : JerusalemMuni,
                  SchemaMuni.MUNI : SchemaMuni,
-                 KfarSabaMuni.MUNI : KfarSabaMuni
+                 KfarSabaMuni.MUNI : KfarSabaMuni,
+                NetanyaMuni.MUNI : NetanyaMuni
 
 
                  }
