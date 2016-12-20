@@ -60,6 +60,27 @@ function colores_google(n) {
 }
 
 
+//Breadcrumbs
+
+// Breadcrumb dimensions: width, height, spacing, width of tip/tail.
+var b = {
+  w: 200, h: 30, s: 3, t: 5
+};
+
+function initializeBreadcrumbTrail() {
+  // Add the svg area.
+  var trail = d3.select("#auto_breadcrumbs")
+      .append("svg:svg")
+      .attr("width", 1200)
+      .attr("height", 50)
+      .attr("id", "trail");
+  // Add the label at the end, for the percentage.
+  trail.append("svg:text")
+    .attr("id", "endlabel")
+    .style("fill", "#000");
+};
+
+
 /**
 * fetches (muni,year) data from server
 * and displays all relevant visualization
@@ -101,6 +122,7 @@ function get_data(muni,year,expense) {
 
   //clean previous svg
   d3.select("svg").remove();
+  initializeBreadcrumbTrail();
 
   //append new svg
   var svg = d3.select("#auto_data").append("svg")
@@ -126,6 +148,7 @@ function get_data(muni,year,expense) {
   .innerRadius(function(d) { return Math.max(0, y(d.y)); })
   .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
+
   //fetch data
   $.get( '/api/v1/get_budget_tree',
   {
@@ -149,8 +172,50 @@ function get_data(muni,year,expense) {
       .style("fill", function(d) { return color( d ); })
 //      zoom on click
       .on("click", click)
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide);
+      .on('mouseover', mouseover)
+      .on('mouseout', mouseleave);
+
+
+      function mouseover(d) {
+        tip.show(d);
+
+        var sequenceArray = getAncestors(d);
+        updateBreadcrumbs(sequenceArray, "");
+
+        // Fade all the segments.
+        d3.selectAll("path")
+            .style("opacity", 0.6);
+
+        // Then highlight only those that are an ancestor of the current segment.
+        svg.selectAll("path")
+            .filter(function(node) {
+                      return (sequenceArray.indexOf(node) >= 0);
+                    })
+            .style("opacity", 1);
+      }
+
+      // Restore everything to full opacity when moving off the visualization.
+      function mouseleave(d) {
+        tip.hide(d);
+        // Hide the breadcrumb trail
+        d3.select("#trail")
+            .style("visibility", "hidden");
+
+        // Deactivate all segments during transition.
+        d3.selectAll("path").on("mouseover", null);
+
+        // Transition each segment to full opacity and then reactivate it.
+        d3.selectAll("path")
+            .transition()
+            .duration(100)
+            .style("opacity", 1)
+            .each("end", function() {
+                    d3.select(this).on("mouseover", mouseover);
+                  });
+
+        d3.select("#explanation")
+            .style("visibility", "hidden");
+      }
 
       //zoom on clicked node, and animate transition
       function click(d) {
@@ -221,6 +286,8 @@ function get_data(muni,year,expense) {
 
     }); //end of visualization wrapper function
 
+
+
     //interpolate the scales
     function arcTween(d) {
       var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
@@ -231,6 +298,77 @@ function get_data(muni,year,expense) {
         ? function(t) { return arc(d); }
         : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
       };
+    }
+
+
+    // Given a node in a partition layout, return an array of all of its ancestor
+    // nodes, highest first, but excluding the root.
+    function getAncestors(node) {
+      var path = [];
+      var current = node;
+      while (current.parent) {
+        path.unshift(current);
+        current = current.parent;
+      }
+      return path;
+    }
+
+    // Generate a string that describes the points of a breadcrumb polygon.
+    function breadcrumbPoints(d, i) {
+      var points = [];
+      points.push("0,0");
+      points.push(b.w + ",0");
+      points.push(b.w + b.t + "," + (b.h / 2));
+      points.push(b.w + "," + b.h);
+      points.push("0," + b.h);
+      if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
+        points.push(b.t + "," + (b.h / 2));
+      }
+      return points.join(" ");
+    }
+
+    // Update the breadcrumb trail to show the current sequence and percentage.
+    function updateBreadcrumbs(nodeArray, percentageString) {
+
+      // Data join; key function combines name and depth (= position in sequence).
+      var g = d3.select("#trail")
+          .selectAll("g")
+          .data(nodeArray, function(d) { return d.name + d.depth; });
+
+      // Add breadcrumb and label for entering nodes.
+      var entering = g.enter().append("svg:g");
+
+      entering.append("svg:polygon")
+          .attr("points", breadcrumbPoints)
+          .style("fill", function(d) { return getColor(d) });
+
+      entering.append("svg:text")
+          .attr("x", (b.w + b.t) / 2)
+          .attr("y", b.h / 2)
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "middle")
+          .text(function(d) { return d.name; });
+
+      // Set position for entering and updating nodes.
+      g.attr("transform", function(d, i) {
+        return "translate(" + i * (b.w + b.s) + ", 0)";
+      });
+
+      // Remove exiting nodes.
+      g.exit().remove();
+
+      // Now move and update the percentage at the end.
+      d3.select("#trail").select("#endlabel")
+          .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+          .attr("y", b.h / 2)
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "middle")
+          .text(percentageString);
+
+      // Make the breadcrumb trail visible, if it's hidden.
+      d3.select("#trail")
+          .style("visibility", "");
+
     }
   }
 
@@ -289,6 +427,6 @@ function get_data(muni,year,expense) {
 
 
     //A default muni to display before user selects anything
-    // get_data('ashdod','2013')
+    get_data('ashdod','2013')
   });
 });
