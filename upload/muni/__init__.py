@@ -24,7 +24,7 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  RishonLetzionMuni.MUNI : RishonLetzionMuni,
                  TelAvivMuni.MUNI : TelAvivMuni,
                  JerusalemMuni.MUNI : JerusalemMuni,
-                 SchemaMuni.MUNI : SchemaMuni,
+                 #SchemaMuni.MUNI : SchemaMuni,
                  KfarSabaMuni.MUNI : KfarSabaMuni,
                 NetanyaMuni.MUNI : NetanyaMuni
 
