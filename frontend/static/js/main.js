@@ -64,7 +64,7 @@ function colores_google(n) {
 
 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
 var b = {
-  w: 200, h: 30, s: 3, t: 5
+  w: 150, h: 50, s: 5, t: 10
 };
 
 function initializeBreadcrumbTrail() {
@@ -197,9 +197,9 @@ function get_data(muni,year,expense) {
       // Restore everything to full opacity when moving off the visualization.
       function mouseleave(d) {
         tip.hide(d);
-        // Hide the breadcrumb trail
-        d3.select("#trail")
-            .style("visibility", "hidden");
+        // // Hide the breadcrumb trail
+        // d3.select("#trail")
+        //     .style("visibility", "hidden");
 
         // Deactivate all segments during transition.
         d3.selectAll("path").on("mouseover", null);
@@ -310,6 +310,7 @@ function get_data(muni,year,expense) {
         path.unshift(current);
         current = current.parent;
       }
+      path.unshift(current);
       return path;
     }
 
@@ -347,7 +348,8 @@ function get_data(muni,year,expense) {
           .attr("y", b.h / 2)
           .attr("dy", "0.35em")
           .attr("text-anchor", "middle")
-          .text(function(d) { return d.name; });
+          .text(function(d) { return d.name; })
+          .style('fill','white'); //TODO color should be white
 
       // Set position for entering and updating nodes.
       g.attr("transform", function(d, i) {
@@ -368,7 +370,6 @@ function get_data(muni,year,expense) {
       // Make the breadcrumb trail visible, if it's hidden.
       d3.select("#trail")
           .style("visibility", "");
-
     }
   }
 
