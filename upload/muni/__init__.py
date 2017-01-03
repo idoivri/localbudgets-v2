@@ -10,6 +10,7 @@ from tel_aviv import TelAvivMuni
 from jerusalem import JerusalemMuni
 from kfar_saba import KfarSabaMuni
 from netanya import NetanyaMuni
+from petah_tikva import PetahTikvaMuni
 from schema import SchemaMuni
 
 
@@ -26,7 +27,9 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  JerusalemMuni.MUNI : JerusalemMuni,
                  #SchemaMuni.MUNI : SchemaMuni,
                  KfarSabaMuni.MUNI : KfarSabaMuni,
-                NetanyaMuni.MUNI : NetanyaMuni
+                 NetanyaMuni.MUNI : NetanyaMuni,
+                 PetahTikvaMuni.MUNI : PetahTikvaMuni
+
 
 
                  }
