@@ -31,7 +31,7 @@ class AmountField(AbstractField):
         if self.amount == '-' or self.amount == '':
             return 0
 
-        return int(self.amount)
+        return abs(int(self.amount))
 
 
         
