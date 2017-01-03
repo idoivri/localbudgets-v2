@@ -5,14 +5,14 @@ class NetanyaMuni(AbstractMuni):
 
     fields_2016 = {0: CodeField,
                   1: DescriptionField,
-                  2: AmountField}
+                  3: AmountField}
 
     fields_2015 = {0: CodeField,
                   1: DescriptionField,
-                  3: AmountField}
+                  4: AmountField}
     fields_2014 = {0: CodeField,
               1: DescriptionField,
-              4: AmountField}
+              5: AmountField}
 
     years = {2016: fields_2016,
              2015: fields_2015,
