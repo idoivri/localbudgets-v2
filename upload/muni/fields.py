@@ -38,9 +38,9 @@ class AmountField(AbstractField):
 class CodeField(AbstractField):
     name = 'code'
     def process(self):
-        return self.value.replace("-", '')
+        return self.value.replace("-", '').replace(' ','')
     def is_valid(self):
-        return '' != self.value
+        return '' != self.process()
     
 class DescriptionField(AbstractField):
     name = 'name'

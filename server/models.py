@@ -135,6 +135,9 @@ def muni_iter(muni=None, years=None, **kws):
         with get_munis() as munis:
             muni_names = [muni['name'] for muni in munis.find()]
 
+    else:
+        muni_names = [muni]
+
     for muni_name in muni_names:
         info = get_muni_info(muni_name)
         yield (muni_name,info)

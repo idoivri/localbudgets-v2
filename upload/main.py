@@ -44,19 +44,19 @@ class UpdateCommand(BaseCommand):
             default=False,
             help='Print muni data to screen')
 
-        parser.add_argument('--clean_all',
+        parser.add_argument('--clean',
             action='store_true',
             dest='clean',
             default=False,
-            help='Clean the DB before the Command'),
+            help='Clean the DB before the Command')
 
         parser.add_argument('--muni',
             dest='muni',
-            help='Specify which muni to upload (otherwise all)'),
+            help='Specify which muni to upload (otherwise all)')
 
         parser.add_argument('--year',
             dest='year',
-            help='Specify which year to upload (otherwise all)'),
+            help='Specify which year to upload (otherwise all)')
 
 
     # def handle_sheet(self, muni_object, filepath):
@@ -112,6 +112,7 @@ class UpdateCommand(BaseCommand):
         print "bla for the win"
         # if options['clean']:
         #     del_collection(RAW_COLLECTION)
+        print 'options: ',options
         muni_list = [muni for muni in munis_loaders
                      if os.path.isdir(join(root_dir,DATA_DIR,muni))]
         if options['muni']:

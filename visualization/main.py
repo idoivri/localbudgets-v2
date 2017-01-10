@@ -95,6 +95,7 @@ class Muni2TreeCommand(BaseCommand):
             help='Specify muni')
         parser.add_argument('--year',
             dest='year',
+            default=None,
             metavar="YEAR",
             help='Specify year')
 
@@ -104,10 +105,14 @@ class Muni2TreeCommand(BaseCommand):
         print "bla for the win"
         flatten_dataset = get_flatten()
         for (muni, info) in muni_iter(**options):
-            for year in get_muni_years(muni):
+            if options['year'] is not None:
+                years = [options['year']]
+            else:
+                years = get_muni_years(muni)
+            for year in years:
                 print 'Converting to tree the budget %s of year %s'%(muni, year)
 
-                if budget_exists(muni,year):
+                if budget_exists(muni, year):
                     if options['clean']:
                         remove_muni_year_tree(muni, year)
                     else:
@@ -156,12 +161,13 @@ def create_tree(muni, year):
 
     budget_dataset = get_raw_budget(muni, year)
 
-    for line in budget_dataset.find({}):
+    for i,line in enumerate(budget_dataset.find({})):
         node = Tree(muni=muni, year=year, **line)
         if len([x for x in expense_root.children if x.code == node.code[1]]):
             expense_root.insert_node(node)
         else:
             revenue_root.insert_node(node)
+
 
     tree.update_amount()
 
