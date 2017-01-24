@@ -337,19 +337,19 @@ function get_data(muni,year,expense) {
           .data(nodeArray, function(d) { return d.name + d.depth; });
 
       // Add breadcrumb and label for entering nodes.
-      var entering = g.enter().append("svg:g");
+      var entering = g.enter().append("g");
 
-      entering.append("svg:polygon")
+      g.append("svg:polygon")
           .attr("class","breadcrumb")
           .attr("points", breadcrumbPoints)
           .style("fill", function(d) { return getColor(d) });
 
-      entering.append("svg:text")
+      g.append("text")
           .attr('class','breadcrumb-text')
           .attr("x", (b.w + b.t) / 2)
           .attr("y", b.h / 2)
           .attr("dy", "0.35em")
-          .attr("text-anchor", "top")
+          // .attr("text-anchor", "top")
           .text(function(d) { return d.name; })
           .style('fill','black'); //TODO color should be white
           
@@ -363,17 +363,23 @@ function get_data(muni,year,expense) {
       g.exit().remove();
 
       // Now move and update the percentage at the end.
-      d3.select("#trail").select("#endlabel")
-          .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
-          .attr("y", b.h / 2)
-          .attr("dy", "0.35em")
-          .attr("text-anchor", "middle")
-          .text(percentageString);
+      // d3.select("#trail").select("#endlabel")
+      //     .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+      //     .attr("y", b.h / 2)
+      //     .attr("dy", "0.35em")
+      //     .attr("text-anchor", "middle")
+      //     .text(percentageString);
 
-          d3plus.textwrap()
-             .container(d3.select(".breadcrumb"))
-             .resize(true)
-             .draw()
+         d3.selectAll(".breadcrumb-text")
+         .each(function(d){
+             d3plus
+             .textwrap()
+             .container(d3.select(this))
+             .width(15)
+             .height(10)
+             .align("center")
+             .draw();
+         });
 
           // d3.selectAll(".breadcrumb-text")
           // .call(wrap, 30)
