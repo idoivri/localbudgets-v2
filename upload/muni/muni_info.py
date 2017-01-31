@@ -17,5 +17,6 @@ infos = {'jerusalem': {'heb_name': u'ירושלים'},
          'netanya': {'heb_name': u'נתניה'},
          'petah_tikva': {'heb_name': u'פתח תקווה'},
          'givatayim': {'heb_name': u'גבעתיים'},
+         'omer': {'heb_name': u'עומר'},
          'schema': {}
          }
