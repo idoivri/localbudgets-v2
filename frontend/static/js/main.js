@@ -64,7 +64,7 @@ function colores_google(n) {
 
 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
 var b = {
-  w: 150, h: 50, s: 5, t: 10
+  w: 150, h: 60, s: 5, t: 10
 };
 
 function initializeBreadcrumbTrail() {
@@ -347,9 +347,9 @@ function get_data(muni,year,expense) {
       g.append("text")
           .attr('class','breadcrumb-text')
           .attr("x", (b.w + b.t) / 2)
-          .attr("y", b.h / 2)
-          .attr("dy", "0.35em")
-          // .attr("text-anchor", "top")
+          .attr("y", b.h)
+          .attr("dy", "-15em")
+          .attr("text-anchor", "center")
           .text(function(d) { return d.name; })
           .style('fill','black'); //TODO color should be white
           
@@ -377,6 +377,7 @@ function get_data(muni,year,expense) {
              .container(d3.select(this))
              .width(15)
              .height(10)
+             .y("1em")
              .align("center")
              .draw();
          });
