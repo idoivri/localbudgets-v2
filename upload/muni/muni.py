@@ -21,6 +21,7 @@ class AbstractMuni(object):
     fields = []
     years = []
     MUNI = "Unknown"
+    start_in_row = 0
 
     def __init__(self, print_data=False, clean=False):
         self.print_data = print_data
@@ -42,28 +43,29 @@ class AbstractMuni(object):
             fields = self.fields
 
         for line_number, line in enumerate(reader):
-            new_line = {}
+            if line_number>=self.start_in_row:
+                new_line = {}
 
-            line_fields = [fields[index](line[index])
-                                for index in fields]
+                line_fields = [fields[index](line[index])
+                                    for index in fields]
 
-            # check validity of line and write valid lines to DB
-            fields_are_valid = [field.is_valid() for field in line_fields]
+                # check validity of line and write valid lines to DB
+                fields_are_valid = [field.is_valid() for field in line_fields]
 
-            if all(fields_are_valid):
-                for field in line_fields:
-                    # process fields
-                    new_line[field.name] = field.process()
+                if all(fields_are_valid):
+                    for field in line_fields:
+                        # process fields
+                        new_line[field.name] = field.process()
 
-                # insert line data to DB
-                self.print_str(new_line)
+                    # insert line data to DB
+                    self.print_str(new_line)
 
-                dataset.insert(new_line)
-            else:
-                invalid_fields = [':'.join([field.name, field.value, field.error()]) 
-                                  for field in line_fields if not field.is_valid()]
-                #self.logger.info('invalid fields: %s', ' '.join(invalid_fields))
-                print 'invalid fields in line %d : %s' %(line_number+1, ', '.join(invalid_fields),)
+                    dataset.insert(new_line)
+                else:
+                    invalid_fields = [':'.join([field.name, field.value, field.error()])
+                                      for field in line_fields if not field.is_valid()]
+                    #self.logger.info('invalid fields: %s', ' '.join(invalid_fields))
+                    print 'invalid fields in line %d : %s' %(line_number+1, ', '.join(invalid_fields),)
         dataset.close()
 
     def print_str(self, data_str):
