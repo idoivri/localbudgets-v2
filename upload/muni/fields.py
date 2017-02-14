@@ -31,16 +31,16 @@ class AmountField(AbstractField):
         if self.amount == '-' or self.amount == '':
             return 0
 
-        return int(self.amount)
+        return abs(int(self.amount))
 
 
         
 class CodeField(AbstractField):
     name = 'code'
     def process(self):
-        return self.value.replace("-", '')
+        return self.value.replace("-", '').replace(' ','')
     def is_valid(self):
-        return '' != self.value
+        return '' != self.process()
     
 class DescriptionField(AbstractField):
     name = 'name'

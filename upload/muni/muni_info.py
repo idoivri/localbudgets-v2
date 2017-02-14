@@ -14,5 +14,10 @@ infos = {'jerusalem': {'heb_name': u'ירושלים'},
          'rehovot': {'heb_name': u'רחובות'},
          'rishon_letzion': {'heb_name': u'ראשון לציון'},
          'tel_aviv': {'heb_name': u'תל אביב'},
+         'netanya': {'heb_name': u'נתניה'},
+         'petah_tikva': {'heb_name': u'פתח תקווה'},
+         'givatayim': {'heb_name': u'גבעתיים'},
+         'omer': {'heb_name': u'עומר'},
+         'hadera': {'heb_name': u'חדרה'},
          'schema': {}
          }

@@ -9,7 +9,13 @@ from rishon_letzion import RishonLetzionMuni
 from tel_aviv import TelAvivMuni
 from jerusalem import JerusalemMuni
 from kfar_saba import KfarSabaMuni
+from netanya import NetanyaMuni
+from petah_tikva import PetahTikvaMuni
+from givatayim import GivatayimMuni
+from omer import OmerMuni
+from hadera import HaderaMuni
 from schema import SchemaMuni
+
 
 # Might need a FIXME: if we override one of the keys...
 munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
@@ -22,8 +28,14 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  RishonLetzionMuni.MUNI : RishonLetzionMuni,
                  TelAvivMuni.MUNI : TelAvivMuni,
                  JerusalemMuni.MUNI : JerusalemMuni,
-                 SchemaMuni.MUNI : SchemaMuni,
-                 KfarSabaMuni.MUNI : KfarSabaMuni
+                 #SchemaMuni.MUNI : SchemaMuni,
+                 KfarSabaMuni.MUNI : KfarSabaMuni,
+                 NetanyaMuni.MUNI : NetanyaMuni,
+                 PetahTikvaMuni.MUNI : PetahTikvaMuni,
+                 GivatayimMuni.MUNI :GivatayimMuni,
+                 OmerMuni.MUNI :OmerMuni,
+                 HaderaMuni.MUNI :HaderaMuni
+
 
 
                  }

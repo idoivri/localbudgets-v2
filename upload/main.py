@@ -44,19 +44,19 @@ class UpdateCommand(BaseCommand):
             default=False,
             help='Print muni data to screen')
 
-        parser.add_argument('--clean_all',
+        parser.add_argument('--clean',
             action='store_true',
             dest='clean',
             default=False,
-            help='Clean the DB before the Command'),
+            help='Clean the DB before the Command')
 
         parser.add_argument('--muni',
             dest='muni',
-            help='Specify which muni to upload (otherwise all)'),
+            help='Specify which muni to upload (otherwise all)')
 
         parser.add_argument('--year',
             dest='year',
-            help='Specify which year to upload (otherwise all)'),
+            help='Specify which year to upload (otherwise all)')
 
 
     # def handle_sheet(self, muni_object, filepath):
@@ -92,7 +92,6 @@ class UpdateCommand(BaseCommand):
         else:
             raise NoMuniParser("no Muni parser for: %s" %(muni, ))
         muni_object = muni_class(print_data=options['print_data'],clean=options['clean'])
-        os.listdir(muni_path)
         years = {parse_filename(filename): filename for filename in os.listdir(muni_path) if parse_filename(filename) is not None}
 
         print years
@@ -113,8 +112,9 @@ class UpdateCommand(BaseCommand):
         print "bla for the win"
         # if options['clean']:
         #     del_collection(RAW_COLLECTION)
-        muni_list = [muni for muni in os.listdir(join(root_dir, DATA_DIR))
-                     if (os.path.isdir(join(root_dir,DATA_DIR,muni)) and not muni==SCHEMA)]
+        print 'options: ',options
+        muni_list = [muni for muni in munis_loaders
+                     if os.path.isdir(join(root_dir,DATA_DIR,muni))]
         if options['muni']:
             if options['muni'] in muni_list:
                 muni_list = [options['muni']]
