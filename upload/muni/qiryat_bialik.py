@@ -8,3 +8,6 @@ class QiryatBialikMuni(AbstractMuni):
 
     MUNI = 'qiryat_bialik'
     info = {}
+    def __init__(self,**kwargs):
+        self.start_in_row.add_value(3)
+        super(QiryatBialikMuni, self).__init__(**kwargs)

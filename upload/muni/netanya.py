@@ -20,3 +20,6 @@ class NetanyaMuni(AbstractMuni):
     
     MUNI = 'netanya'
 
+    def __init__(self,**kwargs):
+        self.start_in_row.add_value(3)
+        super(NetanyaMuni, self).__init__(**kwargs)
