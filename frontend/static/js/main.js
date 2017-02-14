@@ -72,7 +72,7 @@ function initializeBreadcrumbTrail() {
   var trail = d3.select("#auto_breadcrumbs")
       .append("svg:svg")
       .attr("width", 1200)
-      .attr("height", 50)
+      .attr("height", 60)
       .attr("id", "trail");
   // Add the label at the end, for the percentage.
   trail.append("svg:text")
@@ -348,10 +348,10 @@ function get_data(muni,year,expense) {
           .attr('class','breadcrumb-text')
           .attr("x", (b.w + b.t) / 2)
           .attr("y", b.h)
-          .attr("dy", "-15em")
+          .attr("dy", "-28em")
           .attr("text-anchor", "center")
-          .text(function(d) { return d.name; })
-          .style('fill','black'); //TODO color should be white
+          .text(function(d) { return d.name.split(" ")[0]; })
+          .style('fill','white');
           
 
       // Set position for entering and updating nodes.
@@ -375,8 +375,8 @@ function get_data(muni,year,expense) {
              d3plus
              .textwrap()
              .container(d3.select(this))
-             .width(15)
-             .height(10)
+             .width(30)
+             .height(50)
              .y("1em")
              .align("center")
              .draw();
