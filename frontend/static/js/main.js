@@ -348,7 +348,7 @@ function get_data(muni,year,expense) {
           .attr("y", b.h / 2)
           .attr("dy", "0.35em")
           .attr("text-anchor", "middle")
-          .text(function(d) { return d.name; })
+          .text(function(d) { return d.name.split(" ")[0]; })
           .style('fill','white'); //TODO color should be white
 
       // Set position for entering and updating nodes.
