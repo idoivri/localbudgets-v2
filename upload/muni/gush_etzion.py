@@ -7,3 +7,5 @@ class GushMuni(AbstractMuni):
         # TODO
         pass
 
+    def __init__(self,**kwargs):
+        super(GushMuni, self).__init__(**kwargs)

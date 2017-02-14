@@ -14,4 +14,8 @@ class HaderaMuni(AbstractMuni):
              2015: fields,
              2014: fields}
     MUNI = 'hadera'
-    start_in_row = 3
+
+    def __init__(self,**kwargs):
+        self.start_in_row.add_value(3)
+        super(HaderaMuni, self).__init__(**kwargs)
+

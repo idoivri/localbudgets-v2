@@ -14,18 +14,47 @@ class MetaMuni(type):
             
         return super(MetaMuni, cls).__new__(cls, name, bases, dct)
 
+
+class Attr(object):
+    default_value = None
+    years_value = {}
+    def __init__(self, default_value=None):
+        self.default_value = default_value
+
+    def add_value(self,value,year=None):
+        if year is not None:
+            self.years_value[year]=value
+        else:
+            self.default_value = value
+
+
+    def __call__(self,year, *args, **kwargs):
+        if year in self.years_value:
+            return self.years_value[year]
+        else:
+            return self.default_value
+
+
 class AbstractMuni(object):
     """municipality class"""
     __metaclass__ = MetaMuni
 
-    fields = []
-    years = []
     MUNI = "Unknown"
-    start_in_row = 0
+
+    start_in_row = Attr(0)
+    data_fields = Attr()
 
     def __init__(self, print_data=False, clean=False):
         self.print_data = print_data
         self.clean = clean
+        self.default_values = {'start_in_row': 0,
+                      'data_fields': []}
+        if hasattr(self, 'fields'):
+            self.data_fields.add_value(self.fields)
+        if hasattr(self, 'years'):
+            for year in self.years:
+                self.data_fields.add_value(self.years[year],year)
+
 
     def handle_sheet(self, year, filename):
         print 'handling file: %s' %(filename,)
@@ -37,13 +66,12 @@ class AbstractMuni(object):
 
         reader = csv.reader(file(filename, 'rb'))
 
-        if year in self.years:
-            fields = self.years[year]
-        else:
-            fields = self.fields
+        fields = self.data_fields(year)
+
+        start_in_row = self.start_in_row(year)
 
         for line_number, line in enumerate(reader):
-            if line_number>=self.start_in_row:
+            if line_number>=start_in_row:
                 new_line = {}
 
                 line_fields = [fields[index](line[index])
@@ -67,6 +95,7 @@ class AbstractMuni(object):
                     #self.logger.info('invalid fields: %s', ' '.join(invalid_fields))
                     print 'invalid fields in line %d : %s' %(line_number+1, ', '.join(invalid_fields),)
         dataset.close()
+
 
     def print_str(self, data_str):
         if self.print_data:

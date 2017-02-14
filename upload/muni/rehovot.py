@@ -5,6 +5,7 @@ class RehovotMuni(AbstractMuni):
      fields = {0: CodeField,
               1: DescriptionField,
               3: AmountField}
-
      MUNI = 'rehovot'
-     info = {}
+
+     def __init__(self):
+        super(RehovotMuni,self).__init__()

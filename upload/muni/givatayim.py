@@ -24,4 +24,5 @@ class GivatayimMuni(AbstractMuni):
              2013: fields_2013}
     
     MUNI = 'givatayim'
-
+    def __init__(self,**kwargs):
+        super(GivatayimMuni, self).__init__(**kwargs)
