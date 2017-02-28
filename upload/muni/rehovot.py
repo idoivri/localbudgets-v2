@@ -7,5 +7,5 @@ class RehovotMuni(AbstractMuni):
               3: AmountField}
      MUNI = 'rehovot'
 
-     def __init__(self):
-        super(RehovotMuni,self).__init__()
+     def __init__(self,**kwargs):
+        super(RehovotMuni,self).__init__(**kwargs)

@@ -11,5 +11,5 @@ class AshdodMuni(AbstractMuni):
 
     MUNI = 'ashdod'
 
-    def __init__(self):
-        super(AshdodMuni,self).__init__()
+    def __init__(self,**kwargs):
+        super(AshdodMuni,self).__init__(**kwargs)

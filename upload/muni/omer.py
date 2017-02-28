@@ -8,5 +8,5 @@ class OmerMuni(AbstractMuni):
 
     MUNI = 'omer'
 
-    def __init__(self):
-        super(OmerMuni, self).__init__()
+    def __init__(self,**kwargs):
+        super(OmerMuni, self).__init__(**kwargs)
