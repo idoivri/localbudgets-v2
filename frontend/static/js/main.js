@@ -121,8 +121,8 @@ function get_data(muni,year,expense) {
   })
 
   //clean previous svg
-  d3.select("svg").remove();
-  // initializeBreadcrumbTrail();
+  d3.selectAll("svg").remove();
+  initializeBreadcrumbTrail();
 
   //append new svg
   var svg = d3.select("#auto_data").append("svg")
@@ -180,7 +180,7 @@ function get_data(muni,year,expense) {
         tip.show(d);
 
         var sequenceArray = getAncestors(d);
-     //   updateBreadcrumbs(sequenceArray, "");
+       updateBreadcrumbs(sequenceArray, "");
 
         // Fade all the segments.
         d3.selectAll("path")
