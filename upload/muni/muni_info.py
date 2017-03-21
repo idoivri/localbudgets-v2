@@ -20,5 +20,6 @@ infos = {'jerusalem': {'heb_name': u'ירושלים'},
          'omer': {'heb_name': u'עומר'},
          'hadera': {'heb_name': u'חדרה'},
          'haifa': {'heb_name': u'חיפה'},
+         'hertzelia': {'heb_name': u'הרצליה'},
          'schema': {}
          }
