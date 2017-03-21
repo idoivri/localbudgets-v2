@@ -14,6 +14,7 @@ from petah_tikva import PetahTikvaMuni
 from givatayim import GivatayimMuni
 from omer import OmerMuni
 from hadera import HaderaMuni
+from haifa import HaifaMuni
 from schema import SchemaMuni
 
 
@@ -34,7 +35,8 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  PetahTikvaMuni.MUNI : PetahTikvaMuni,
                  GivatayimMuni.MUNI :GivatayimMuni,
                  OmerMuni.MUNI :OmerMuni,
-                 HaderaMuni.MUNI :HaderaMuni
+                 HaderaMuni.MUNI :HaderaMuni,
+                 HaifaMuni.MUNI :HaifaMuni
 
 
 
