@@ -16,11 +16,11 @@ class MetaMuni(type):
 
 
 class Attr(object):
-    default_value = None
-    years_value = {}
+    # default_value = None
+    # years_value = {}
     def __init__(self, default_value=None):
         self.default_value = default_value
-
+        self.years_value = {}
     def add_value(self,value,year=None):
         if year is not None:
             self.years_value[year]=value
@@ -43,6 +43,7 @@ class AbstractMuni(object):
 
     start_in_row = Attr(0)
     data_fields = Attr()
+
 
     def __init__(self, print_data=False, clean=False):
         self.print_data = print_data
