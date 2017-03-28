@@ -16,6 +16,8 @@ from omer import OmerMuni
 from hadera import HaderaMuni
 from haifa import HaifaMuni
 from hertzelia import HertzeliaMuni
+from holon import HolonMuni
+from ramat_gan import RamatGanMuni
 from schema import SchemaMuni
 
 
@@ -38,7 +40,9 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  OmerMuni.MUNI :OmerMuni,
                  HaderaMuni.MUNI :HaderaMuni,
                  HertzeliaMuni.MUNI :HertzeliaMuni,
-                 HaifaMuni.MUNI :HaifaMuni
+                 HaifaMuni.MUNI :HaifaMuni,
+                 HolonMuni.MUNI: HolonMuni,
+                 RamatGanMuni.MUNI: RamatGanMuni,
 
 
 
