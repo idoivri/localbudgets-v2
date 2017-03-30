@@ -19,5 +19,9 @@ infos = {'jerusalem': {'heb_name': u'ירושלים'},
          'givatayim': {'heb_name': u'גבעתיים'},
          'omer': {'heb_name': u'עומר'},
          'hadera': {'heb_name': u'חדרה'},
+         'haifa': {'heb_name': u'חיפה'},
+         'hertzelia': {'heb_name': u'הרצליה'},
+         'holon': {'heb_name': u'חולון'},
+         'ramat_gan': {'heb_name': u'רמת גן'},
          'schema': {}
          }

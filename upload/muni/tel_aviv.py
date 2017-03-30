@@ -7,5 +7,5 @@ class TelAvivMuni(AbstractMuni):
     def handle_sheet(*args):
         pass
     def __init__(self,**kwargs):
-        self.start_in_row.add_value(3)
         super(TelAvivMuni, self).__init__(**kwargs)
+        self.start_in_row.add_value(3)

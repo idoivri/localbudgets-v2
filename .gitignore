@@ -3,3 +3,4 @@
 vagrant/*
 .idea/*
 ignore_*
+frontend/static/obudget

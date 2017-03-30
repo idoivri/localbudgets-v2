@@ -14,8 +14,11 @@ from petah_tikva import PetahTikvaMuni
 from givatayim import GivatayimMuni
 from omer import OmerMuni
 from hadera import HaderaMuni
+from haifa import HaifaMuni
+from hertzelia import HertzeliaMuni
+from holon import HolonMuni
+from ramat_gan import RamatGanMuni
 from schema import SchemaMuni
-
 
 # Might need a FIXME: if we override one of the keys...
 munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
@@ -34,8 +37,9 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  PetahTikvaMuni.MUNI : PetahTikvaMuni,
                  GivatayimMuni.MUNI :GivatayimMuni,
                  OmerMuni.MUNI :OmerMuni,
-                 HaderaMuni.MUNI :HaderaMuni
-
-
-
+                 HaderaMuni.MUNI :HaderaMuni,
+                 HertzeliaMuni.MUNI :HertzeliaMuni,
+                 HaifaMuni.MUNI :HaifaMuni,
+                 HolonMuni.MUNI: HolonMuni,
+                 RamatGanMuni.MUNI: RamatGanMuni,
                  }

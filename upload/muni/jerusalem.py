@@ -10,5 +10,5 @@ class JerusalemMuni(AbstractMuni):
 
     MUNI = 'jerusalem'
     def __init__(self,**kwargs):
-        self.start_in_row.add_value(3)
         super(JerusalemMuni, self).__init__(**kwargs)
+        self.start_in_row.add_value(3)

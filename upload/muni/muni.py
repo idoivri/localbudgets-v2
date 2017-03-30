@@ -16,11 +16,9 @@ class MetaMuni(type):
 
 
 class Attr(object):
-    default_value = None
-    years_value = {}
     def __init__(self, default_value=None):
         self.default_value = default_value
-
+        self.years_value = {}
     def add_value(self,value,year=None):
         if year is not None:
             self.years_value[year]=value
@@ -40,15 +38,24 @@ class AbstractMuni(object):
     __metaclass__ = MetaMuni
 
     MUNI = "Unknown"
+<<<<<<< HEAD
 
     start_in_row = Attr(0)
     data_fields = Attr()
+=======
+>>>>>>> B4breadcrumb
 
     def __init__(self, print_data=False, clean=False):
+        self.start_in_row = Attr(0)
+        self.data_fields = Attr()
         self.print_data = print_data
         self.clean = clean
         self.default_values = {'start_in_row': 0,
+<<<<<<< HEAD
                       'data_fields': []}
+=======
+                               'data_fields': []}
+>>>>>>> B4breadcrumb
         if hasattr(self, 'fields'):
             self.data_fields.add_value(self.fields)
         if hasattr(self, 'years'):
@@ -58,22 +65,24 @@ class AbstractMuni(object):
 
     def handle_sheet(self, year, filename):
         print 'handling file: %s' %(filename,)
-
         dataset = get_raw_budget(self.MUNI, year, clean = self.clean)
         if dataset.count()>0 and not self.clean:
             print "Budget for %s, in year %d already exists. Use --clean to overwrite."%(self.MUNI,year)
             return
 
         reader = csv.reader(file(filename, 'rb'))
-
         fields = self.data_fields(year)
 
+<<<<<<< HEAD
+        fields = self.data_fields(year)
+
+=======
+>>>>>>> B4breadcrumb
         start_in_row = self.start_in_row(year)
 
         for line_number, line in enumerate(reader):
             if line_number>=start_in_row:
                 new_line = {}
-
                 line_fields = [fields[index](line[index])
                                     for index in fields]
 
