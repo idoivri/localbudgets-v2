@@ -8,5 +8,5 @@ class KfarShmaryahuMuni(AbstractMuni):
         pass
 
     def __init__(self,**kwargs):
-        self.start_in_row.add_value(3)
         super(KfarShmaryahuMuni, self).__init__(**kwargs)
+        self.start_in_row.add_value(3)

@@ -41,15 +41,13 @@ class AbstractMuni(object):
 
     MUNI = "Unknown"
 
-    start_in_row = Attr(0)
-    data_fields = Attr()
-
-
     def __init__(self, print_data=False, clean=False):
+        self.start_in_row = Attr(0)
+        self.data_fields = Attr()
         self.print_data = print_data
         self.clean = clean
         self.default_values = {'start_in_row': 0,
-                      'data_fields': []}
+                               'data_fields': []}
         if hasattr(self, 'fields'):
             self.data_fields.add_value(self.fields)
         if hasattr(self, 'years'):
@@ -59,14 +57,12 @@ class AbstractMuni(object):
 
     def handle_sheet(self, year, filename):
         print 'handling file: %s' %(filename,)
-
         dataset = get_raw_budget(self.MUNI, year, clean = self.clean)
         if dataset.count()>0 and not self.clean:
             print "Budget for %s, in year %d already exists. Use --clean to overwrite."%(self.MUNI,year)
             return
 
         reader = csv.reader(file(filename, 'rb'))
-
         fields = self.data_fields(year)
 
         start_in_row = self.start_in_row(year)
@@ -74,7 +70,6 @@ class AbstractMuni(object):
         for line_number, line in enumerate(reader):
             if line_number>=start_in_row:
                 new_line = {}
-
                 line_fields = [fields[index](line[index])
                                     for index in fields]
 

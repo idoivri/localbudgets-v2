@@ -20,7 +20,6 @@ from holon import HolonMuni
 from ramat_gan import RamatGanMuni
 from schema import SchemaMuni
 
-
 # Might need a FIXME: if we override one of the keys...
 munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  BeerMuni.MUNI : BeerMuni,
@@ -43,7 +42,4 @@ munis_loaders = {AshdodMuni.MUNI :AshdodMuni,
                  HaifaMuni.MUNI :HaifaMuni,
                  HolonMuni.MUNI: HolonMuni,
                  RamatGanMuni.MUNI: RamatGanMuni,
-
-
-
                  }

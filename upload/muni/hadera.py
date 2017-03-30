@@ -16,6 +16,6 @@ class HaderaMuni(AbstractMuni):
     MUNI = 'hadera'
 
     def __init__(self,**kwargs):
-        self.start_in_row.add_value(3)
         super(HaderaMuni, self).__init__(**kwargs)
+        self.start_in_row.add_value(3)
 

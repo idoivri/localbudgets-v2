@@ -76,7 +76,6 @@ class UpdateCommand(BaseCommand):
         if muni_entry is None:
             db.dataset.insert({'name':muni_object.MUNI,'info':muni_object.info,'years':years,'roots':{}})
         else:
-            # import pdb; pdb.set_trace()
             muni_entry['years'] = list(set(muni_entry['years']+years))
             db.dataset.save(muni_entry)
 
@@ -112,7 +111,6 @@ class UpdateCommand(BaseCommand):
         print "bla for the win"
         # if options['clean']:
         #     del_collection(RAW_COLLECTION)
-        print 'options: ',options
         muni_list = [muni for muni in munis_loaders
                      if os.path.isdir(join(root_dir,DATA_DIR,muni))]
         if options['muni']:

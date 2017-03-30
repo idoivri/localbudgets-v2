@@ -25,6 +25,6 @@ class BeerMuni(AbstractMuni):
     MUNI = 'beer_sheva'
 
     def __init__(self,**kwargs):
+        super(BeerMuni, self).__init__(**kwargs)
         self.start_in_row.add_value(0)
         self.start_in_row.add_value(1, year=2016)
-        super(BeerMuni, self).__init__(**kwargs)
