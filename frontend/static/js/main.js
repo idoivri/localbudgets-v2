@@ -178,7 +178,7 @@ function get_data(muni,year,expense) {
 
       function mouseover(d) {
         tip.show(d);
-        
+
         // Fade all the segments.
         // d3.selectAll("path")
         //     .style("opacity", 0.6);
@@ -430,6 +430,6 @@ function get_data(muni,year,expense) {
 
 
     //A default muni to display before user selects anything
-    get_data('ashdod','2013')
+    // get_data('ashdod','2013',)
   });
 });
