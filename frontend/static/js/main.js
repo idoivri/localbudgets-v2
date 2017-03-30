@@ -178,20 +178,17 @@ function get_data(muni,year,expense) {
 
       function mouseover(d) {
         tip.show(d);
-
-        var sequenceArray = getAncestors(d);
-       updateBreadcrumbs(sequenceArray, "");
-
+        
         // Fade all the segments.
-        d3.selectAll("path")
-            .style("opacity", 0.6);
+        // d3.selectAll("path")
+        //     .style("opacity", 0.6);
 
         // Then highlight only those that are an ancestor of the current segment.
-        svg.selectAll("path")
-            .filter(function(node) {
-                      return (sequenceArray.indexOf(node) >= 0);
-                    })
-            .style("opacity", 1);
+        // svg.selectAll("path")
+        //     .filter(function(node) {
+        //               return (sequenceArray.indexOf(node) >= 0);
+        //             })
+        //     .style("opacity", 1);
       }
 
       // Restore everything to full opacity when moving off the visualization.
@@ -223,6 +220,9 @@ function get_data(muni,year,expense) {
         .duration(750)
         .attrTween("d", arcTween(d))
         showLegend(d);
+
+        var sequenceArray = getAncestors(d);
+        updateBreadcrumbs(sequenceArray, "");
       }
       showLegend(root);
 
@@ -370,6 +370,8 @@ function get_data(muni,year,expense) {
       // Make the breadcrumb trail visible, if it's hidden.
       d3.select("#trail")
           .style("visibility", "");
+
+      // d3.select("#trail").on('click',alert("click"))
     }
   }
 
