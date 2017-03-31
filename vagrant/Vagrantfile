@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
-  config.vm.provision "shell", path: "env_setup.sh"
+  config.vm.provision "shell", path: "env_setup.sh",run: "always"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.

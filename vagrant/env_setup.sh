@@ -40,8 +40,8 @@ python manage.py upload_budget
 python manage.py migrate
 
 #Building the DB
-chmod +x reset_server.sh
-./reset_server.sh
+chmod +x scripts/reset_server.sh
+scripts/reset_server.sh
 # Runing the django server
-echo Running django server at 127.0.0.1:8000
-python manage.py runserver 0.0.0.0:8000 2>&1
+# echo Running django server at 127.0.0.1:8000
+# python manage.py runserver 0.0.0.0:8000 2>&1

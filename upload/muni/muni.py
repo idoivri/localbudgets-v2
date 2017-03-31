@@ -1,6 +1,5 @@
 from server.models import get_raw_budget
 import csv
-import logging
 from muni_info import infos
 
 class MetaMuni(type):
@@ -38,12 +37,6 @@ class AbstractMuni(object):
     __metaclass__ = MetaMuni
 
     MUNI = "Unknown"
-<<<<<<< HEAD
-
-    start_in_row = Attr(0)
-    data_fields = Attr()
-=======
->>>>>>> B4breadcrumb
 
     def __init__(self, print_data=False, clean=False):
         self.start_in_row = Attr(0)
@@ -51,11 +44,7 @@ class AbstractMuni(object):
         self.print_data = print_data
         self.clean = clean
         self.default_values = {'start_in_row': 0,
-<<<<<<< HEAD
-                      'data_fields': []}
-=======
                                'data_fields': []}
->>>>>>> B4breadcrumb
         if hasattr(self, 'fields'):
             self.data_fields.add_value(self.fields)
         if hasattr(self, 'years'):
@@ -72,19 +61,12 @@ class AbstractMuni(object):
 
         reader = csv.reader(file(filename, 'rb'))
         fields = self.data_fields(year)
-
-<<<<<<< HEAD
-        fields = self.data_fields(year)
-
-=======
->>>>>>> B4breadcrumb
         start_in_row = self.start_in_row(year)
 
         for line_number, line in enumerate(reader):
             if line_number>=start_in_row:
                 new_line = {}
-                line_fields = [fields[index](line[index])
-                                    for index in fields]
+                line_fields = [fields[index](line[index]) for index in fields]
 
                 # check validity of line and write valid lines to DB
                 fields_are_valid = [field.is_valid() for field in line_fields]

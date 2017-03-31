@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.core.management.base import BaseCommand
-
-import os
-import os.path
-from os.path import join, extsep
-from settings import BASE_DIR as root_dir
-from importlib import import_module
-
 import csv
 from server.models import get_raw_budget,get_flatten, get_scheme,muni_iter, get_munis,get_muni_years
 from visualization.tree import Tree
@@ -161,7 +154,7 @@ def create_tree(muni, year):
 
     budget_dataset = get_raw_budget(muni, year)
 
-    for i,line in enumerate(budget_dataset.find({})):
+    for i, line in enumerate(budget_dataset.find({})):
         node = Tree(muni=muni, year=year, **line)
         if len([x for x in expense_root.children if x.code == node.code[1]]):
             expense_root.insert_node(node)

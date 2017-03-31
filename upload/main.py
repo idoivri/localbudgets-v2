@@ -4,7 +4,6 @@ import os
 import os.path	
 from  os.path import join, extsep
 from settings import BASE_DIR as root_dir
-from importlib import import_module
 from server.models import get_munis, del_database
 from upload.muni import munis_loaders
 
@@ -20,6 +19,8 @@ class NoMuniParser(Exception): pass
 
 
 def parse_filename(filename):
+    if 'ignore' in filename:
+        return None
     try:
         year_str, ext = os.path.basename(filename).split(extsep)
     except ValueError: #File is not in the format of *.*

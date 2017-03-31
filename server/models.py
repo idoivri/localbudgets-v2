@@ -1,8 +1,6 @@
 ### encoding: utf8 ###
-from django.db import models
 from pymongo import MongoClient
 from settings import MONGO_SERVER
-import itertools
 
 # TODO: put it somewhere else.
 INFLATION = {1992: 2.338071159424868,
@@ -84,10 +82,6 @@ def get_raw_budget(muni,year):
     return Dataset([RAW_COLLECTION,muni,year])
 
 
-# Depracated since it can't be closed. use get flatten
-# @cleaner
-# def get_budget(muni,year):
-#     return Dataset([FLATTEN_COLLECTION]).find({'muni': muni,'year': year})
 
 @cleaner
 def get_flatten():

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-defualt_info = {'heb_name': 'bla'}
-
 infos = {'jerusalem': {'heb_name': u'ירושלים'},
          'ashdod': {'heb_name': u'אשדוד'},
          'beer_sheva': {'heb_name': u'באר שבע'},
