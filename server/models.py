@@ -124,10 +124,14 @@ def get_muni_info(muni_name):
     munis.close()
     return dict(info)
 
-def muni_iter(muni=None, years=None, **kws):
+def muni_iter(muni=None, years=None,only_with_years=False, **kws):
     if muni is None:
         with get_munis() as munis:
-            muni_names = [muni['name'] for muni in munis.find()]
+            if only_with_years:
+                cur = munis.find({'years': {'$not': {'$size': 0}}})
+            else:
+                cur = munis.find()
+        muni_names = [muni['name'] for muni in cur]
 
     else:
         muni_names = [muni]
@@ -138,8 +142,8 @@ def muni_iter(muni=None, years=None, **kws):
 
             
 
-def get_muni_names():
-    for muni, info in muni_iter():
+def get_muni_names(**kwargs):
+    for muni, info in muni_iter(**kwargs):
         yield (muni, info['heb_name'])
 
 def del_database():

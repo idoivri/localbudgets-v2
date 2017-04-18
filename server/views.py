@@ -7,7 +7,7 @@ from server.models import get_muni_names
 
 def index_page(request):
 
-    res = [(muni[0],muni[1]) for muni in get_muni_names()]
+    res = [(muni[0],muni[1]) for muni in get_muni_names(only_with_years=True)]
     
     return render(request, 'index.html', {'munis': res})
 
