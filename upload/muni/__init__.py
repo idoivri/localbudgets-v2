@@ -18,6 +18,7 @@ from haifa import HaifaMuni
 from hertzelia import HertzeliaMuni
 from holon import HolonMuni
 from ramat_gan import RamatGanMuni
+from rehovot import RehovotMuni
 from schema import SchemaMuni
 
 # Might need a FIXME: if we override one of the keys...
@@ -41,4 +42,5 @@ munis_loaders = {AshdodMuni.MUNI:AshdodMuni,
                  HaifaMuni.MUNI: HaifaMuni,
                  HolonMuni.MUNI: HolonMuni,
                  RamatGanMuni.MUNI: RamatGanMuni,
+                 RehovotMuni.MUNI: RehovotMuni,
                  }
