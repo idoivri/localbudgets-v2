@@ -42,5 +42,5 @@ munis_loaders = {AshdodMuni.MUNI:AshdodMuni,
                  HaifaMuni.MUNI: HaifaMuni,
                  HolonMuni.MUNI: HolonMuni,
                  RamatGanMuni.MUNI: RamatGanMuni,
-                 RehovotMuni.MUNI: RehovotMuni,
+                 TelAvivMuni.MUNI: TelAvivMuni,
                  }
