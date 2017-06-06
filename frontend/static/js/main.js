@@ -73,7 +73,7 @@ function getTipFunction() {
 
 
 var x, y, arc, svg, path, tip,
-    width = 500,
+    width = 1200,
     height = 550,
     formatBudget = d3.format(",d"),
 
