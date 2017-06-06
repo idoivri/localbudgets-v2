@@ -71,6 +71,7 @@ body {
 }
 
 .legend-item .cube {
+  display: inline-block;
   height: 28px;
   width: 28px;
 }
