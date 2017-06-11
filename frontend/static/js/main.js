@@ -172,6 +172,16 @@ function showLegend(d) {
   var legendTip = getTipFunction();
 
 
+  var hideTip = function (dLegend) {
+    path
+    .filter(function (d) { return d._id === dLegend._id })
+    .call(legendTip)
+    .call(function (selection) {
+      selection[0][0].style.opacity = '1'
+      legendTip.hide(dLegend,selection[0][0])
+    });
+  };
+
   legend.on("mouseover",function (dLegend) {
     path
     .filter(function (d) { return d._id === dLegend._id })
@@ -180,17 +190,14 @@ function showLegend(d) {
       selection[0][0].style.opacity = '0.7';
       legendTip.show(dLegend,selection[0][0])
     });
-  }).on('mouseout',function (dLegend) {
-    path
-    .filter(function (d) { return d._id === dLegend._id })
-    .call(legendTip)
-    .call(function (selection) {
-      selection[0][0].style.opacity = '1'
-      legendTip.hide(dLegend,selection[0][0])
-    });
-  })
+  }).on('mouseout', hideTip);
+
+
   //zoom chart when clicking legend
-  legend.on("click",zoom)
+  legend.on("click", function (dLegend) {
+    hideTip(dLegend);
+    zoom(dLegend);
+  })
 } //end of showLegend
 
 //Breadcrumbs
