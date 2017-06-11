@@ -156,6 +156,7 @@ function showLegend(d) {
     .enter()
     .append('li')
     .attr('class', 'legend-item')
+    .filter(function(d){return d.amount > 0;})
 
 
   //legend squares
