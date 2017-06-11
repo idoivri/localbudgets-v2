@@ -73,7 +73,7 @@ function getTipFunction() {
 
 
 var x, y, arc, svg, path, tip,
-    width = 1200,
+    width = 550,
     height = 550,
     formatBudget = d3.format(",d"),
 
@@ -267,7 +267,6 @@ function initializeBreadcrumbTrail() {
   // Add the svg area.
   var trail = d3.select("#auto_breadcrumbs")
       .append("svg:svg")
-      .attr("width", width)
       .attr("height", 50)
       .attr("id", "trail");
   // Add the label at the end, for the percentage.
