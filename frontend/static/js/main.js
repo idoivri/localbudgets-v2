@@ -73,7 +73,7 @@ function getTipFunction() {
 
 
 var x, y, arc, svg, path, tip,
-    width = 500,
+    width = 550,
     height = 550,
     formatBudget = d3.format(",d"),
 
@@ -156,6 +156,7 @@ function showLegend(d) {
     .enter()
     .append('li')
     .attr('class', 'legend-item')
+    .filter(function(d){return d.amount > 0;})
 
 
   //legend squares
@@ -172,6 +173,16 @@ function showLegend(d) {
   var legendTip = getTipFunction();
 
 
+  var hideTip = function (dLegend) {
+    path
+    .filter(function (d) { return d._id === dLegend._id })
+    .call(legendTip)
+    .call(function (selection) {
+      selection[0][0].style.opacity = '1'
+      legendTip.hide(dLegend,selection[0][0])
+    });
+  };
+
   legend.on("mouseover",function (dLegend) {
     path
     .filter(function (d) { return d._id === dLegend._id })
@@ -180,17 +191,14 @@ function showLegend(d) {
       selection[0][0].style.opacity = '0.7';
       legendTip.show(dLegend,selection[0][0])
     });
-  }).on('mouseout',function (dLegend) {
-    path
-    .filter(function (d) { return d._id === dLegend._id })
-    .call(legendTip)
-    .call(function (selection) {
-      selection[0][0].style.opacity = '1'
-      legendTip.hide(dLegend,selection[0][0])
-    });
-  })
+  }).on('mouseout', hideTip);
+
+
   //zoom chart when clicking legend
-  legend.on("click",zoom)
+  legend.on("click", function (dLegend) {
+    hideTip(dLegend);
+    zoom(dLegend);
+  })
 } //end of showLegend
 
 //Breadcrumbs
@@ -267,7 +275,6 @@ function initializeBreadcrumbTrail() {
   // Add the svg area.
   var trail = d3.select("#auto_breadcrumbs")
       .append("svg:svg")
-      .attr("width", width)
       .attr("height", 50)
       .attr("id", "trail");
   // Add the label at the end, for the percentage.

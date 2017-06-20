@@ -70,7 +70,24 @@ body {
   text-align: right;
 }
 
+.legend-item {
+  margin-bottom: 10px;
+}
+
 .legend-item .cube {
+  display: inline-block;
   height: 28px;
   width: 28px;
+  vertical-align: middle;
+	margin-left: 8px;
+}
+
+
+#auto_breadcrumbs > svg {
+  width: 100%;
+}
+
+#auto_data > svg {
+  /*width: 100%;
+  height: auto;*/
 }
