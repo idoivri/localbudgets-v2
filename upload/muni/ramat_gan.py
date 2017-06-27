@@ -6,6 +6,6 @@ class RamatGanMuni(AbstractMuni):
     def __init__(self,**kwargs):
         super(RamatGanMuni, self).__init__(**kwargs)
         self.data_fields.add_value({0: CodeField,
-              5: DescriptionField,
+              2: DescriptionField,
               6: AmountField})
         self.start_in_row.add_value(1)
