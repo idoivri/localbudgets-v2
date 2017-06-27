@@ -57,9 +57,17 @@ body {
 }
 
 #portfolio * {
-    z-index: 0; /* this is to override the default setting. TODO: remove this after cleaning freelancer.css */
+    z-index: initial; /* this is to override the default setting. TODO: remove this after cleaning freelancer.css */
 }
 
+#portfolio .open>.dropdown-menu {
+  z-index: 1000; /* This is to override the default setting. TODO: remove this after cleaning freelancer.css */
+}
+
+.budget-picker {
+  position: relative;
+  z-index: 200;
+}
 
 .legend-container {
   margin-top: 100px;
