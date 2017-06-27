@@ -68,6 +68,8 @@ body {
 .legend {
   list-style: none;
   text-align: right;
+  max-height: 550px;
+  overflow-y: auto;
 }
 
 .legend-item {
