@@ -18,15 +18,15 @@ class Attr(object):
     def __init__(self, default_value=None):
         self.default_value = default_value
         self.years_value = {}
+
     def add_value(self,value,year=None):
         if year is not None:
-            self.years_value[year]=value
+            self.years_value[year] = value
         else:
             self.default_value = value
 
-
-    def __call__(self,year, *args, **kwargs):
-        if year in self.years_value:
+    def __call__(self, year = None, *args, **kwargs):
+        if year is not None and year in self.years_value:
             return self.years_value[year]
         else:
             return self.default_value
@@ -52,7 +52,7 @@ class AbstractMuni(object):
                 self.data_fields.add_value(self.years[year],year)
 
 
-    def handle_sheet(self, year, filename):
+    def handle_sheet(self, year, filename, add_first_digit = None):
         print 'handling file: %s' %(filename,)
         dataset = get_raw_budget(self.MUNI, year, clean = self.clean)
         if dataset.count()>0 and not self.clean:

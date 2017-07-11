@@ -30,8 +30,15 @@ class TreeCommand(BaseCommand):
         
     def handle(self, *args, **options):
         print "bla for the win"
+        # get the db, exit if exists
+        dataset = get_scheme()
+        if dataset.count() > 0:
+            if options['clean']:
+                dataset.delete_many({})
+            else:
+                print 'Schema is already uploaded. Exiting.'
+                return
         reader = self._parse_csv(SCHEME_FILENAME)
-
         # Create all the nodes in a linear way. 
         # We Create dictionary in the following format
         # { node_code : [node_object, node_parent_code] }
@@ -58,13 +65,6 @@ class TreeCommand(BaseCommand):
                 nodes[parent][0].add_child(node)
 
         # Upload the Tree to the DB.
-        dataset = get_scheme()
-        if dataset.count() > 0:
-            if options['clean']:
-                dataset.delete_many({})
-            else:
-                print 'Schema is already uploaded. Exiting.'
-                return
         dataset.insert(root.to_dict())
         dataset.close()
 

@@ -22,6 +22,7 @@ from rehovot import RehovotMuni
 from schema import SchemaMuni
 
 # Might need a FIXME: if we override one of the keys...
+# TODO: Can we lose this and create it dynamically?
 munis_loaders = {AshdodMuni.MUNI:AshdodMuni,
                  BeerMuni.MUNI: BeerMuni,
                  GushMuni.MUNI: GushMuni,
@@ -42,5 +43,4 @@ munis_loaders = {AshdodMuni.MUNI:AshdodMuni,
                  HaifaMuni.MUNI: HaifaMuni,
                  HolonMuni.MUNI: HolonMuni,
                  RamatGanMuni.MUNI: RamatGanMuni,
-                 TelAvivMuni.MUNI: TelAvivMuni,
                  }
