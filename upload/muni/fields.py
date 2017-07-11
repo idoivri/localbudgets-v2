@@ -27,10 +27,9 @@ class AmountField(AbstractField):
 
     def process(self):
         if not self.is_valid():
-            raise Exception("Amount Field is not valied (%s)" %(self.value, ))
+            raise Exception("Amount Field is not valid (%s)" %(self.value, ))
         if self.amount == '-' or self.amount == '':
             return 0
-
         return abs(int(self.amount))
 
 
@@ -41,7 +40,14 @@ class CodeField(AbstractField):
         return self.value.replace("-", '').replace(' ','')
     def is_valid(self):
         return '' != self.process()
-    
+
+class CodeFieldAdd1(CodeField):
+    def process(self):
+        code = super(CodeFieldAdd1, self).process()
+        if len(code) > 0:
+            return '1'+code
+        else: return ''
+
 class DescriptionField(AbstractField):
     name = 'name'
     def process(self):
