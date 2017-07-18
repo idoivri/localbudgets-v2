@@ -1,15 +1,14 @@
-//TODO a hack until "תקציב עיריית X" would be supported in the server
 function toggle_expense(){
-    console.log('Bla')
     if( $("#muni_go").hasClass("disabled") ) { return; }
     get_data($("#muni_dropdown:first-child").val(), $("#years_dropdown:first-child").val() ,document.getElementById('muni_toggle_income_expense').checked);
     };
 
 
+//TODO a hack until "תקציב עיריית X" would be supported in the server
 function getName(d) {
-  if( d.name == 'root') {
+  if( d.name === 'root') {
     return "כללי";
-  } else{
+  } else {
     return d.name;
   }
 }
@@ -40,24 +39,14 @@ function HSVtoRGB(h, s, v) {
 }
 
 function getColor(d) {
- var x = d3.scale.linear()
+ var xscale = d3.scale.linear()
   .range([0, 2 * Math.PI]);
-   var meanAngle = (Math.max(0, Math.min(2 * Math.PI, x(d.x)))+Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))))/2;
+   var meanAngle = (Math.max(0, Math.min(2 * Math.PI, xscale(d.x)))+Math.max(0, Math.min(2 * Math.PI, xscale(d.x + d.dx))))/2;
 //    console.log(meanAngle);
     var hsv2rgb = HSVtoRGB(meanAngle/(Math.PI*2),0.63,0.65);
   return 'rgb('+ hsv2rgb.r +','+hsv2rgb.g +','+hsv2rgb.b +')'
 }
 
-
-
-function colores_google(n) {
-  var colores_g =
-  ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099",
-  "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395",
-  "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300",
-  "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
-  return colores_g[n % colores_g.length];
-}
 
 function getTipFunction() {
   return d3.tip()
@@ -76,6 +65,7 @@ var x, y, arc, svg, path, tip,
     width = 550,
     height = 550,
     formatBudget = d3.format(",d"),
+    activeCategory,
 
 
     // sunburst radius
@@ -99,24 +89,29 @@ function getAncestors(node) {
 
 //zoom on clicked node, and animate transition
 function zoom(d) {
-  svg.selectAll('.circle-arc')
+  activeCategory = d;
+  var selection = svg.selectAll('.circle-arc')
   .each(function() {
     d3.select(this).style('display', 'block');
-  })
-  .transition()
+  });
+  selection.transition()
   .duration(750)
   .attrTween("d", arcTween(d))
   .each('end', function(d) {
     d3.select(this).transition()
     .duration(100)
     .style("opacity", 1)
+    //
+    // if(d.code == 9 || d.code == 8)
+    //   console.log(d.name, x(d.x));
+
+    if(x(d.x) < 0 ) {
+      d3.select(this).style('display', 'none');
+    }
+
+
   })
-  .filter(function(d) {
-    return (x(d.x) - x(d.x + d.dx)) == 0;
-  })
-  .each(function() {
-    d3.select(this).style('display', 'none');
-  });
+
 
   showLegend(d);
 
@@ -140,7 +135,7 @@ function arcTween(d) {
 //show legend with children of selected node
 function showLegend(d) {
 
-  //legend  code
+  //legend code
   var legendRectSize = 28;
   var legendSpacing = 8
 
@@ -148,8 +143,7 @@ function showLegend(d) {
   d3.selectAll(".legend-item").remove();
 
   //bind budget nodes to legend
-  legend = d3.select("#auto_legend")
-    .append('ul')
+  legend = d3.select("#auto_legend ul")
     .attr('class', 'legend')
     .selectAll('.legend-item')
     .data(data = d.children ? d.children : [])
@@ -175,7 +169,7 @@ function showLegend(d) {
 
   var hideTip = function (dLegend) {
     path
-    .filter(function (d) { return d._id === dLegend._id })
+    .filter(function (d) { return d._id === dLegend._id }) // TODO: pass the element instead of filtering it.
     .call(legendTip)
     .call(function (selection) {
       selection[0][0].style.opacity = '1'
@@ -392,16 +386,6 @@ function get_data(muni,year,expense) {
       // Restore everything to full opacity when moving off the visualization.
       function mouseleave(d) {
         tip.hide(d);
-        // // Hide the breadcrumb trail
-        // d3.select("#trail")
-        //     .style("visibility", "hidden");
-
-        // Deactivate all segments during transition.
-        // d3.selectAll("path").on("mouseover", null);
-
-
-        d3.select("#explanation")
-            .style("visibility", "hidden");
       }
 
 

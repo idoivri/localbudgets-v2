@@ -107,7 +107,7 @@
 
 
 
-            <div class="row text-center">
+            <div class="row text-center budget-picker">
               <div class="dropdown btn-group">
                 <button class="btn btn-default dropdown-toggle" type="button" id="muni_dropdown" data-toggle="dropdown">
                   בחר עירייה
@@ -138,7 +138,7 @@
 
               <!-- toggle income or expense -->
               <div class="btn-group">
-                <input  onchange="toggle_expense()" id="muni_toggle_income_expense" data-off-text="הכנסות" data-on-text="הוצאות" type="checkbox"  >
+                <input  onchange="toggle_expense()" id="muni_toggle_income_expense" data-off-text="הכנסות" checked data-on-text="הוצאות" type="checkbox"  >
               </div>
 
             </div>
@@ -150,7 +150,10 @@
             <!-- Empty column -->
             <div class="row">
               <div class="col-md-4" style="text-align: center;">
-                <div id="auto_legend" class="legend-container"></div>
+                <div id="auto_legend" class="legend-container">
+                  <ul>
+                  </ul>
+                </div>
               </div>
 
               <div class="col-md-8" style="text-align: center;">
