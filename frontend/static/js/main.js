@@ -99,13 +99,14 @@ function zoom(d) {
   .attrTween("d", arcTween(d))
   .each('end', function(d) {
     d3.select(this).transition()
-    .duration(100)
-    .style("opacity", 1)
-    //
-    // if(d.code == 9 || d.code == 8)
-    //   console.log(d.name, x(d.x));
+      .duration(100)
+      .style("opacity", 1);
 
-    if(x(d.x) < 0 ) {
+    var startAngle = function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); }
+    var endAngle = function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); }
+
+    if(endAngle(d) - startAngle(d) <= 0) {
+
       d3.select(this).style('display', 'none');
     }
 
