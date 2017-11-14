@@ -163,11 +163,13 @@ function showLegend(d) {
   legend.append('span')
     .attr('class', 'cube')
     .style('background-color', function(d) { return getColor(d) })
-    .style('border-color', function(d) { return getColor(getName(d)) });
+    .style('border-color', function(d) { return getColor(getName(d)) })
+    .style('cursor','pointer');
 
   //legend labels
   legend.append('span')
-    .text(function(d) { return getName(d) ;});
+    .text(function(d) { return getName(d) ;})
+    .style('cursor','pointer');
 
   //show tooltip on chart when mouseover legend
   var legendTip = getTipFunction();
@@ -231,6 +233,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
   entering.append("svg:polygon")
       .attr("points", breadcrumbPoints)
       .style("fill", function(d) { return getColor(d) })
+      .style('cursor','pointer')
       .on('click', zoom);
 
 
@@ -240,7 +243,9 @@ function updateBreadcrumbs(nodeArray, percentageString) {
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
       .text(function(d) { return d.name.split(" ")[0]; })
-      .style('fill','white'); //TODO color should be white
+      .style('fill','white') //TODO color should be white
+      .style('cursor','pointer')
+      .on('click', zoom);
 
   // Set position for entering and updating nodes.
   g.attr("transform", function(d, i) {
@@ -357,6 +362,7 @@ function get_data(muni,year,expense) {
       //draw arcs
       .attr("d", arc)
       .style("fill", function(d) { return getColor( d ); })
+      .style('cursor','pointer')
       .on("click", zoom)
       .on('mouseover', mouseover)
       .on('mouseout', mouseleave);
